@@ -22,7 +22,18 @@
   "extra": {
     "xpressengine": {
       "title": "react-redux Board",
-      "component": {}
+      "component": {
+        "module/react_board@board": {
+          "class": "Blueng\\XpressenginePlugin\\ReactBoard\\Modules\\Board",
+          "name": "react-redux Board",
+          "description": "react-redux Board 모듈"
+        },
+        "module/react_board@board/skin/react_board@default": {
+          "class": "Blueng\\XpressenginePlugin\\ReactBoard\\Skins\\DefaultSkin",
+          "name": "react-redux Board 기본 스킨",
+          "description": "react-redux Board 기본 스킨."
+        }
+      }
     }
   },
   "require": {

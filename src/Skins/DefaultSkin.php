@@ -33,7 +33,7 @@ use XeFrontend;
  */
 class DefaultSkin extends AbstractSkin
 {
-    protected static $skinAlias = 'board::views.defaultSkin';
+    protected static $skinAlias = 'react_board::views.defaultSkin';
 
     /**
      * @var array

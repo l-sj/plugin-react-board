@@ -1,5 +1,5 @@
-{{ XeFrontend::css('plugins/board/assets/build/defaultSkin.css')->load() }}
-{{ XeFrontend::js('plugins/board/assets/build/defaultSkin.js')->appendTo('body')->load() }}
+{{ XeFrontend::css('plugins/react_board/assets/build/defaultSkin.css')->load() }}
+{{ XeFrontend::js('plugins/react_board/assets/build/defaultSkin.js')->appendTo('body')->load() }}
 
 <style>
     .bd_function .bd_like.voted{color:#FE381E}
