@@ -9,12 +9,12 @@
   "version": "1.0.0",
   "type": "xpressengine-plugin",
   "support": {
-    "email": "input@your.email"
+    "email": "blueng.choi@gmail.com"
   },
   "authors": [
     {
-      "name": "input your name",
-      "email": "input@your.email",
+      "name": "seungman choi",
+      "email": "blueng.choi@gmail.com",
       "homepage": "http://input.your.site",
       "role": "Developer"
     }
