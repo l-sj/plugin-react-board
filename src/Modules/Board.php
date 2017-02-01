@@ -50,33 +50,33 @@ class Board extends AbstractModule
      */
     public static function boot()
     {
-        self::registerArchiveRoute();
+//        self::registerArchiveRoute();
         self::registerManageRoute();
         self::registerInstanceRoute();
         self::registerApiRoute();
-        self::registerSettingsMenu();
-        self::registerCommentCountIntercept();
-        self::registerCommentAlarmIntercept();
-        self::registerManagerAlarmIntercept();
+//        self::registerSettingsMenu();
+//        self::registerCommentCountIntercept();
+//        self::registerCommentAlarmIntercept();
+//        self::registerManagerAlarmIntercept();
     }
 
     /**
      *
      */
-    protected static function registerArchiveRoute()
-    {
-        // set routing
-        config(['xe.routing' => array_merge(
-            config('xe.routing'), ['board_archives' => 'archives']
-        )]);
-
-        Route::group([
-            'prefix' => 'archives',
-            'namespace' => 'Xpressengine\Plugins\Board\Controllers'
-        ], function() {
-            Route::get('/{slug}', ['as' => 'archives', 'uses' => 'ArchivesController@index']);
-        });
-    }
+//    protected static function registerArchiveRoute()
+//    {
+//        // set routing
+//        config(['xe.routing' => array_merge(
+//            config('xe.routing'), ['board_archives' => 'archives']
+//        )]);
+//
+//        Route::group([
+//            'prefix' => 'archives',
+//            'namespace' => 'Blueng\XpressenginePlugin\ReactBoard\Controllers'
+//        ], function() {
+//            Route::get('/{slug}', ['as' => 'archives', 'uses' => 'ArchivesController@index']);
+//        });
+//    }
 
     /**
      * Register Plugin Manage Route
@@ -123,7 +123,7 @@ class Board extends AbstractModule
             Route::post('trash', ['as' => 'manage.board.board.trash', 'uses' => 'ManagerController@trash']);
             Route::post('move', ['as' => 'manage.board.board.move', 'uses' => 'ManagerController@move']);
             Route::post('restore', ['as' => 'manage.board.board.restore', 'uses' => 'ManagerController@restore']);
-        }, ['namespace' => 'Xpressengine\Plugins\Board\Controllers']);
+        }, ['namespace' => 'Blueng\XpressenginePlugin\ReactBoard\Controllers']);
     }
 
     /**
@@ -184,7 +184,7 @@ class Board extends AbstractModule
             Route::get('/hasSlug', ['as' => 'hasSlug', 'uses' => 'UserController@hasSlug']);
             Route::get('/{slug}', ['as' => 'slug', 'uses' => 'UserController@slug']);
 
-        }, ['namespace' => 'Xpressengine\Plugins\Board\Controllers']);
+        }, ['namespace' => 'Blueng\XpressenginePlugin\ReactBoard\Controllers']);
 
         BoardSlug::setReserved([
             'index', 'create', 'edit', 'destroy', 'show', 'identify', 'revision', 'store', 'preview', 'temporary',
@@ -198,7 +198,7 @@ class Board extends AbstractModule
         Route::instance(self::getId(), function () {
             Route::group([
                 'prefix' => 'api',
-                'namespace' => 'Xpressengine\Plugins\Board\Controllers'
+                'namespace' => 'Blueng\XpressenginePlugin\ReactBoard\Controllers'
             ], function () {
                 Route::get('/articles', ['as' => 'api.articles', 'uses' => 'ApiController@articles']);
                 Route::get('/articles/{id}', ['as' => 'api.article', 'uses' => 'ApiController@article']);
@@ -512,6 +512,8 @@ class Board extends AbstractModule
             'skins' => $skins,
             'handler' => app('xe.board.handler'),
         ])->render();
+
+        return '';
     }
 
     /**

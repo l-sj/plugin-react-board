@@ -41,7 +41,7 @@ use Xpressengine\Plugins\Board\Exceptions\SecretDocumentHttpException;
 use Xpressengine\Plugins\Board\Handler;
 use Xpressengine\Plugins\Board\IdentifyManager;
 use Xpressengine\Plugins\Board\Models\Board;
-use Xpressengine\Plugins\Board\Modules\Board as BoardModule;
+use Blueng\XpressenginePlugin\ReactBoard\Modules\Board as BoardModule;
 use Xpressengine\Plugins\Board\BoardPermissionHandler;
 use Xpressengine\Plugins\Board\Models\BoardSlug;
 use Xpressengine\Plugins\Board\Purifier;
