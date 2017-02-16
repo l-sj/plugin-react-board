@@ -3,6 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 import Spinner from './../Spinner';
 import renderField from './renderField';
 import renderTextArea from './renderTextArea';
+import Editor from './../Editor';
 import { createBoardContents } from './../../actions/boardWriteAction';
 import _ from 'lodash';
 
@@ -20,6 +21,7 @@ class WriteForm extends Component {
 		super();
 
 		this.handleSelect = ::this.handleSelect;
+		this.onChangeEditor = ::this.onChangeEditor;
 	}
 
 	componentWillMount() {
@@ -39,9 +41,12 @@ class WriteForm extends Component {
 
 	validateAndCreateBoard(values, dispatch) {
 		values.slug = 'testSlug';
-		console.log('values', values);
 
 		return dispatch(createBoardContents(values));
+	}
+
+	onChangeEditor(content, delta, source, editor) {
+		this.props.changeFormField({field: 'content', value: content});
 	}
 
 	render() {
@@ -102,15 +107,13 @@ class WriteForm extends Component {
 
 					</div>
 				</div>
+
 					<div className="write_body">
-						<div className="write_form_editor">
-							<Field
-								name="content"
-								component={ renderTextArea }
-								label="내용을 입력하세요"
-							/>
+						<div className="write_form_editor" style={{border: '1px solid #dcdde0', minHeight: '350px'}}>
+							<Editor onChange={ this.onChangeEditor }/>
 						</div>
 					</div>
+
 					<div className="write_footer">
 
 						{

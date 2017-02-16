@@ -42,6 +42,8 @@ var common = {
         loader: ExtractTextPlugin.extract("css-loader")
       }
     ],
+    noParse: /node_modules\/quill\/dist\/quill\.js/,
+
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
