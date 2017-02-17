@@ -11,6 +11,8 @@ export const UPDATE_BOARD = "UPDATE_BOARD";
 export const UPDATE_BOARD_SUCCESS = "UPDATE_BOARD_SUCCESS";
 export const UPDATE_BOARD_FAILURE = "UPDATE_BOARD_FAILURE";
 
+export const EDIT_RESET = "EDIT_RESET";
+
 export const fetchEditViewEpic = (action$) =>
 	action$.ofType(FETCH_EDIT_VIEW)
 		.mergeMap(action =>
@@ -58,7 +60,11 @@ const updateBoardSuccess = (data) => ({
 	payload: data.response
 })
 
-export const updateBoardFailure = (error) => ({
+const updateBoardFailure = (error) => ({
 	type: UPDATE_BOARD_FAILURE,
 	payload: error.xhr.response
+})
+
+export const editReset = () => ({
+	type: EDIT_RESET
 })

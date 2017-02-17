@@ -4,6 +4,7 @@ import { updateBoard } from './../../actions/boardEditAction';
 import Spinner from './../Spinner';
 import renderField from './renderField';
 import renderTextArea from './renderTextArea';
+import CKEditor from './../CKEditor';
 import _ from 'lodash';
 
 import Dropdown from './../Dropdown';
@@ -23,22 +24,23 @@ class EditForm extends Component {
 	constructor() {
 		super();
 
-		this.handleSelect = ::this.handleSelect
+		this.handleSelect = ::this.handleSelect;
+		this.onChangeEditor = ::this.onChangeEditor;
 	}
 
 	componentWillMount() {
 		const id = this.context.router.params.id;
-		
+		this.props.editReset();
 		this.props.fetchEditView(id);
 	}
 
 	componentWillReceiveProps(nextProps) {
+		console.log('!this.props.item && nextProps.item', !this.props.item, nextProps.item);
 		if(!this.props.item && nextProps.item) {
 			this.props.initializeForm({ content: nextProps.item.content, title: nextProps.item.title, slug: nextProps.item.slug.slug, id: nextProps.item.id });
 
 		}else if(nextProps.updated) {
 			this.context.router.push('/');
-
 		}
 	}
 
@@ -61,16 +63,20 @@ class EditForm extends Component {
 		return dispatch(updateBoard(id, values));
 	}
 
+	onChangeEditor(content) {
+		this.props.changeFormField({field: 'content', value: content});
+	}
+
 	render() {
 		const { handleSubmit, submitting, initialValues } = this.props;
 		// const { fields: { title, content, slug, categoryItemId }, handleSubmit, load, submitting } = this.props;
 		const id = this.context.router.params.id;
 
-		console.log('this.props', this.props);
+		// console.log('this.props', this.props);
 		// console.log('fields', fields);
 		// console.log('id', id);
 
-		console.log('initialValues', initialValues);
+		// console.log('initialValues', initialValues);
 
 		if(this.props.err) {
 			XE.toast('', this.props.err.message);
@@ -124,7 +130,6 @@ class EditForm extends Component {
 							<Field
 								name="title"
 								component={ renderField }
-
 								type="text"
 								label="제목을 입력하세요"
 							/>
@@ -133,14 +138,15 @@ class EditForm extends Component {
 					</div>
 					<div className="write_body">
 						<div className="write_form_editor">
-
-							<Field
-								name="content"
-								component={ renderTextArea }
-
-								label="내용을 입력하세요"
-							/>
-
+							<CKEditor id="editFormEditor" onChange={this.onChangeEditor} value={this.props.item.content} />
+							{
+								// <Field
+								// 	name="content"
+								// 	component={ renderTextArea }
+								//
+								// 	label="내용을 입력하세요"
+								// />
+							}
 						</div>
 					</div>
 					<div className="write_footer">

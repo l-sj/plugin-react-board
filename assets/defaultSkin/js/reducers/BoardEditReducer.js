@@ -1,6 +1,7 @@
 import {
-	FETCH_EDIT_VIEW, FETCH_EDIT_VIEW_SUCCESS, FETCH_EDIT_VIEW_FAILURE,
-	UPDATE_BOARD, UPDATE_BOARD_SUCCESS, UPDATE_BOARD_FAILURE
+	FETCH_EDIT_VIEW, FETCH_EDIT_VIEW_SUCCESS, FETCH_EDIT_VIEW_FAILURE, 
+	UPDATE_BOARD, UPDATE_BOARD_SUCCESS, UPDATE_BOARD_FAILURE,
+	EDIT_RESET
 } from '../actions/boardEditAction';
 
 const INITIAL_STATE = {
@@ -32,6 +33,12 @@ export default function(state = INITIAL_STATE, action) {
 
 		case UPDATE_BOARD_FAILURE:
 			return { ...state, error: action.payload, loading: false, updated: false }
+
+		case EDIT_RESET:
+
+			console.log('EDIT_RESET');
+
+			return { ...state, item: null, categories: [], error: null, loading: true, updated: false }
 
 		default:
 			return state;

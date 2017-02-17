@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { reduxForm, change, initialize } from 'redux-form';
-import { fetchEditView } from './../actions/boardEditAction';
+import { fetchEditView, editReset } from './../actions/boardEditAction';
 import EditForm from './../components/write/EditForm';
 
 const form = 'editForm';
@@ -24,6 +24,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		fetchEditView: (id) => {
 			dispatch(fetchEditView(id));
+		},
+		editReset: () => {
+			dispatch(editReset());
 		},
 		changeFormField: ({ field, value }) => {
 			dispatch(change(form, field, value));

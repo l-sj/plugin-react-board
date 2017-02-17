@@ -1,4 +1,6 @@
 {{ XeFrontend::css('plugins/react_board/assets/build/defaultSkin.css')->load() }}
+{{ XeFrontend::css('plugins/react_board/assets/vendor/ckeditor/contents.css')->load() }}
+{{ XeFrontend::js('plugins/react_board/assets/vendor/ckeditor/ckeditor.js')->appendTo('body')->load() }}
 {{ XeFrontend::js('plugins/react_board/assets/build/defaultSkin.js')->appendTo('body')->load() }}
 
 <style>

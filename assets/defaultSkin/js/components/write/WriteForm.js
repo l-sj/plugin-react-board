@@ -3,7 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 import Spinner from './../Spinner';
 import renderField from './renderField';
 import renderTextArea from './renderTextArea';
-import Editor from './../Editor';
+import CKEditor from './../CKEditor';
 import { createBoardContents } from './../../actions/boardWriteAction';
 import _ from 'lodash';
 
@@ -45,7 +45,7 @@ class WriteForm extends Component {
 		return dispatch(createBoardContents(values));
 	}
 
-	onChangeEditor(content, delta, source, editor) {
+	onChangeEditor(content) {
 		this.props.changeFormField({field: 'content', value: content});
 	}
 
@@ -98,21 +98,26 @@ class WriteForm extends Component {
 							})()
 						}
 						
-						<Field
-							name="title"
-							type="text"
-							component={ renderField }
-							label="제목을 입력하세요"
-						/>
-
-					</div>
-				</div>
-
-					<div className="write_body">
-						<div className="write_form_editor" style={{border: '1px solid #dcdde0', minHeight: '350px'}}>
-							<Editor onChange={ this.onChangeEditor }/>
+							<Field
+								name="title"
+								type="text"
+								component={ renderField }
+								label="제목을 입력하세요"
+							/>
 						</div>
 					</div>
+
+					<div className="write_body">
+						<CKEditor placeholder="내용을 입력하세요" id="writeEditor" onChange={this.onChangeEditor}/>
+					</div>
+
+					{
+						// <div className="write_body">
+						// 	<div className="write_form_editor" style={{border: '1px solid #dcdde0', minHeight: '350px'}}>
+						// 		<Editor onChange={ this.onChangeEditor } id={"writeFormEditor"}/>
+						// 	</div>
+						// </div>
+					}
 
 					<div className="write_footer">
 

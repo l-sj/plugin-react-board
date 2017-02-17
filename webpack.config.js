@@ -50,7 +50,7 @@ var common = {
     alias: {
       utils: path.resolve(__dirname, 'assets/defaultSkin/js/utils.js'),
     },
-  },
+  }
 };
 
 var config;
