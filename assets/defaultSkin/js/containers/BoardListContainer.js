@@ -5,6 +5,7 @@ import BoardList from './../components/list/BoardList';
 const mapStateToProps = (state) => {
 	return {
 		boardList: state.list.index.boardList,
+		paginate: state.list.index.paginate,
 		categories: state.list.index.categories,
 		loading: state.list.loading,
 		error: state.list.error,
@@ -14,8 +15,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		fetchBoardIndex: () => {
-			dispatch(fetchBoardIndex());
+		fetchBoardIndex: (queryJSON) => {
+			dispatch(fetchBoardIndex(queryJSON));
 		},
 		handleCheckAll: () => {
 			dispatch({

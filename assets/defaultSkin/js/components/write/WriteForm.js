@@ -42,6 +42,16 @@ class WriteForm extends Component {
 	validateAndCreateBoard(values, dispatch) {
 		values.slug = 'testSlug';
 
+		if(!values.title || !values.title.replace(/ /gi, '')) {
+			XE.toast('warning', '제목을 입력하세요');
+			return;
+		}
+
+		if(!values.content || !values.content.replace(/ /gi, '')) {
+			XE.toast('warning', '내용을 입력하세요');
+			return;
+		}
+
 		return dispatch(createBoardContents(values));
 	}
 
@@ -111,14 +121,6 @@ class WriteForm extends Component {
 						<CKEditor placeholder="내용을 입력하세요" id="writeEditor" onChange={this.onChangeEditor}/>
 					</div>
 
-					{
-						// <div className="write_body">
-						// 	<div className="write_form_editor" style={{border: '1px solid #dcdde0', minHeight: '350px'}}>
-						// 		<Editor onChange={ this.onChangeEditor } id={"writeFormEditor"}/>
-						// 	</div>
-						// </div>
-					}
-
 					<div className="write_footer">
 
 						{
@@ -137,20 +139,6 @@ class WriteForm extends Component {
 							})()
 						}
 
-						<div className="write_form_option">
-							<div className="xe-form-inline">
-								<label className="xe-label">
-									<input type="checkbox" />
-									<span className="xe-input-helper"></span>
-									<span className="xe-label-text">댓글허용</span>
-								</label>
-								<label className="xe-label">
-									<input type="checkbox" />
-									<span className="xe-input-helper"></span>
-									<span className="xe-label-text">비밀글</span>
-								</label>
-							</div>
-						</div>
 						<div className="write_form_btn nologin">
 							<a href="#" className="bd_btn btn_preview">미리보기</a>
 							<button

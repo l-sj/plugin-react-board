@@ -106,7 +106,8 @@ class Pagination extends React.Component {
 		}
 	}
 
-	fetchBoardIndex(pageNum) {
+	fetchBoardIndex(pageNum, e) {
+		e.preventDefault();
 		// this.context.router.push('/');
 		this.props.fetchBoardIndex({pageNum});
 	}

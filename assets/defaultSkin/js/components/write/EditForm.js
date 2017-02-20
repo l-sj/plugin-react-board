@@ -40,7 +40,9 @@ class EditForm extends Component {
 			this.props.initializeForm({ content: nextProps.item.content, title: nextProps.item.title, slug: nextProps.item.slug.slug, id: nextProps.item.id });
 
 		}else if(nextProps.updated) {
-			this.context.router.push('/');
+			const id = this.context.router.params.id;
+
+			this.context.router.push(`/detail/${id}`);
 		}
 	}
 
@@ -58,7 +60,16 @@ class EditForm extends Component {
 
 	validateAndUpdateBoard(values, dispatch, id) {
 		values.id = id;
-		console.log('values', values, id);
+
+		if(!values.title || !values.title.replace(/ /gi, '')) {
+			XE.toast('warning', '제목을 입력하세요');
+			return;
+		}
+
+		if(!values.content || !values.content.replace(/ /gi, '')) {
+			XE.toast('warning', '내용을 입력하세요');
+			return;
+		}
 
 		return dispatch(updateBoard(id, values));
 	}
@@ -69,14 +80,7 @@ class EditForm extends Component {
 
 	render() {
 		const { handleSubmit, submitting, initialValues } = this.props;
-		// const { fields: { title, content, slug, categoryItemId }, handleSubmit, load, submitting } = this.props;
 		const id = this.context.router.params.id;
-
-		// console.log('this.props', this.props);
-		// console.log('fields', fields);
-		// console.log('id', id);
-
-		// console.log('initialValues', initialValues);
 
 		if(this.props.err) {
 			XE.toast('', this.props.err.message);
@@ -167,20 +171,6 @@ class EditForm extends Component {
 							})()
 						}
 
-						<div className="write_form_option">
-							<div className="xe-form-inline">
-								<label className="xe-label">
-									<input type="checkbox" />
-									<span className="xe-input-helper"></span>
-									<span className="xe-label-text">댓글허용</span>
-								</label>
-								<label className="xe-label">
-									<input type="checkbox" />
-									<span className="xe-input-helper"></span>
-									<span className="xe-label-text">비밀글</span>
-								</label>
-							</div>
-						</div>
 						<div className="write_form_btn nologin">
 							<a href="#" className="bd_btn btn_preview">미리보기</a>
 							<button type="submit" className="bd_btn btn_submit">등록</button>

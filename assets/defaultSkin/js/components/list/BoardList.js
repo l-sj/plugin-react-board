@@ -24,7 +24,9 @@ export default class BoardList extends React.Component {
 
 	componentWillMount() {
 		console.log('BoardList componentWillMount:fn');
-		this.props.fetchBoardIndex();
+		let currentPage = this.props.paginate.currentPage;
+
+		this.props.fetchBoardIndex({page: currentPage});
 	}
 
 	onChangeCheckAll(e) {
