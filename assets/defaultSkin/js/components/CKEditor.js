@@ -6,10 +6,6 @@ class CKEditor extends Component {
 		super(props);
 	}
 
-	componentWillMount() {
-		console.log('this.props', this.props);
-	}
-
 	componentWillUnmount() {
 		CKEDITOR.instances[this.props.id].removeAllListeners();
 	}

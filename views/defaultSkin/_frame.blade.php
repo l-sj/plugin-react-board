@@ -10,9 +10,13 @@
 <script type="text/javascript">
     var Common = (function() {
         var _data = {
+
+            //사용자 정보.
             user: {
                 isManager: true
             },
+
+            //API 정보
             apis: {
                 create: '{{sprintf('/%s/api/create', $instanceConfig->getUrl())}}',
                 store: '{{sprintf('/%s/api/store', $instanceConfig->getUrl())}}',
@@ -23,6 +27,8 @@
                 view: '{{sprintf('/%s/api/articles/[id]', $instanceConfig->getUrl())}}',
                 favorite: '{{sprintf('/%s/api/favorit/[id]', $instanceConfig->getUrl())}}'
             },
+
+            //링크 정보
             links: {
                 settings: ''
             },

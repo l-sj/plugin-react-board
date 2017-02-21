@@ -3,6 +3,7 @@ import {
 	FETCH_BOARD_INDEX, FETCH_BOARD_INDEX_SUCCESS, FETCH_BOARD_INDEX_FAILURE,
 	CHECK_ALL, UNCHECK_ALL, CHECK_ROW, UNCHECK_ROW,
 	SHOW_MANAGEMENT, HIDE_MANAGEMENT,
+	SHOW_SEARCH, HIDE_SEARCH
 } from '../actions/boardListAction';
 
 const INITIAL_STATE = {
@@ -20,10 +21,20 @@ const INITIAL_STATE = {
 		boardList: [],
 		categories: [],
 	},
+	search: {
+		searchStatue: 'none',
+		searchDetailStatus: 'none',
+		searchInput: '',
+		searchInputDetail: '',
+		author: '',
+		startCreatedAt: '',
+		endCreateAt: ''
+	},
 	error: null,
 	loading: false,
 	checkedAll: false,
 	managementStatus: 'none',
+	searchStatus: 'none',
 	checkedMap: {},
 };
 
@@ -108,6 +119,12 @@ export default function(state = INITIAL_STATE, action) {
 
 		case HIDE_MANAGEMENT:
 			return { ...state, managementStatus: action.display }
+
+		case SHOW_SEARCH:
+			return { ...state, search: { searchStatus: action.display }}
+
+		case HIDE_SEARCH:
+			return { ...state, searchStatus: action.display }
 
 		default:
 			return state;

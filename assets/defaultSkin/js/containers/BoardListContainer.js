@@ -27,8 +27,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch({
 				type: UNCHECK_ALL,
 			});
-		},
-		
+		}
 	}
 }
 

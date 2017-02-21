@@ -20,10 +20,10 @@ export default function(state = INITIAL_STATE, action) {
 			return { ...state, loading: true, error: null, updated: false };
 
 		case FETCH_EDIT_VIEW_SUCCESS:
-			return { ...state, categories: action.payload.categories, item: action.payload.item , loading: false, error: null}//Object.assign({}, state, action.payload);
+			return { ...state, categories: action.payload.categories, item: action.payload.item , loading: false, error: null}
 
 		case FETCH_EDIT_VIEW_FAILURE:
-			return { ...state, loading: false, error: action.payload}//Object.assign({}, state, action.payload);
+			return { ...state, loading: false, error: action.payload}
 
 		case UPDATE_BOARD:
 			return { ...state, loading: true, error: null };
@@ -35,9 +35,6 @@ export default function(state = INITIAL_STATE, action) {
 			return { ...state, error: action.payload, loading: false, updated: false }
 
 		case EDIT_RESET:
-
-			console.log('EDIT_RESET');
-
 			return { ...state, item: null, categories: [], error: null, loading: true, updated: false }
 
 		default:

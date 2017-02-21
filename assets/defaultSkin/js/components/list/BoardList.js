@@ -23,7 +23,6 @@ export default class BoardList extends React.Component {
 	}
 
 	componentWillMount() {
-		console.log('BoardList componentWillMount:fn');
 		let currentPage = this.props.paginate.currentPage;
 
 		this.props.fetchBoardIndex({page: currentPage});
@@ -44,8 +43,6 @@ export default class BoardList extends React.Component {
 		if(this.props.loading) {
 			return <Spinner />
 		}
-
-		console.log(this.props);
 
 		const page = this.context.router.location.query.page || 1;
 

@@ -101,17 +101,6 @@ class DetailView extends Component {
 						<div className="bd_function_r">
 							<Link to={`/edit/${id}`} className="bd_ico bd_modify"><i className="xi-eraser"></i><span className="xe-sr-only">수정</span></Link>
 							<a href="#" className="bd_ico bd_delete" onClick={this.deleteBoard}><i className="xi-trash"></i><span className="xe-sr-only">삭제</span></a>
-							<div className="bd_more_area">
-								<a href="#" className="bd_ico bd_more_view"><i className="xi-ellipsis-h"></i><span className="xe-sr-only">더보기</span></a>
-								<div className="ly_popup">
-									<ul>
-										<li><a href="#">신고</a></li>
-										<li><a href="#">스패머관리</a></li>
-										<li><a href="#">휴지통</a></li>
-										<li><a href="#">등등</a></li>
-									</ul>
-								</div>
-							</div>
 						</div>
 						<div className="bd_like_more">
 							<ul>

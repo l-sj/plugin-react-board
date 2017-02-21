@@ -26,7 +26,7 @@ export const createBoardContentsSuccess = (data) => ({
 });
 
 export const createBoardContentsFailure = (error) => ({
-	type: ADD_CONTENTS_SUCCESS,
+	type: ADD_CONTENTS_FAILURE,
 	payload: error.xhr.response
 });
 
