@@ -1,6 +1,7 @@
 import {
 	SHOW_SEARCH, HIDE_SEARCH,
-	SHOW_SEARCH_DEATIL, HIDE_SEARCH_DEATIL
+	SHOW_SEARCH_DETAIL, HIDE_SEARCH_DETAIL,
+	CHANGE_SEARCH_VALUE
 } from '../actions/searchAction';
 
 const INITIAL_STATE = {
@@ -22,13 +23,16 @@ export default function(state = INITIAL_STATE, action) {
 			return { ...state, searchStatus: 'block' }
 
 		case HIDE_SEARCH:
-			return { ...state, searchStatus: 'none', btnStatus: '', searchInput: '', searchInputDetail: '', searchAuthor: '', startCreatedAt: '', endCreatedAt: '' }
+			return { ...state, searchStatus: 'none', searchDetailStatus: 'none', btnStatus: '', searchInput: '', searchInputDetail: '', searchAuthor: '', startCreatedAt: '', endCreatedAt: '' }
 
-		case SHOW_SEARCH_DEATIL:
+		case SHOW_SEARCH_DETAIL:
 			return { ...state, searchDetailStatus: 'block', btnStatus: 'on' }
 
-		case HIDE_SEARCH_DEATIL:
-			return { ...state, searchDetailStatus: 'none' }
+		case HIDE_SEARCH_DETAIL:
+			return { ...state, searchDetailStatus: 'none', btnStatus: '' }
+
+		case CHANGE_SEARCH_VALUE:
+			return { ...state, searchInput: action.value }
 
 		default:
 			return state;

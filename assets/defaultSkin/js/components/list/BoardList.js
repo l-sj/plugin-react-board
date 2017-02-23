@@ -56,7 +56,7 @@ export default class BoardList extends React.Component {
 						<tr>
 							{
 								(() => {
-									if(Common.get('user').isManager) {
+									if(Common.get('user').isManager && 1 != 1) {
 										return (
 											<th scope="col">
 												<label className="xe-label">

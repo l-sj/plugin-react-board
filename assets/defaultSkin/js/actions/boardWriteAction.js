@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
 import { ajax } from 'rxjs/observable/dom/ajax';
-import { push } from 'react-router-redux';
 
 export const ADD_CONTENTS = 'ADD_CONTENTS';
 export const ADD_CONTENTS_SUCCESS = 'ADD_CONTENTS_SUCCESS';

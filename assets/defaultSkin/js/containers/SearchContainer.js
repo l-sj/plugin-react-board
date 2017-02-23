@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SHOW_SEARCH, HIDE_SEARCH, SHOW_SEARCH_DEATIL, HIDE_SEARCH_DEATIL } from './../actions/searchAction';
+import { reduxForm, change } from 'redux-form';
+import { SHOW_SEARCH, HIDE_SEARCH, SHOW_SEARCH_DETAIL, HIDE_SEARCH_DETAIL, CHANGE_SEARCH_VALUE, SEARCH } from './../actions/searchAction';
 import Search from './../components/list/Search';
+
+const form = 'searchForm';
+const fields = ['writer', 'searchKeyword', 'startCreatedAt', 'endCreatedAt'];
+const formConfig = {
+	form,
+	fields
+};
 
 const mapStateToProps = (state) => {
 	return {
@@ -12,7 +20,8 @@ const mapStateToProps = (state) => {
 		searchInputDetail: state.search.searchInputDeatil,
 		searchAuthor: state.search.searchAuthor,
 		startCreatedAt: state.search.startCreatedAt,
-		endCreatedAt: state.searchendCreatedAt,
+		endCreatedAt: state.search.endCreatedAt,
+		categories: state.list.index.categories,
 	};
 }
 
@@ -33,15 +42,32 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		showSearchDetail: () => {
 			dispatch({
-				type: SHOW_SEARCH_DEATIL
+				type: SHOW_SEARCH_DETAIL
 			})
 		},
 		hideSearchDetail: () => {
 			dispatch({
-				type: HIDE_SEARCH_DEATIL
+				type: HIDE_SEARCH_DETAIL
 			})
 		},
+		handleSearchValue: (value) => {
+			dispatch({
+				type: CHANGE_SEARCH_VALUE,
+				value
+			})
+		},
+		changeFormField: ({field, value}) => {
+			dispatch(change(form, field, value));
+		},
+		validateAndSearch: (values, dispatch) => {
+			console.log('submit', values);
+
+			return dispatch({
+				type: SEARCH,
+				payload: values
+			})
+		}
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(mapStateToProps, mapDispatchToProps)(reduxForm(formConfig)(Search));

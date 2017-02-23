@@ -25,7 +25,8 @@
                 update: '{{sprintf('/%s/api/update/[id]', $instanceConfig->getUrl())}}',
                 index: '{{sprintf('/%s/api/articles', $instanceConfig->getUrl())}}',
                 view: '{{sprintf('/%s/api/articles/[id]', $instanceConfig->getUrl())}}',
-                favorite: '{{sprintf('/%s/api/favorit/[id]', $instanceConfig->getUrl())}}'
+                favorite: '{{sprintf('/%s/api/favorit/[id]', $instanceConfig->getUrl())}}',
+                search: '/search'
             },
 
             //링크 정보

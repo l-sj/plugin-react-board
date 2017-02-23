@@ -42,7 +42,7 @@ class BoardRow extends React.Component {
 			<tr>
 				{
 					(() => {
-						if(Common.get('user').isManager) {
+						if(Common.get('user').isManager && 1 != 1) {
 
 							return (
 								<td className="check">
