@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import Dropdown from './../Dropdown';
-import renderField from './../write/renderField';
+import renderSearchField from './renderSearchField';
 
 const  { DOM: { input, select, textarea } } = React;
 
@@ -17,9 +17,11 @@ export default class Search extends Component{
 	}
 
 	handleSearchInput(e) {
-		console.log(e.target.value);
+		const name = e.target.name;
+		const value = e.target.value;
 
 		this.props.handleSearchValue(e.target.value);
+		this.props.changeFormField({field: name, value});
 	}
 
 	handleCategory(value) {
@@ -59,12 +61,14 @@ export default class Search extends Component{
 			{ text: '1년', value: '1year' },
 		];
 
+		//<Field component="input" type="text" className="bd_search_input" title="게시판 검색" placeholder="검색어를 입력하세요" name="searchKeyword" value={this.props.searchInput} onChange={ this.handleSearchInput } />
+
 		return (
 			<div>
 				<form onSubmit={handleSubmit(this.props.validateAndSearch)}>
 					<div className="bd_search_area" style={{display: this.props.searchStatus}}>
 						<div className="bd_search_box">
-							<Field component="input" type="text" className="bd_search_input" title="게시판 검색" placeholder="검색어를 입력하세요" name="searchKeyword" value={this.props.searchInput} onChange={ this.handleSearchInput } />
+							<input type="text" className="bd_search_input" title="게시판 검색" placeholder="검색어를 입력하세요" name="searchKeyword" value={this.props.searchInput} onChange={this.handleSearchInput} />
 							<a href="#" className={`bd_btn_detail ${this.props.btnStatus}`} title="게시판 상세검색" onClick={ this.handleSearchDetail }>상세검색</a>
 						</div>
 						<div className="bd_search_detail" style={{display: this.props.searchDetailStatus}}>
@@ -98,7 +102,7 @@ export default class Search extends Component{
 												<label className="xe-control-label">제목 + 내용</label>
 											</div>
 											<div className="xe-col-sm-9">
-												<Field component="input" type="text" name="searchKeywordDetail" className="xe-form-control" title="제목+내용" value={this.props.searchInput} onChange={ this.handleSearchInput } />
+												<input type="text" name="searchKeywordDetail" className="xe-form-control" title="제목+내용" value={this.props.searchInput} onChange={ this.handleSearchInput } />
 											</div>
 										</div>
 									</div>
@@ -110,7 +114,7 @@ export default class Search extends Component{
 												<label className="xe-control-label">글쓴이</label>
 											</div>
 											<div className="xe-col-sm-9">
-												<Field component="input" type="text" className="xe-form-control" name="writer" title="글쓴이" />
+												<input type="text" className="xe-form-control" name="writer" title="글쓴이" />
 											</div>
 										</div>
 									</div>
@@ -124,7 +128,7 @@ export default class Search extends Component{
 													<Dropdown optionList={ periodOptions } handleSelect={ this.handlePeriod } />
 												</div>
 												<div className="xe-form-inline">
-													<Field component="input" type="text" className="xe-form-control" name="startCreatedAt" title="시작 날짜 입력" value="20150928"/> - <Field component="input" type="text" className="xe-form-control" name="endCreatedAt" title="끝 날짜 입력" value="20151004" />
+													<input type="text" className="xe-form-control" name="startCreatedAt" title="시작 날짜 입력" /> - <input type="text" className="xe-form-control" name="endCreatedAt" title="끝 날짜 입력" />
 												</div>
 											</div>
 										</div>
