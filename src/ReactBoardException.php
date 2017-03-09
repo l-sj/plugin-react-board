@@ -11,7 +11,7 @@
  * @link        https://xpressengine.io
  */
 
-namespace Blueng\XpressenginePlugin\ReactBoard;
+namespace Blueng\ReactBoard;
 
 use Xpressengine\Support\Exceptions\XpressengineException;
 
@@ -21,7 +21,7 @@ use Xpressengine\Support\Exceptions\XpressengineException;
  * @category    Board
  * @package     Xpressengine\Plugins\Board
  */
-class BoardException extends XpressengineException
+class ReactBoardException extends XpressengineException
 {
 
 }

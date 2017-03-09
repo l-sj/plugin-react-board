@@ -19,7 +19,7 @@
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn-link panel-toggle pull-right"><i class="xi-angle-down"></i><i class="xi-angle-up"></i><span class="sr-only">{{xe_trans('fold')}}</span></a>
                         </div>
                     </div>
-                    <form method="post" id="board_manage_form" action="{!! $urlHandler->managerUrl('global.update') !!}">
+                    <form method="post" id="board_manage_form" action="{!! route('settings.react_board.global.update') !!}">
                         <input type="hidden" name="_token" value="{{{ Session::token() }}}" />
                         <div id="collapseOne" class="panel-collapse collapse in">
                             <div class="panel-body">

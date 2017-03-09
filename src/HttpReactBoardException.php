@@ -11,7 +11,7 @@
  * @link        https://xpressengine.io
  */
 
-namespace Blueng\XpressenginePlugin\ReactBoard;
+namespace Blueng\ReactBoard;
 
 use Xpressengine\Support\Exceptions\HttpXpressengineException;
 
@@ -21,7 +21,7 @@ use Xpressengine\Support\Exceptions\HttpXpressengineException;
  * @category    Board
  * @package     Xpressengine\Plugins\Board
  */
-class HttpBoardException extends HttpXpressengineException
+class HttpReactBoardException extends HttpXpressengineException
 {
     protected $message = 'board::boardError';
 }

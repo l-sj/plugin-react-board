@@ -11,7 +11,7 @@
  * @link        https://xpressengine.io
  */
 
-namespace Blueng\XpressenginePlugin\ReactBoard\Skins;
+namespace Blueng\ReactBoard\Skins;
 
 use Xpressengine\Skin\AbstractSkin;
 use View;
@@ -31,7 +31,7 @@ class SettingsSkin extends AbstractSkin
      */
     public function render()
     {
-        $view = View::make(sprintf('board::views.defaultSettings.%s', $this->view), $this->data);
+        $view = View::make(sprintf('react_board::views.defaultSettings.%s', $this->view), $this->data);
 
         return $view;
     }

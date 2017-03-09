@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Blueng\\XpressenginePlugin\\ReactBoard\\' => array($baseDir . '/src'),
+    'Blueng\\ReactBoard\\' => array($baseDir . '/src'),
 );

@@ -11,7 +11,7 @@
  * @link        https://xpressengine.io
  */
 
-namespace Blueng\XpressenginePlugin\ReactBoard\Modules;
+namespace Blueng\ReactBoard;
 
 use Route;
 use XeSkin;
@@ -38,7 +38,7 @@ use Xpressengine\Plugins\Comment\Models\Target as CommentTarget;
  * @category    Board
  * @package     Xpressengine\Plugins\Board
  */
-class Board extends AbstractModule
+class ReactBoardModule extends AbstractModule
 {
     const FILE_UPLOAD_PATH = 'public/plugin/board';
     const THUMBNAIL_TYPE = 'spill';
@@ -50,34 +50,10 @@ class Board extends AbstractModule
      */
     public static function boot()
     {
-//        self::registerArchiveRoute();
         self::registerManageRoute();
         self::registerInstanceRoute();
-        self::registerApiRoute();
-//        self::registerSettingsMenu();
-//        self::registerCommentCountIntercept();
-//        self::registerCommentAlarmIntercept();
-//        self::registerManagerAlarmIntercept();
+        //self::registerApiRoute();
     }
-
-    /**
-     *
-     */
-//    protected static function registerArchiveRoute()
-//    {
-//        // set routing
-//        config(['xe.routing' => array_merge(
-//            config('xe.routing'), ['board_archives' => 'archives']
-//        )]);
-//
-//        Route::group([
-//            'prefix' => 'archives',
-//            'namespace' => 'Blueng\XpressenginePlugin\ReactBoard\Controllers'
-//        ], function() {
-//            Route::get('/{slug}', ['as' => 'archives', 'uses' => 'ArchivesController@index']);
-//        });
-//    }
-
     /**
      * Register Plugin Manage Route
      *
@@ -85,46 +61,27 @@ class Board extends AbstractModule
      */
     protected static function registerManageRoute()
     {
-
         Route::settings(self::getId(), function () {
-            Route::get('/', ['as' => 'manage.board.board.index', 'uses' => 'ManagerController@index']);
+            Route::get('/', ['as' => 'settings.board.board.index', 'uses' => 'ReactBoardSettingsController@index']);
             Route::get(
                 '/global/edit',
-                ['as' => 'manage.board.board.global.edit', 'uses' => 'ManagerController@globalEdit']
+                ['as' => 'settings.react_board.global.edit', 'uses' => 'ReactBoardSettingsController@globalEdit']
             );
             Route::post(
                 '/global/update',
-                ['as' => 'manage.board.board.global.update', 'uses' => 'ManagerController@globalUpdate']
+                ['as' => 'settings.react_board.global.update', 'uses' => 'ReactBoardSettingsController@globalUpdate']
             );
-            Route::get('edit/{boardId}', ['as' => 'manage.board.board.edit', 'uses' => 'ManagerController@edit']);
-            Route::post('storeCategory/', ['as' => 'manage.board.board.storeCategory', 'uses' => 'ManagerController@storeCategory']);
+            Route::get('edit/{boardId}', ['as' => 'settings.react_board.edit', 'uses' => 'ReactBoardSettingsController@edit']);
+            Route::post('storeCategory/', [
+                'as' => 'settings.react_board.storeCategory', 'uses' => 'ReactBoardSettingsController@storeCategory'
+            ]);
             Route::post(
                 'update/{boardId}',
-                ['as' => 'manage.board.board.update', 'uses' => 'ManagerController@update']
+                ['as' => 'settings.react_board.update', 'uses' => 'ReactBoardSettingsController@update']
             );
-            Route::get('docs', [
-                'as' => 'manage.board.board.docs.index',
-                'uses' => 'ManagerController@docsIndex',
-                'settings_menu' => 'contents.board.board'
-            ]);
-            Route::get('docs/trash', [
-                'as' => 'manage.board.board.docs.trash',
-                'uses' => 'ManagerController@docsTrash',
-                'settings_menu' => 'contents.board.boardtrash'
-            ]);
-            Route::get('docs/approve', [
-                'as' => 'manage.board.board.docs.approve',
-                'uses' => 'ManagerController@docsApprove',
-                'settings_menu' => 'contents.board.boardapprove'
-            ]);
-            Route::post('approve', ['as' => 'manage.board.board.approve', 'uses' => 'ManagerController@approve']);
-            Route::post('copy', ['as' => 'manage.board.board.copy', 'uses' => 'ManagerController@copy']);
-            Route::post('destroy', ['as' => 'manage.board.board.destroy', 'uses' => 'ManagerController@destroy']);
-            Route::post('trash', ['as' => 'manage.board.board.trash', 'uses' => 'ManagerController@trash']);
-            Route::post('move', ['as' => 'manage.board.board.move', 'uses' => 'ManagerController@move']);
-            Route::post('restore', ['as' => 'manage.board.board.restore', 'uses' => 'ManagerController@restore']);
-        }, ['namespace' => 'Blueng\XpressenginePlugin\ReactBoard\Controllers']);
+        }, ['namespace' => 'Blueng\ReactBoard\Controllers']);
     }
+
 
     /**
      * Register Plugin Instance Route
@@ -134,71 +91,21 @@ class Board extends AbstractModule
     protected static function registerInstanceRoute()
     {
         Route::instance(self::getId(), function () {
-            Route::get('/', ['as' => 'index', 'uses' => 'UserController@index']);
-            Route::get('/show/{id}', ['as' => 'show', 'uses' => 'UserController@show']);
+            // container html response
+            Route::get('/', ['as' => 'container', 'uses' => 'UserController@container']);
 
-            Route::get('/articles', ['as' => 'api.articles', 'uses' => 'UserController@articles']);
-            Route::get('/notices', ['as' => 'api.notices', 'uses' => 'UserController@notices']);
-            Route::get('/articles/{id}', ['as' => 'api.article', 'uses' => 'UserController@get']);
+            // api
 
-            Route::get('/create', ['as' => 'create', 'uses' => 'UserController@create']);
-            Route::post('/store', ['as' => 'store', 'uses' => 'UserController@store']);
 
-            Route::get('/edit/{id}', ['as' => 'edit', 'uses' => 'UserController@edit']);
-            Route::post('/update', ['as' => 'update', 'uses' => 'UserController@update']);
-
-            Route::delete('/destroy/{id}', ['as' => 'destroy', 'uses' => 'UserController@destroy']);
-
-            Route::get('/guest/id/{id}', ['as' => 'guest.id', 'uses' => 'UserController@guestId']);
-            Route::post('/guest/certify/{id}', ['as' => 'guest.certify', 'uses' => 'UserController@guestCertify']);
-
-            Route::get('/revision/{id}', ['as' => 'revision', 'uses' => 'UserController@revision']);
-
-            Route::post('/preview', ['as' => 'preview', 'uses' => 'UserController@preview']);
-            Route::post('/temporary', ['as' => 'temporary', 'uses' => 'UserController@temporary']);
-            Route::get('/trash', ['as' => 'trash', 'uses' => 'UserController@trash']);
-            Route::post('/trash', ['as' => 'trash', 'uses' => 'UserController@trash']);
-
-            Route::post('/vote/{option}/{id}', ['as' => 'vote', 'uses' => 'UserController@vote']);
-            Route::get('/vote/show/{id}', ['as' => 'showVote', 'uses' => 'UserController@showVote']);
-            Route::get('/vote/users/{option}/{id}', ['as' => 'votedUsers', 'uses' => 'UserController@votedUsers']);
-            Route::get('/vote/modal/{option}/{id}', ['as' => 'votedModal', 'uses' => 'UserController@votedModal']);
-            Route::get('/vote/userList/{option}/{id}', ['as' => 'votedUserList', 'uses' => 'UserController@votedUserList']);
-
-            Route::post('/favorite/{id}', ['as' => 'favorite', 'uses' => 'UserController@favorite']);
-
-            Route::post('/manageMenus/{id}', ['as' => 'manageMenus', 'uses' => 'UserController@manageMenus']);
-
-            Route::get('/comment/list', ['as' => 'comment.index', 'uses' => 'UserController@pageCommentIndex']);
-            Route::post('/comment/store', ['as' => 'comment.store', 'uses' => 'UserController@pageCommentStore']);
-            Route::post('/comment/update', ['as' => 'comment.update', 'uses' => 'UserController@pageCommentUpdate']);
-            Route::post('/comment/destroy', ['as' => 'comment.destroy', 'uses' => 'UserController@pageCommentDestroy']);
-
-            Route::post('/file/upload', ['as' => 'upload', 'uses' => 'UserController@fileUpload']);
-            Route::get('/file/source/{id}', ['as' => 'source', 'uses' => 'UserController@fileSource']);
-            Route::get('/file/download/{id}', ['as' => 'download', 'uses' => 'UserController@fileDownload']);
-            Route::get('/suggestion/hashTag/{id?}', ['as' => 'hashTag', 'uses' => 'UserController@suggestionHashTag']);
-            Route::get('/suggestion/mention/{id?}', ['as' => 'mention', 'uses' => 'UserController@suggestionMention']);
-
-            //Route::get('/slug/{slug}', ['as' => 'slug2', 'uses' => 'UserController@slug']);
-            Route::get('/hasSlug', ['as' => 'hasSlug', 'uses' => 'UserController@hasSlug']);
-            Route::get('/{slug}', ['as' => 'slug', 'uses' => 'UserController@slug']);
-
-        }, ['namespace' => 'Blueng\XpressenginePlugin\ReactBoard\Controllers']);
-
-        BoardSlug::setReserved([
-            'index', 'create', 'edit', 'destroy', 'show', 'identify', 'revision', 'store', 'preview', 'temporary',
-            'trash', 'certify', 'update', 'vote', 'manageMenus', 'comment', 'file', 'suggestion', 'slug', 'hasSlug',
-            'favorite'
-        ]);
+        }, ['namespace' => 'Blueng\ReactBoard\Controllers']);
     }
 
-    protected static function registerApiRoute()
+/*    protected static function registerApiRoute()
     {
         Route::instance(self::getId(), function () {
             Route::group([
                 'prefix' => 'api',
-                'namespace' => 'Blueng\XpressenginePlugin\ReactBoard\Controllers'
+                'namespace' => 'Blueng\ReactBoard\Controllers'
             ], function () {
                 Route::get('/articles', ['as' => 'api.articles', 'uses' => 'ApiController@articles']);
                 Route::get('/articles/{id}', ['as' => 'api.article', 'uses' => 'ApiController@article']);
@@ -211,57 +118,28 @@ class Board extends AbstractModule
                 Route::get('/hasSlug', ['as' => 'hasSlug', 'uses' => 'UserController@hasSlug']);
             });
         });
-    }
+    }*/
+
+
 
     /**
-     * register interception
+     * register intercept for comment count
      *
      * @return void
      */
-    public static function registerSettingsMenu()
-    {
-        // settings menu 등록
-        $menus = [
-            'contents.board' => [
-                'title' => 'board::board',
-                'display' => true,
-                'description' => '',
-                'ordering' => 2000
-            ],
-            'contents.board.board' => [
-                'title' => 'board::articlesManage',
-                'display' => true,
-                'description' => '',
-                'ordering' => 2001
-            ],
-            'contents.board.boardapprove' => [
-                'title' => 'board::articlesApprove',
-                'display' => true,
-                'description' => '',
-                'ordering' => 2002
-            ],
-            'contents.board.boardtrash' => [
-                'title' => 'board::trashManage',
-                'display' => true,
-                'description' => '',
-                'ordering' => 2003
-            ],
-        ];
-        foreach ($menus as $id => $menu) {
-            app('xe.register')->push('settings/menu', $id, $menu);
-        }
-    }
-
     public static function registerCommentCountIntercept()
     {
         intercept(
             sprintf('%s@create', CommentHandler::class),
             static::class.'-comment-create',
-            function($func, array $inputs, $user = null) {
+            function ($func, array $inputs, $user = null) {
                 $comment = $func($inputs, $user);
 
                 $board = BoardModel::find($comment->target->targetId);
 
+                if ($board == null) {
+                    return $comment;
+                }
                 if ($board->type != static::getId()) {
                     return $comment;
                 }
@@ -282,12 +160,15 @@ class Board extends AbstractModule
         intercept(
             sprintf('%s@trash', CommentHandler::class),
             static::class.'-comment-trash',
-            function($func, Comment $comment) {
+            function ($func, Comment $comment) {
                 $result = $func($comment);
 
                 if ($board = BoardModel::find($comment->target->targetId)) {
+                    if ($board == null) {
+                        return $result;
+                    }
                     if ($board->type != static::getId()) {
-                        return $comment;
+                        return $result;
                     }
 
                     /** @var BoardHandler $handler */
@@ -307,12 +188,15 @@ class Board extends AbstractModule
         intercept(
             sprintf('%s@remove', CommentHandler::class),
             static::class.'-comment-remove',
-            function($func, Comment $comment) {
+            function ($func, Comment $comment) {
                 $result = $func($comment);
 
                 if ($board = BoardModel::find($comment->target->targetId)) {
+                    if ($board == null) {
+                        return $result;
+                    }
                     if ($board->type != static::getId()) {
-                        return $comment;
+                        return $result;
                     }
 
                     /** @var BoardHandler $handler */
@@ -332,12 +216,15 @@ class Board extends AbstractModule
         intercept(
             sprintf('%s@restore', CommentHandler::class),
             static::class.'-comment-restore',
-            function($func, Comment $comment) {
+            function ($func, Comment $comment) {
                 $result = $func($comment);
 
                 if ($board = BoardModel::find($comment->target->targetId)) {
+                    if ($board == null) {
+                        return $result;
+                    }
                     if ($board->type != static::getId()) {
-                        return $comment;
+                        return $result;
                     }
 
                     /** @var BoardHandler $handler */
@@ -355,16 +242,24 @@ class Board extends AbstractModule
         );
     }
 
+    /**
+     * register intercept ofr comment alarm
+     *
+     * @return void
+     */
     public static function registerCommentAlarmIntercept()
     {
         intercept(
             sprintf('%s@create', CommentHandler::class),
             static::class.'-comment-alarm',
-            function($func, $inputs, $user = null) {
+            function ($func, $inputs, $user = null) {
                 $comment = $func($inputs, $user);
 
                 $board = BoardModel::find($comment->target->targetId);
 
+                if ($board == null) {
+                    return $comment;
+                }
                 if ($board->type != static::getId()) {
                     return $comment;
                 }
@@ -415,12 +310,17 @@ class Board extends AbstractModule
         );
     }
 
+    /**
+     * register intercept for manager alarm
+     *
+     * @return void
+     */
     public static function registerManagerAlarmIntercept()
     {
         intercept(
             sprintf('%s@add', BoardHandler::class),
-            static::class.'-manager-board-alarm',
-            function($func, $args, $user, $config) {
+            static::class .'-manager-board-alarm',
+            function ($func, $args, $user, $config) {
                 $board = $func($args, $user, $config);
 
                 /** @var UrlHandler $urlHandler */

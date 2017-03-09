@@ -11,26 +11,20 @@
  * @link        https://xpressengine.io
  */
 
-namespace Blueng\XpressenginePlugins\ReactBoard;
+namespace Blueng\ReactBoard;
 
-use Illuminate\Database\Schema\Builder;
-use Schema;
-use Illuminate\Database\Schema\Blueprint;
+use Blueng\ReactBoard\ReactBoardConfigHandler;
+use Blueng\ReactBoard\ReactBoardInstanceManager;
+use Blueng\ReactBoard\ReactBoardModule;
+use Blueng\ReactBoard\ReactBoardPermissionHandler;
 use Xpressengine\Plugin\AbstractPlugin;
-use Xpressengine\Document\DocumentHandler;
-use Xpressengine\Config\ConfigManager;
-use Xpressengine\DynamicField\DynamicFieldHandler;
-use Xpressengine\Permission\PermissionHandler;
-use Xpressengine\Counter\Factory as CounterFactory;
 use Xpressengine\Plugins\Board\Modules\Board as BoardModule;
-use Xpressengine\Plugins\Board\ToggleMenus\TrashItem;
-use Xpressengine\Plugins\Board\UIObjects\Share as Share;
-use Xpressengine\Plugins\Claim\ToggleMenus\BoardClaimItem;
-use XeToggleMenu;
 use XeConfig;
 use XeDB;
 use XePlugin;
 use XeTrash;
+use XeDocument;
+use XeDynamicField;
 
 /**
  * Plugin
@@ -80,5 +74,33 @@ class Plugin extends AbstractPlugin
      */
     public function boot()
     {
+        /** @var \Illuminate\Foundation\Application $app */
+        $app = app();
+
+        $app->singleton(['xe.react_board.config' => ReactBoardConfigHandler::class], function ($app) {
+
+            return new ReactBoardConfigHandler(
+                app('xe.config'),
+                XeDynamicField::getConfigHandler(),
+                XeDocument::getConfigHandler()
+            );
+        });
+
+        $app->singleton(['xe.board.instance' => ReactBoardInstanceManager::class], function ($app) {
+            return new ReactBoardInstanceManager(
+                XeDB::connection('document'),
+                app('xe.document'),
+                app('xe.dynamicField'),
+                app(ReactBoardConfigHandler::class),
+                app(ReactBoardPermissionHandler::class),
+                app('xe.plugin.comment')->getHandler()
+            );
+        });
+
+        $app->singleton(['xe.board.permission' => ReactBoardPermissionHandler::class], function ($app) {
+            $boardPermission = new ReactBoardPermissionHandler(app('xe.permission'), app(ReactBoardConfigHandler::class));
+            $boardPermission->setPrefix(ReactBoardModule::getId());
+            return $boardPermission;
+        });
     }
 }

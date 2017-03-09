@@ -11,7 +11,7 @@
  * @link        https://xpressengine.io
  */
 
-namespace Blueng\XpressenginePlugin\ReactBoard\Skins;
+namespace Blueng\ReactBoard\Skins;
 
 use XePresenter;
 use Xpressengine\Config\ConfigEntity;
@@ -46,6 +46,7 @@ class DefaultSkin extends AbstractSkin
         'title', 'writer',  'assentCount', 'readCount', 'createdAt',
     ];
 
+
     /**
      * @var array
      */
@@ -76,176 +77,9 @@ class DefaultSkin extends AbstractSkin
 
         $this->data['skinAlias'] = static::$skinAlias;
 
-        $contentView = View::make(
-            sprintf('%s.%s', static::$skinAlias, $this->view),
-            $this->data
-        );
-        if (XePresenter::getRenderType() == Presenter::RENDER_CONTENT) {
-            $view = $contentView;
-        } else {
-            // wrapped by _frame.blade.php
-            $view = View::make(sprintf('%s._frame', static::$skinAlias), $this->data);
-            $view->content = $contentView->render();
-        }
-
-        return $view;
+        return View::make(sprintf('%s.container', static::$skinAlias), $this->data);
     }
 
-    /**
-     * get manage URI
-     *
-     * @return string
-     */
-    public static function getSettingsURI()
-    {
-    }
-
-    /**
-     * index customizer
-     *
-     * @return void
-     */
-    protected function indexCustomizer()
-    {
-        $this->setSkinConfig();
-        $this->setDynamicFieldSkins();
-        $this->setPaginationPresenter();
-        $this->setBoardList();
-        $this->setTerms();
-        XeFrontend::translation([
-            'board::selectPost',
-            'board::selectBoard',
-        ]);
-    }
-
-    /**
-     * show customizer
-     *
-     * @return void
-     */
-    protected function showCustomizer()
-    {
-        $this->setSkinConfig();
-        $this->setDynamicFieldSkins();
-        $this->setPaginationPresenter();
-        $this->setBoardList();
-        $this->setTerms();
-        XeFrontend::translation([
-            'board::selectPost',
-            'board::selectBoard',
-            'board::msgDeleteConfirm',
-        ]);
-    }
-
-    /**
-     * create customizer
-     *
-     * @return void
-     */
-    protected function createCustomizer()
-    {
-        $this->setSkinConfig();
-        $this->setDynamicFieldSkins();
-    }
-
-    /**
-     * create customizer
-     *
-     * @return void
-     */
-    protected function editCustomizer()
-    {
-        $this->setSkinConfig();
-        $this->setDynamicFieldSkins();
-    }
-
-    /**
-     * set skin config to data
-     *
-     * @return void
-     */
-    protected function setSkinConfig()
-    {
-        // 기본 설정
-        if (empty($this->config['listColumns'])) {
-            $this->config['listColumns'] = $this->defaultSelectedListColumns;
-        }
-        if (empty($this->config['formColumns'])) {
-            $this->config['formColumns'] = $this->defaultSelectedFormColumns;
-        }
-        $this->data['skinConfig'] = $this->config;
-    }
-
-    /**
-     * replace dynamicField skins
-     *
-     * @return void
-     */
-    protected function setDynamicFieldSkins()
-    {
-        // replace dynamicField skin registered information
-        /** @var \Xpressengine\Register\Container $register */
-        $register = app('xe.register');
-        $register->set('FieldType/xpressengine@Category/FieldSkin/xpressengine@default', DesignSelectSkin::class);
-    }
-
-    /**
-     * set pagination presenter
-     *
-     * @return void
-     */
-    protected function setPaginationPresenter()
-    {
-        $this->data['paginate']->setPath($this->data['urlHandler']->get('index'));
-        $this->data['paginationPresenter'] = new PaginationPresenter($this->data['paginate']);
-        $this->data['paginationMobilePresenter'] = new PaginationMobilePresenter($this->data['paginate']);
-    }
-
-    /**
-     * set board list
-     *
-     * @return void
-     */
-    protected function setBoardList()
-    {
-        $instanceConfig = InstanceConfig::instance();
-        $instanceId = $instanceConfig->getInstanceId();
-
-        $configHandler = app('xe.board.config');
-        $boards = $configHandler->gets();
-        $boardList = [];
-        /** @var ConfigEntity $config */
-        foreach ($boards as $config) {
-            // 현재의 게시판은 리스트에서 제외
-            if ($instanceId === $config->get('boardId')) {
-                continue;
-            }
-
-            $boardName = $config->get('boardName');
-            if ($boardName === null || $boardName === '') {
-                $menuItem = MenuItem::find($config->get('boardId'));
-                $boardName = $menuItem->title;
-            }
-
-            $boardList[] = [
-                'value' => $config->get('boardId'),
-                'text' => $boardName,
-            ];
-        }
-        $this->data['boardList'] = $boardList;
-    }
-
-    protected function setTerms()
-    {
-        $this->data['terms'] = [
-            ['value' => '1week', 'text' => 'board::1week'],
-            ['value' => '2week', 'text' => 'board::2week'],
-            ['value' => '1month', 'text' => 'board::1month'],
-            ['value' => '3month', 'text' => 'board::3month'],
-            ['value' => '6month', 'text' => 'board::6month'],
-            ['value' => '1year', 'text' => 'board::1year'],
-        ];
-    }
 
     /**
      * get setting view
