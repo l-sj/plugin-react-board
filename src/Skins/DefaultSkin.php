@@ -112,7 +112,7 @@ class DefaultSkin extends AbstractSkin
     protected function getSortListColumns(array $config, $instanceId)
     {
         /** @var \Xpressengine\Plugins\Board\ConfigHandler $configHandler */
-        $configHandler = app('xe.board.config');
+        $configHandler = app('xe.react_board.config');
 
         if (empty($config['sortListColumns'])) {
             $sortListColumns = $this->defaultListColumns;
@@ -151,7 +151,7 @@ class DefaultSkin extends AbstractSkin
     protected function getSortFormColumns(array $config, $instanceId)
     {
         /** @var \Xpressengine\Plugins\Board\ConfigHandler $configHandler */
-        $configHandler = app('xe.board.config');
+        $configHandler = app('xe.react_board.config');
 
         if (empty($config['sortFormColumns'])) {
             $sortFormColumns = $this->defaultFormColumns;

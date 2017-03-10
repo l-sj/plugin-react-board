@@ -1,5 +1,5 @@
 @section('page_title')
-    <h2>{{xe_trans('board::boardDetailConfigures')}}</h2>
+    <h2>{{xe_trans('react_board::reactBoardDetailConfigures')}}</h2>
 @endsection
 
 @section('page_description')@endsection
@@ -13,13 +13,13 @@
                 <div class="panel">
                     <div class="panel-heading">
                         <div class="pull-left">
-                            <h3 class="panel-title">{{xe_trans('board::boardDetailConfigures')}}</h3>
+                            <h3 class="panel-title">{{xe_trans('react_board::reactBoardDetailConfigures')}}</h3>
                         </div>
                         <div class="pull-right">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="btn-link panel-toggle pull-right"><i class="xi-angle-down"></i><i class="xi-angle-up"></i><span class="sr-only">{{xe_trans('fold')}}</span></a>
                         </div>
                     </div>
-                    <form method="post" id="board_manage_form" action="{!! $urlHandler->managerUrl('update', ['boardId' => $boardId]) !!}">
+                    <form method="post" id="board_manage_form" action="{!! route('settings.react_board.update', ['boardId' => $boardId]) !!}">
                     <input type="hidden" name="_token" value="{{{ Session::token() }}}" />
                     <div id="collapseOne" class="panel-collapse collapse in">
                         <div class="panel-body">
@@ -79,7 +79,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-9">
-                                                        <select id="" name="category" class="form-control" data-id="{{ $config->get('categoryId') }}" data-board-id="{{$config->get('boardId')}}" data-url="{{route('manage.board.board.storeCategory')}}">
+                                                        <select id="" name="category" class="form-control" data-id="{{ $config->get('categoryId') }}" data-board-id="{{$config->get('boardId')}}" data-url="{{route('settings.react_board.storeCategory')}}">
                                                             <option value="true" {!! $config->get('category') == true ? 'selected="selected"' : '' !!} >{{xe_trans('xe::use')}}</option>
                                                             <option value="false" {!! $config->get('category') == false ? 'selected="selected"' : '' !!} >{{xe_trans('xe::disuse')}}</option>
                                                         </select>
@@ -311,46 +311,46 @@
                     </div>
                 </div>
 
-                <div class="panel">
-                    <div class="panel-heading">
-                        <div class="pull-left">
-                            <h3 class="panel-title">{{xe_trans('xe::editor')}}</h3>
-                        </div>
-                        <div class="pull-right">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="btn-link panel-toggle pull-right"><i class="xi-angle-down"></i><i class="xi-angle-up"></i><span class="sr-only">메뉴닫기</span></a>
-                        </div>
-                    </div>
-                    <div id="collapseTwo" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            {!! $editorSection !!}
-                        </div>
-                        <div class="panel-footer">
-                            <div class="pull-right">
-                                <button type="button" class="btn btn-default">취소</button>
-                                <button type="button" class="btn btn-primary"><i class="xi-download"></i>저장</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {{--<div class="panel">--}}
+                    {{--<div class="panel-heading">--}}
+                        {{--<div class="pull-left">--}}
+                            {{--<h3 class="panel-title">{{xe_trans('xe::editor')}}</h3>--}}
+                        {{--</div>--}}
+                        {{--<div class="pull-right">--}}
+                            {{--<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="btn-link panel-toggle pull-right"><i class="xi-angle-down"></i><i class="xi-angle-up"></i><span class="sr-only">메뉴닫기</span></a>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div id="collapseTwo" class="panel-collapse collapse in">--}}
+                        {{--<div class="panel-body">--}}
+                            {{--{!! $editorSection !!}--}}
+                        {{--</div>--}}
+                        {{--<div class="panel-footer">--}}
+                            {{--<div class="pull-right">--}}
+                                {{--<button type="button" class="btn btn-default">취소</button>--}}
+                                {{--<button type="button" class="btn btn-primary"><i class="xi-download"></i>저장</button>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
-                <div class="panel">
-                    <div class="panel-heading">
-                        <div class="pull-left">
-                            <h3 class="panel-title">{{xe_trans('xe::dynamicField')}}</h3>
-                        </div>
-                        <div class="pull-right">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="btn-link panel-toggle pull-right"><i class="xi-angle-down"></i><i class="xi-angle-up"></i><span class="sr-only">{{xe_trans('fold')}}</span></a>
-                        </div>
-                    </div>
-                    <div id="collapseTwo" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            {!! $dynamicFieldSection !!}
-                        </div>
-                        <div class="panel-footer">
-                        </div>
+                {{--<div class="panel">--}}
+                    {{--<div class="panel-heading">--}}
+                        {{--<div class="pull-left">--}}
+                            {{--<h3 class="panel-title">{{xe_trans('xe::dynamicField')}}</h3>--}}
+                        {{--</div>--}}
+                        {{--<div class="pull-right">--}}
+                            {{--<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="btn-link panel-toggle pull-right"><i class="xi-angle-down"></i><i class="xi-angle-up"></i><span class="sr-only">{{xe_trans('fold')}}</span></a>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div id="collapseTwo" class="panel-collapse collapse in">--}}
+                        {{--<div class="panel-body">--}}
+                            {{--{!! $dynamicFieldSection !!}--}}
+                        {{--</div>--}}
+                        {{--<div class="panel-footer">--}}
+                        {{--</div>--}}
 
-                    </div>
-                </div>
+                    {{--</div>--}}
+                {{--</div>--}}
 
                 <div class="panel">
                     <div class="panel-heading">

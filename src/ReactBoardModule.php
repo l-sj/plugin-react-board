@@ -72,13 +72,13 @@ class ReactBoardModule extends AbstractModule
                 ['as' => 'settings.react_board.global.update', 'uses' => 'ReactBoardSettingsController@globalUpdate']
             );
             Route::get('edit/{boardId}', ['as' => 'settings.react_board.edit', 'uses' => 'ReactBoardSettingsController@edit']);
-            Route::post('storeCategory/', [
-                'as' => 'settings.react_board.storeCategory', 'uses' => 'ReactBoardSettingsController@storeCategory'
-            ]);
             Route::post(
                 'update/{boardId}',
                 ['as' => 'settings.react_board.update', 'uses' => 'ReactBoardSettingsController@update']
             );
+            Route::post('storeCategory/', [
+                'as' => 'settings.react_board.storeCategory', 'uses' => 'ReactBoardSettingsController@storeCategory'
+            ]);
         }, ['namespace' => 'Blueng\ReactBoard\Controllers']);
     }
 
@@ -92,10 +92,26 @@ class ReactBoardModule extends AbstractModule
     {
         Route::instance(self::getId(), function () {
             // container html response
-            Route::get('/', ['as' => 'container', 'uses' => 'UserController@container']);
+            Route::get('/', ['as' => 'container', 'uses' => 'ReactBoardModuleController@container']);
 
             // api
+            Route::get('/list/', ['as' => 'api.list', 'uses' => 'ReactBoardModuleController@articles']);
+            Route::get('/show/{id}', ['as' => 'api.show', 'uses' => 'ReactBoardModuleController@show']);
+            Route::post('/store/', ['as' => 'api.store', 'uses' => 'ReactBoardModuleController@store']);
+            Route::match(['post', 'put'], '/update/{id}', [
+                'as' => 'api.update', 'uses' => 'ReactBoardModuleController@update'
+            ]);
+            Route::match(['post', 'delete'], '/destroy/{id}', [
+                'as' => 'api.destroy', 'uses' => 'ReactBoardModuleController@destroy'
+            ]);
+            Route::post('/favorite/create/{id}', [
+                'as' => 'api.favorite.create', 'uses' => 'ReactBoardModuleController@createFavorite'
+            ]);
+            Route::match(['post', 'delete'], '/favorite/destroy/{id}', [
+                'as' => 'api.favorite.destroy', 'uses' => 'ReactBoardModuleController@destroyFavorite'
+            ]);
 
+            Route::get('/category', ['as' => 'api.category', 'uses' => 'ReactBoardModuleController@category']);
 
         }, ['namespace' => 'Blueng\ReactBoard\Controllers']);
     }
@@ -273,18 +289,21 @@ class ReactBoardModule extends AbstractModule
                     return $comment;
                 }
 
+                /**
+                 * todo check show url
+                 */
                 /** @var UrlHandler $urlHandler */
                 $urlHandler = app('xe.board.url');
                 $urlHandler->setConfig(app('xe.board.config')->get($board->instanceId));
                 $url = $urlHandler->getShow($board);
                 $data = [
-                    'title' => xe_trans('board::newCommentRegistered'),
+                    'title' => xe_trans('react_board::newCommentRegistered'),
                     'contents' => sprintf(
                         '<a href="%s" target="_blank">%s</a><br/><br/><br/>%s',
                         $url,
                         $url,
                         xe_trans(
-                            'board::newCommentRegisteredBy',
+                            'react_board::newCommentRegisteredBy',
                             ['displayName' => $comment->author->getDisplayName()]
                         )
                     ),
@@ -328,7 +347,7 @@ class ReactBoardModule extends AbstractModule
                 $urlHandler->setConfig($config);
                 $url = $urlHandler->getShow($board);
                 $data = [
-                    'title' => xe_trans('board::newPostsRegistered'),
+                    'title' => xe_trans('react_board::newPostsRegistered'),
                     'contents' => sprintf(
                         '<a href="%s" target="_blank">%s</a><br/><br/><br/>%s',
                         $url,
@@ -362,7 +381,7 @@ class ReactBoardModule extends AbstractModule
                             '[%s - %s] %s',
                             $applicationName,
                             xe_trans($menuItem->title),
-                            xe_trans('board::newPostsRegistered')
+                            xe_trans('react_board::newPostsRegistered')
                         );
 
                         $m->from($fromEmail, $applicationName);
@@ -404,11 +423,11 @@ class ReactBoardModule extends AbstractModule
      */
     public function createMenuForm()
     {
-        $skins = XeSkin::getList('module/board@board');
+        $skins = XeSkin::getList(static::getId());
 
-        return View::make('board::views/menuType/create', [
+        return View::make('react_board::views/menuType/create', [
             'boardId' => null,
-            'config' => app('xe.board.config')->getDefault(),
+            'config' => app('xe.react_board.config')->getDefault(),
             'skins' => $skins,
             'handler' => app('xe.board.handler'),
         ])->render();
@@ -429,7 +448,7 @@ class ReactBoardModule extends AbstractModule
         $input = $menuTypeParams;
         $input['boardId'] = $instanceId;
 
-        app('xe.board.instance')->create($input);
+        app('xe.react_board.instance')->create($input);
         app('xe.editor')->setInstance($instanceId, 'editor/ckeditor@ckEditor');
     }
 
@@ -441,11 +460,11 @@ class ReactBoardModule extends AbstractModule
      */
     public function editMenuForm($instanceId)
     {
-        $skins = XeSkin::getList(self::getId());
+        $skins = XeSkin::getList(static::getId());
 
-        return View::make('board::views/menuType/edit', [
+        return View::make('react_board::views/menuType/edit', [
             'boardId' => $instanceId,
-            'config' => app('xe.board.config')->get($instanceId),
+            'config' => app('xe.react_board.config')->get($instanceId),
             'skins' => $skins,
             'handler' => app('xe.board.handler'),
         ])->render();
@@ -463,7 +482,7 @@ class ReactBoardModule extends AbstractModule
     {
         $menuTypeParams['boardId'] = $instanceId;
 
-        app('xe.board.instance')->updateConfig($menuTypeParams);
+        app('xe.react_board.instance')->updateConfig($menuTypeParams);
     }
 
     /**
@@ -474,7 +493,7 @@ class ReactBoardModule extends AbstractModule
      */
     public function deleteMenu($instanceId)
     {
-        app('xe.board.instance')->destroy($instanceId);
+        app('xe.react_board.instance')->destroy($instanceId);
     }
 
     /**
@@ -486,8 +505,8 @@ class ReactBoardModule extends AbstractModule
     public function summary($instanceId)
     {
         return xe_trans(
-            'board::destroySummary',
-            app('xe.board.instance')->summary($instanceId, app('xe.board.handler'))
+            'react_board::destroySummary',
+            app('xe.react_board.instance')->summary($instanceId, app('xe.board.handler'))
         );
     }
 
@@ -500,7 +519,7 @@ class ReactBoardModule extends AbstractModule
      */
     public static function getInstanceSettingURI($instanceId)
     {
-        return route('manage.board.board.edit', $instanceId);
+        return route('settings.react_board.edit', $instanceId);
     }
 
     /**

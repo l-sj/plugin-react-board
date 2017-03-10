@@ -3,7 +3,7 @@
         <div class="panel-heading">
             <div class="pull-left">
                 <h4 class="panel-title">
-                    {{xe_trans('board::boardBasicSetting')}}
+                    {{xe_trans('react_board::reactBoardBasicSetting')}}
                 </h4>
             </div>
             <div class="pull-right">

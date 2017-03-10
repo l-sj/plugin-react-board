@@ -30,17 +30,7 @@ use Xpressengine\Captcha\CaptchaManager;
 use Xpressengine\Captcha\Exceptions\ConfigurationNotExistsException;
 use Xpressengine\Category\CategoryHandler;
 use Xpressengine\Http\Request;
-use Xpressengine\Plugins\Board\BoardPermissionHandler;
-use Xpressengine\Plugins\Board\ConfigHandler;
-use Xpressengine\Plugins\Board\Exceptions\NotFoundConfigHttpException;
 use Xpressengine\Plugins\Board\Handler;
-use Xpressengine\Plugins\Board\InstanceManager;
-use Xpressengine\Plugins\Board\Models\Board;
-use Xpressengine\Plugins\Board\UrlHandler;
-use Xpressengine\Routing\InstanceRouteHandler;
-use Xpressengine\Routing\RouteRepository;
-use Xpressengine\User\Models\Guest;
-use Xpressengine\User\Models\User;
 use Xpressengine\Plugins\Comment\ManageSection as CommentSection;
 
 /**
@@ -55,14 +45,8 @@ use Xpressengine\Plugins\Comment\ManageSection as CommentSection;
  */
 class ReactBoardSettingsController extends Controller
 {
-    /**
-     * @var Handler
-     */
     protected $handler;
 
-    /**
-     * @var ConfigHandler
-     */
     protected $configHandler;
 
     /**
@@ -70,14 +54,8 @@ class ReactBoardSettingsController extends Controller
      */
     protected $presenter;
 
-    /**
-     * @var UrlHandler
-     */
     protected $urlHandler;
 
-    /**
-     * @var InstanceManager
-     */
     protected $instanceManager;
 
     public function __construct(
@@ -113,14 +91,7 @@ class ReactBoardSettingsController extends Controller
         ]);
     }
 
-    /**
-     * global config update
-     *
-     * @param Request                $request         request
-     * @param BoardPermissionHandler $boardPermission board permission handler
-     * @return mixed
-     */
-    public function globalUpdate(Request $request, BoardPermissionHandler $boardPermission)
+    public function globalUpdate(Request $request, ReactBoardPermissionHandler $boardPermission)
     {
         if ($request->get('useCaptcha') === 'true') {
             $driver = config('captcha.driver');
@@ -159,18 +130,10 @@ class ReactBoardSettingsController extends Controller
 
         XeDB::commit();
 
-        return redirect()->to($this->urlHandler->managerUrl('global.edit'));
+        return redirect()->to(route('settings.react_board.global.edit'));
     }
 
-    /**
-     * edit
-     *
-     * @param BoardPermissionHandler $boardPermission board permission handler
-     * @param CaptchaManager         $captcha         Captcha manager
-     * @param string                 $boardId         board instance id
-     * @return \Xpressengine\Presenter\RendererInterface
-     */
-    public function edit(BoardPermissionHandler $boardPermission, CaptchaManager $captcha, $boardId)
+    public function edit(ReactBoardPermissionHandler $boardPermission, CaptchaManager $captcha, $boardId)
     {
         $config = $this->configHandler->get($boardId);
 
@@ -200,15 +163,7 @@ class ReactBoardSettingsController extends Controller
         ]);
     }
 
-    /**
-     * update
-     *
-     * @param Request                $request         request
-     * @param BoardPermissionHandler $boardPermission board permission handler
-     * @param string                 $boardId         board instance id
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(Request $request, BoardPermissionHandler $boardPermission, $boardId)
+    public function update(Request $request, ReactBoardPermissionHandler $boardPermission, $boardId)
     {
         if ($request->get('useCaptcha') === 'true') {
             $driver = config('captcha.driver');
@@ -248,16 +203,9 @@ class ReactBoardSettingsController extends Controller
         $boardPermission->set($request, $boardId);
         XeDB::commit();
 
-        return redirect()->to($this->urlHandler->managerUrl('edit', ['boardId' => $boardId]));
+        return redirect()->to(route('settings.react_board.edit', ['boardId' => $boardId]));
     }
 
-    /**
-     * store category
-     *
-     * @param CategoryHandler $categoryHandler category handler
-     * @param Request         $request         request
-     * @return mixed
-     */
     public function storeCategory(CategoryHandler $categoryHandler, Request $request)
     {
         $boardId = $request->get('boardId');

@@ -13,12 +13,7 @@
 
 namespace Blueng\ReactBoard;
 
-use Blueng\ReactBoard\ReactBoardConfigHandler;
-use Blueng\ReactBoard\ReactBoardInstanceManager;
-use Blueng\ReactBoard\ReactBoardModule;
-use Blueng\ReactBoard\ReactBoardPermissionHandler;
 use Xpressengine\Plugin\AbstractPlugin;
-use Xpressengine\Plugins\Board\Modules\Board as BoardModule;
 use XeConfig;
 use XeDB;
 use XePlugin;
@@ -49,6 +44,7 @@ class Plugin extends AbstractPlugin
      */
     public function install()
     {
+        $this->createDefaultConfig();
     }
 
     /**
@@ -74,6 +70,11 @@ class Plugin extends AbstractPlugin
      */
     public function boot()
     {
+        $this->bindClasses();
+    }
+
+    protected function bindClasses()
+    {
         /** @var \Illuminate\Foundation\Application $app */
         $app = app();
 
@@ -86,7 +87,7 @@ class Plugin extends AbstractPlugin
             );
         });
 
-        $app->singleton(['xe.board.instance' => ReactBoardInstanceManager::class], function ($app) {
+        $app->singleton(['xe.react_board.instance' => ReactBoardInstanceManager::class], function ($app) {
             return new ReactBoardInstanceManager(
                 XeDB::connection('document'),
                 app('xe.document'),
@@ -97,10 +98,27 @@ class Plugin extends AbstractPlugin
             );
         });
 
-        $app->singleton(['xe.board.permission' => ReactBoardPermissionHandler::class], function ($app) {
+        $app->singleton(['xe.react_board.permission' => ReactBoardPermissionHandler::class], function ($app) {
             $boardPermission = new ReactBoardPermissionHandler(app('xe.permission'), app(ReactBoardConfigHandler::class));
             $boardPermission->setPrefix(ReactBoardModule::getId());
             return $boardPermission;
         });
+    }
+
+    protected function createDefaultConfig()
+    {
+        $configManager = app('xe.config');
+        $dynamicFieldHandler = app('xe.dynamicField');
+        $documentHandler = app('xe.document');
+        $configHandler = new ReactBoardConfigHandler(
+            $configManager,
+            $dynamicFieldHandler->getConfigHandler(),
+            $documentHandler->getConfigHandler()
+        );
+        $configHandler->getDefault();
+
+        // create default permission
+        $permission = new ReactBoardPermissionHandler(app('xe.permission'));
+        $permission->addGlobal();
     }
 }

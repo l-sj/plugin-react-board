@@ -13,25 +13,26 @@
 
             //사용자 정보.
             user: {
-                isManager: true
+                isManager: {{ $isManager }}
             },
 
             //API 정보
             apis: {
-                create: '{{sprintf('/%s/api/create', $instanceConfig->getUrl())}}',
-                store: '{{sprintf('/%s/api/store', $instanceConfig->getUrl())}}',
-                delete: '{{sprintf('/%s/api/destroy/[id]', $instanceConfig->getUrl())}}',
-                edit: '{{sprintf('/%s/api/edit/[id]', $instanceConfig->getUrl())}}',
-                update: '{{sprintf('/%s/api/update/[id]', $instanceConfig->getUrl())}}',
-                index: '{{sprintf('/%s/api/articles', $instanceConfig->getUrl())}}',
-                view: '{{sprintf('/%s/api/articles/[id]', $instanceConfig->getUrl())}}',
-                favorite: '{{sprintf('/%s/api/favorit/[id]', $instanceConfig->getUrl())}}',
-                search: '/search'
+                show: '{{instanceRoute('api.show', ['id' => '[id]'], $instanceId)}}',
+                list: '{{instanceRoute('api.list', [], $instanceId)}}',
+                store: '{{instanceRoute('api.store', [], $instanceId)}}',
+                update: '{{instanceRoute('api.update', ['id' => '[id]'], $instanceId)}}',
+                destroy: '{{instanceRoute('api.destroy', ['id' => '[id]'], $instanceId)}}',
+                category: '{{instanceRoute('api.category', [], $instanceId)}}',
+                /** 어떻게 사용하는건지? */
+                favorite_create: '{{instanceRoute('api.favorite.create', ['id' => '[id]'], $instanceId)}}',
+                favorite_destroy: '{{instanceRoute('api.favorite.create', ['id' => '[id]'], $instanceId)}}',
+                temp: ''
             },
 
             //링크 정보
             links: {
-                settings: ''
+                settings: '{{route('settings.react_board.edit', ['boardId' => $instanceId])}}'
             },
             ajaxHeaders: {
                 'X-CSRF-TOKEN': '{!! csrf_token() !!}'
