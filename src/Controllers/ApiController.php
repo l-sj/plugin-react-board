@@ -126,7 +126,7 @@ class ApiController extends Controller
             throw new AccessDeniedHttpException;
         }
 
-        $query = Board::division($config->get('boardId'))
+        $query = Board::division($this->config->get('boardId'))
             ->where('instanceId', $this->instanceId)->visible();
 
         if ($this->config->get('category') === true) {
@@ -203,7 +203,7 @@ class ApiController extends Controller
         /** @var UserInterface $user */
         $user = Auth::user();
         /** @var Board $item */
-        $item = Board::division($config->get('boardId'))->find($id);
+        $item = Board::division($this->config->get('boardId'))->find($id);
         $this->handler->setModelConfig($item, $this->config);
 
         $visible = false;
@@ -365,7 +365,7 @@ class ApiController extends Controller
     ) {
         $user = Auth::user();
 
-        $item = Board::division($config->get('boardId'))->find($id);
+        $item = Board::division($this->config->get('boardId'))->find($id);
         $this->handler->setModelConfig($item, $this->config);
 
         if ($item === null) {
@@ -428,7 +428,7 @@ class ApiController extends Controller
         }
 
         // 글 수정 시 게시판 설정이 아닌 글의 상태에 따른 처리가 되어야 한다.
-        $item = Board::division($config->get('boardId'))->find($id);
+        $item = Board::division($this->config->get('boardId'))->find($id);
         $this->handler->setModelConfig($item, $this->config);
 
         // 비회원이 작성 한 글 인증
@@ -499,7 +499,7 @@ class ApiController extends Controller
     {
         $user = Auth::user();
 
-        $item = Board::division($config->get('boardId'))->find($id);
+        $item = Board::division($this->config->get('boardId'))->find($id);
 
         // 비회원이 작성 한 글 인증
         if (
@@ -537,7 +537,7 @@ class ApiController extends Controller
         if (Auth::check() === false) {
             throw new AccessDeniedHttpException;
         }
-        $board = Board::division($config->get('boardId'))->find($id);
+        $board = Board::division($this->config->get('boardId'))->find($id);
 
         $userId = Auth::user()->getId();
         $favorite = false;
