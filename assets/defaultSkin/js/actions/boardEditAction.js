@@ -16,7 +16,7 @@ export const EDIT_RESET = "EDIT_RESET";
 export const fetchEditViewEpic = (action$) =>
 	action$.ofType(FETCH_EDIT_VIEW)
 		.mergeMap(action =>
-			ajax({ url: Common.get('apis').view.replace('[id]', action.id), method: 'GET', headers: Common.get('ajaxHeaders')})
+			ajax({ url: Common.get('apis').show.replace('[id]', action.id), method: 'GET', headers: Common.get('ajaxHeaders')})
 				.map(data => fetchEditViewSuccess(data))
 				.catch(error => Observable.of(fetchEditViewFailure(error)))
 		);

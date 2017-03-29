@@ -98,10 +98,18 @@ class DetailView extends Component {
 
 				<div className="read_footer">
 					<div className="bd_function">
-						<div className="bd_function_r">
-							<Link to={`/edit/${id}`} className="bd_ico bd_modify"><i className="xi-eraser"></i><span className="xe-sr-only">수정</span></Link>
-							<a href="#" className="bd_ico bd_delete" onClick={this.deleteBoard}><i className="xi-trash"></i><span className="xe-sr-only">삭제</span></a>
-						</div>
+						{
+							(() => {
+								if(Common.get('user').isManager && Common.get('user').id === item.userId) {
+									return (
+										<div className="bd_function_r">
+											<Link to={`/edit/${id}`} className="bd_ico bd_modify"><i className="xi-eraser"></i><span className="xe-sr-only">수정</span></Link>
+											<a href="#" className="bd_ico bd_delete" onClick={this.deleteBoard}><i className="xi-trash"></i><span className="xe-sr-only">삭제</span></a>
+										</div>
+									);
+								}
+							})()
+						}
 						<div className="bd_like_more">
 							<ul>
 								<li><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRTEyUfPSIFSp5Vt75bhjqmF8pO26z7S8Nwv96S8QROx6j7RGzJ-efZ" alt="" title="" /></li>

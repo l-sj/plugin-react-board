@@ -61842,43 +61842,6 @@
 									'tr',
 									null,
 									function () {
-										if (Common.get('user').isManager) {
-											return _react2.default.createElement(
-												'th',
-												{ scope: 'col' },
-												_react2.default.createElement(
-													'label',
-													{ className: 'xe-label' },
-													_react2.default.createElement('input', { type: 'checkbox', onChange: _this2.onChangeCheckAll, checked: _this2.props.checkedAll }),
-													_react2.default.createElement('span', { className: 'xe-input-helper' }),
-													_react2.default.createElement(
-														'span',
-														{ className: 'xe-label-text xe-sr-only' },
-														'\uC804\uCCB4 \uC120\uD0DD'
-													)
-												)
-											);
-										}
-									}(),
-									_react2.default.createElement(
-										'th',
-										{ scope: 'col', className: 'favorite' },
-										_react2.default.createElement(
-											'span',
-											null,
-											_react2.default.createElement(
-												'a',
-												{ href: '#', title: '\uC990\uACA8\uCC3E\uAE30 \uC804\uBD80 \uCCB4\uD06C' },
-												_react2.default.createElement('i', { className: 'xi-star-o' }),
-												_react2.default.createElement(
-													'span',
-													{ className: 'xe-sr-only' },
-													'\uC990\uACA8\uCC3E\uAE30 \uC804\uBD80 \uCCB4\uD06C'
-												)
-											)
-										)
-									),
-									function () {
 										if (_this2.props.categories.length > 0) {
 											return _react2.default.createElement(
 												'th',
@@ -62089,27 +62052,6 @@
 				return _react2.default.createElement(
 					'tr',
 					null,
-					function () {
-						if (Common.get('user').isManager && 1 != 1) {
-	
-							return _react2.default.createElement(
-								'td',
-								{ className: 'check' },
-								_react2.default.createElement(
-									'label',
-									{ className: 'xe-label' },
-									_react2.default.createElement('input', { type: 'checkbox', onChange: _this2.handleCheckRow, checked: _this2.props.checkedMap[_this2.props.id] }),
-									_react2.default.createElement('span', { className: 'xe-input-helper' }),
-									_react2.default.createElement(
-										'span',
-										{ className: 'xe-label-text xe-sr-only' },
-										'\uC120\uD0DD'
-									)
-								)
-							);
-						}
-					}(),
-					_react2.default.createElement(_FavoriteContainer2.default, favoriteConfig),
 					function () {
 						if (_this2.props.categories.length > 0) {
 							return _react2.default.createElement(
@@ -79707,7 +79649,7 @@
 								null,
 								_react2.default.createElement(
 									'a',
-									{ href: '#' },
+									{ href: Common.get('links').settings },
 									_react2.default.createElement(
 										'span',
 										{ className: 'xe-sr-only' },
@@ -92007,8 +91949,6 @@
 								var categories = _this2.props.categories;
 	
 								if (categories.length > 0) {
-									console.log('categories', categories);
-	
 									if (!_lodash2.default.find(categories, { value: '' })) {
 										categories.unshift({ text: '전체보기', value: '' });
 									}
@@ -92417,7 +92357,7 @@
 	
 	var fetchEditViewEpic = exports.fetchEditViewEpic = function fetchEditViewEpic(action$) {
 		return action$.ofType(FETCH_EDIT_VIEW).mergeMap(function (action) {
-			return (0, _ajax.ajax)({ url: Common.get('apis').view.replace('[id]', action.id), method: 'GET', headers: Common.get('ajaxHeaders') }).map(function (data) {
+			return (0, _ajax.ajax)({ url: Common.get('apis').show.replace('[id]', action.id), method: 'GET', headers: Common.get('ajaxHeaders') }).map(function (data) {
 				return fetchEditViewSuccess(data);
 			}).catch(function (error) {
 				return _rxjs.Observable.of(fetchEditViewFailure(error));
@@ -92853,7 +92793,7 @@
 	
 	var fetchViewEpic = exports.fetchViewEpic = function fetchViewEpic(action$) {
 		return action$.ofType(FETCH_VIEW).mergeMap(function (action) {
-			return (0, _ajax.ajax)({ url: Common.get('apis').view.replace('[id]', action.id), method: 'GET', headers: Common.get('ajaxHeaders') }).map(function (data) {
+			return (0, _ajax.ajax)({ url: Common.get('apis').show.replace('[id]', action.id), method: 'GET', headers: Common.get('ajaxHeaders') }).map(function (data) {
 				return fetchViewSuccess(data);
 			}).catch(function (error) {
 				return _rxjs.Observable.of(fetchViewFailure(error));
@@ -93004,6 +92944,7 @@
 		}, {
 			key: 'render',
 			value: function render() {
+				var _this2 = this;
 	
 				if (this.props.view.error) {
 					XE.toast('', this.props.view.error.message);
@@ -93081,30 +93022,34 @@
 						_react2.default.createElement(
 							'div',
 							{ className: 'bd_function' },
-							_react2.default.createElement(
-								'div',
-								{ className: 'bd_function_r' },
-								_react2.default.createElement(
-									_reactRouter.Link,
-									{ to: '/edit/' + id, className: 'bd_ico bd_modify' },
-									_react2.default.createElement('i', { className: 'xi-eraser' }),
-									_react2.default.createElement(
-										'span',
-										{ className: 'xe-sr-only' },
-										'\uC218\uC815'
-									)
-								),
-								_react2.default.createElement(
-									'a',
-									{ href: '#', className: 'bd_ico bd_delete', onClick: this.deleteBoard },
-									_react2.default.createElement('i', { className: 'xi-trash' }),
-									_react2.default.createElement(
-										'span',
-										{ className: 'xe-sr-only' },
-										'\uC0AD\uC81C'
-									)
-								)
-							),
+							function () {
+								if (Common.get('user').isManager && Common.get('user').id === item.userId) {
+									return _react2.default.createElement(
+										'div',
+										{ className: 'bd_function_r' },
+										_react2.default.createElement(
+											_reactRouter.Link,
+											{ to: '/edit/' + id, className: 'bd_ico bd_modify' },
+											_react2.default.createElement('i', { className: 'xi-eraser' }),
+											_react2.default.createElement(
+												'span',
+												{ className: 'xe-sr-only' },
+												'\uC218\uC815'
+											)
+										),
+										_react2.default.createElement(
+											'a',
+											{ href: '#', className: 'bd_ico bd_delete', onClick: _this2.deleteBoard },
+											_react2.default.createElement('i', { className: 'xi-trash' }),
+											_react2.default.createElement(
+												'span',
+												{ className: 'xe-sr-only' },
+												'\uC0AD\uC81C'
+											)
+										)
+									);
+								}
+							}(),
 							_react2.default.createElement(
 								'div',
 								{ className: 'bd_like_more' },

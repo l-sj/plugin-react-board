@@ -13,7 +13,8 @@
 
             //사용자 정보.
             user: {
-                isManager: '{{ $isManager }}'
+                id: '{{ auth()->id() }}',
+                isManager: parseInt('{{ $isManager }}') || 0
             },
 
             //API 정보

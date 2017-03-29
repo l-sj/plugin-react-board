@@ -73,7 +73,7 @@ class BoardListHeader extends React.Component {
 					<ul>
 						<li><a href="#" className="bd_search" onClick={ this.handleSearch }><span className="xe-sr-only">검색</span><i className="xi-magnifier"></i></a></li>
 						<li><a href="#/write"><span className="xe-sr-only">게시판 글쓰기</span><i className="xi-pen-o"></i></a></li>
-						<li><a href="#"><span className="xe-sr-only">게시판 설정</span><i className="xi-cog"></i></a></li>
+						<li><a href={Common.get('links').settings}><span className="xe-sr-only">게시판 설정</span><i className="xi-cog"></i></a></li>
 					</ul>
 				</div>
 				<div className="xe-form-inline xe-hidden-xs board-sorting-area">

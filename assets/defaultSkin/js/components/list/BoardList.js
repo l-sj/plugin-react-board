@@ -57,22 +57,6 @@ export default class BoardList extends React.Component {
 						<tr>
 							{
 								(() => {
-									if(Common.get('user').isManager) {
-										return (
-											<th scope="col">
-												<label className="xe-label">
-													<input type="checkbox" onChange={ this.onChangeCheckAll } checked={this.props.checkedAll} />
-													<span className="xe-input-helper"></span>
-													<span className="xe-label-text xe-sr-only">전체 선택</span>
-												</label>
-											</th>
-										);
-									}
-								})()
-							}
-							<th scope="col" className="favorite"><span><a href="#" title="즐겨찾기 전부 체크"><i className="xi-star-o"></i><span className="xe-sr-only">즐겨찾기 전부 체크</span></a></span></th>
-							{
-								(() => {
 									if(this.props.categories.length > 0) {
 										return (<th scope="col"><span>카테고리</span></th>);
 									}

@@ -82,8 +82,6 @@ class WriteForm extends Component {
 							let categories = this.props.categories;
 
 							if(categories.length > 0) {
-								console.log('categories', categories);
-
 								if(!_.find(categories, {value: ''})) {
 									categories.unshift({text: '전체보기', value: ''});
 								}

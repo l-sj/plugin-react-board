@@ -42,23 +42,6 @@ class BoardRow extends React.Component {
 			<tr>
 				{
 					(() => {
-						if(Common.get('user').isManager && 1 != 1) {
-
-							return (
-								<td className="check">
-									<label className="xe-label">
-										<input type="checkbox" onChange={ this.handleCheckRow } checked={this.props.checkedMap[this.props.id]} />
-										<span className="xe-input-helper"></span>
-										<span className="xe-label-text xe-sr-only">선택</span>
-									</label>
-								</td>
-							);
-						}
-					})()
-				}
-				<Favorite {...favoriteConfig} />
-				{
-					(() => {
 						if(this.props.categories.length > 0) {
 							return (
 								<td className="category xe-hidden-xs">{ categoryName }</td>
