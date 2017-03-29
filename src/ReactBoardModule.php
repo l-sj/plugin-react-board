@@ -62,7 +62,7 @@ class ReactBoardModule extends AbstractModule
     protected static function registerManageRoute()
     {
         Route::settings(self::getId(), function () {
-            Route::get('/', ['as' => 'settings.board.board.index', 'uses' => 'ReactBoardSettingsController@index']);
+            //Route::get('/', ['as' => 'settings.board.board.index', 'uses' => 'ReactBoardSettingsController@index']);
             Route::get(
                 '/global/edit',
                 ['as' => 'settings.react_board.global.edit', 'uses' => 'ReactBoardSettingsController@globalEdit']
@@ -403,7 +403,7 @@ class ReactBoardModule extends AbstractModule
      */
     public static function getSettingsURI()
     {
-        //return route('manage.board.board.global.edit');
+        return route('settings.react_board.global.edit');
     }
 
     /**
