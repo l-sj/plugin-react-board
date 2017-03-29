@@ -403,7 +403,7 @@ class ReactBoardModule extends AbstractModule
      */
     public static function getSettingsURI()
     {
-        return route('manage.board.board.global.edit');
+        //return route('manage.board.board.global.edit');
     }
 
     /**
