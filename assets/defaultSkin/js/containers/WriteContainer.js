@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { reduxForm, change } from 'redux-form';
-import { fetchBoardIndex } from './../actions/boardListAction';
+import { fetchBoardIndex, fetchCategory } from './../actions/boardListAction';
 import { resetWriteForm } from './../actions/boardWriteAction';
 import WriteForm from './../components/write/WriteForm';
 
@@ -13,7 +13,7 @@ const formConfig = {
 
 const mapStateToProps = (state) => {
 	return {
-		categories: state.list.index.categories,
+		categories: state.list.categories,
 		categoryItemId: state.write.categoryItemId,
 		item: state.write.item,
 		err: state.write.error,
@@ -28,6 +28,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		fetchBoardIndex: () => {
 			dispatch(fetchBoardIndex());
+		},
+		fetchCategory: () => {
+			dispatch(fetchCategory());
 		},
 		handleSelect: (categoryItemId) => {
 			dispatch(change(form, 'categoryItemId', categoryItemId));

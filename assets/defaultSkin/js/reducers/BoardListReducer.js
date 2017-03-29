@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import {
+	FETCH_CATEGORY, FETCH_CATEGORY_SUCCESS, FETCH_CATEGORY_FAILURE,
 	FETCH_BOARD_INDEX, FETCH_BOARD_INDEX_SUCCESS, FETCH_BOARD_INDEX_FAILURE,
 	CHECK_ALL, UNCHECK_ALL, CHECK_ROW, UNCHECK_ROW,
 	SHOW_MANAGEMENT, HIDE_MANAGEMENT,
@@ -19,8 +20,8 @@ const INITIAL_STATE = {
 			perPageBlockCount: 0
 		},
 		boardList: [],
-		categories: [],
 	},
+	categories: [],
 	search: {
 		searchStatue: 'none',
 		searchDetailStatus: 'none',
@@ -42,10 +43,21 @@ export default function(state = INITIAL_STATE, action) {
 	let error;
 
 	switch(action.type) {
+
+		case FETCH_CATEGORY:
+			return { ...state, loading: true }
+
+		case FETCH_CATEGORY_SUCCESS:
+			return { ...state, loading: false, categories: action.payload.categories }
+
+		case FETCH_CATEGORY_FAILURE:
+			return { ...state, loading: false }
+
 		case FETCH_BOARD_INDEX:
-			return { ...state, loading: true, error: null}
+			return { ...state, loading: true, error: null }
 
 		case FETCH_BOARD_INDEX_SUCCESS:// return list of posts and make loading = false
+
 			var checkedMap = {};
 			var boardList = action.payload.paginate.data;
 			var resPaginate = action.payload.paginate;
@@ -64,7 +76,7 @@ export default function(state = INITIAL_STATE, action) {
 				checkedMap[obj.id] = false;
 			});
 
-			return { ...state, index: {boardList, paginate, categories: action.payload.categories, }, checkedMap, checkedAll: false, error:null, loading: false, };
+			return { ...state, index: {boardList, paginate}, checkedMap, checkedAll: false, error:null, loading: false, };
 
 		case CHECK_ALL:
 			var checkedMap = {};

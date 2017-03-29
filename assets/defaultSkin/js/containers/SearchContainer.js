@@ -21,7 +21,7 @@ const mapStateToProps = (state) => {
 		searchAuthor: state.search.searchAuthor,
 		startCreatedAt: state.search.startCreatedAt,
 		endCreatedAt: state.search.endCreatedAt,
-		categories: state.list.index.categories,
+		categories: state.list.categories,
 	};
 }
 

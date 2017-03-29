@@ -32,14 +32,39 @@ export const DELETE_BOARD_SUCCESS = 'DELETE_BOARD_SUCCESS';
 export const DELETE_BOARD_FAILURE = 'DELETE_BOARD_FAILURE';
 export const RESET_DELETED_BOARD = 'RESET_DELETED_BOARD';
 
+export const FETCH_CATEGORY = 'FETCH_CATEGORY';
+export const FETCH_CATEGORY_SUCCESS = 'FETCH_CATEGORY_SUCCESS';
+export const FETCH_CATEGORY_FAILURE = 'FETCH_CATEGORY_FAILURE';
+
 export const fetchBoardIndexEpic = action$ =>
 	action$.ofType(FETCH_BOARD_INDEX)
 		.mergeMap(action =>
-			ajax({ url: Common.get('apis').index + action.query, method: 'GET', headers: Common.get('ajaxHeaders')})
+			ajax({ url: Common.get('apis').list + action.query, method: 'GET', headers: Common.get('ajaxHeaders')})
 				.map(data => fetchBoardIndexSuccess(data))
 				.catch(error => Observable.of(fetchBoardIndexFailure(error)))
 		);
 
+export const fetchCategoryEpic = action$ =>
+	action$.ofType(FETCH_CATEGORY)
+		.mergeMap(action =>
+			ajax({ url: Common.get('apis').category, method: 'GET', headers: Common.get('ajaxHeaders')})
+				.map(data => fetchCategorySuccess(data))
+				.catch(error => Observable.of(fetchCategoryFailure(error)))
+		);
+
+export const fetchCategory = () => ({
+	type: FETCH_CATEGORY
+});
+
+export const fetchCategorySuccess = (data) => ({
+	type: FETCH_CATEGORY_SUCCESS,
+	payload: data.response
+});
+
+export const fetchCategoryFailure = (error) => ({
+	type: FETCH_CATEGORY_FAILURE,
+	payload: error.xhr.response
+});
 
 export const fetchBoardIndex = (queryJSON) => ({
 	type: FETCH_BOARD_INDEX,

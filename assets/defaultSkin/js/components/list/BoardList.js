@@ -25,6 +25,7 @@ export default class BoardList extends React.Component {
 	componentWillMount() {
 		let currentPage = this.props.paginate.currentPage;
 
+		this.props.fetchCategory();
 		this.props.fetchBoardIndex({page: currentPage});
 	}
 
@@ -56,7 +57,7 @@ export default class BoardList extends React.Component {
 						<tr>
 							{
 								(() => {
-									if(Common.get('user').isManager && 1 != 1) {
+									if(Common.get('user').isManager) {
 										return (
 											<th scope="col">
 												<label className="xe-label">

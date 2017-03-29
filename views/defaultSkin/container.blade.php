@@ -13,7 +13,7 @@
 
             //사용자 정보.
             user: {
-                isManager: {{ $isManager }}
+                isManager: '{{ $isManager }}'
             },
 
             //API 정보

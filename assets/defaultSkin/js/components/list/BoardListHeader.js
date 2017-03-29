@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SearchContainer from './../../containers/SearchContainer';
 import Dropdown from './../Dropdown';
+import _ from 'lodash';
 
 class BoardListHeader extends React.Component {
 
@@ -59,7 +60,7 @@ class BoardListHeader extends React.Component {
 			<div className="board_header">
 				{
 					(() => {
-						if(Common.get('user').isManager && 1 != 1) {
+						if(Common.get('user').isManager) {
 							return (
 								<div className="bd_manage_area">
 									<button type="button" className="xe-btn xe-btn-primary-outline bd_manage" onClick={this.handleManagement}>게시글 관리</button>
@@ -80,8 +81,11 @@ class BoardListHeader extends React.Component {
 						(() => {
 							if(this.props.categories.length) {
 
-								let categories = this.props.categories;
-								categories.unshift({text: '전체보기', value: ''});
+								let categories = _.assign([], this.props.categories);
+
+								if(!_.find(categories, {value: ''})) {
+									categories.unshift({text: '전체보기', value: ''});
+								}
 
 								return <Dropdown optionList={ categories } handleSelect={this.handleCategory.bind(this)} />
 							}

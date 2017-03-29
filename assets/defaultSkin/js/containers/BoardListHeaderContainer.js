@@ -6,7 +6,7 @@ import BoardListHeader from './../components/list/BoardListHeader';
 
 const mapStateToProps = (state) => {
 	return {
-		categories: state.list.index.categories,
+		categories: state.list.categories,
 		managementStatus: state.list.managementStatus,
 		searchStatus: state.search.searchStatus,
 	};

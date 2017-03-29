@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import Dropdown from './../Dropdown';
 import renderSearchField from './renderSearchField';
+import _ from 'lodash';
 
 const  { DOM: { input, select, textarea } } = React;
 
@@ -78,9 +79,12 @@ export default class Search extends Component{
 										(() => {
 											if(this.props.categories.length) {
 
-												let categories = this.props.categories;
-												categories.unshift({text: '전체보기', value: ''});
+												let categories = _.assign([], this.props.categories);
 
+												if(!_.find(categories, {value: ''})) {
+													categories.unshift({text: '전체보기', value: ''});
+												}
+												
 												return (
 													<div className="xe-col-sm-6">
 														<div className="xe-row">
