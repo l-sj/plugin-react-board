@@ -24,11 +24,7 @@
                 store: '{{urldecode(instanceRoute('api.store', [], $instanceId))}}',
                 update: '{{urldecode(instanceRoute('api.update', ['id' => '[id]'], $instanceId))}}',
                 destroy: '{{urldecode(instanceRoute('api.destroy', ['id' => '[id]'], $instanceId))}}',
-                category: '{{urldecode(instanceRoute('api.category', [], $instanceId))}}',
-                /** 어떻게 사용하는건지? */
-                favorite_create: '{{urldecode(instanceRoute('api.favorite.create', ['id' => '[id]'], $instanceId))}}',
-                favorite_destroy: '{{urldecode(instanceRoute('api.favorite.create', ['id' => '[id]'], $instanceId))}}',
-                temp: ''
+                category: '{{urldecode(instanceRoute('api.category', [], $instanceId))}}'
             },
 
             //링크 정보

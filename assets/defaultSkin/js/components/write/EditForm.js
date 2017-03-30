@@ -32,6 +32,7 @@ class EditForm extends Component {
 		const id = this.context.router.params.id;
 		this.props.editReset();
 		this.props.fetchEditView(id);
+		this.props.fetchCategory();
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -92,6 +93,8 @@ class EditForm extends Component {
 			)
 		}
 
+		console.log();
+		
 		return (
 			<div className="board_write">
 				<form onSubmit={handleSubmit((values, dispatch) => { this.validateAndUpdateBoard(values, dispatch, id) })}>
@@ -100,15 +103,15 @@ class EditForm extends Component {
 							(() => {
 								let categories = _.assign([], this.props.categories);
 
-								if(categories.length > 0) {
+								if(categories.length > 0 && this.props.item) {
 
 									if(!_.find(categories, {value: ''})) {
-										categories.unshift({text: '전체보기', value: ''});
+										categories.unshift({text: '카테고리 선택', value: ''});
 									}
 
 									return (
 										<div className="write_category">
-											<Dropdown optionList={categories} handleSelect={this.handleSelect} selected={parseInt(this.props.item.category.itemId, 10)} />
+											<Dropdown optionList={categories} handleSelect={this.handleSelect} selected={parseInt(this.props.item.board_category.itemId, 10)} />
 										</div>
 									)
 								}
@@ -131,23 +134,6 @@ class EditForm extends Component {
 						</div>
 					</div>
 					<div className="write_footer">
-
-						{
-							(() => {
-								if(1 !== 1) {
-									return (
-										<div className="write_form_input">
-											<div className="xe-form-inline">
-												<input type="text" className="xe-form-control" placeholder="이름" title="이름" />
-												<input type="text" className="xe-form-control" placeholder="비밀번호" title="비밀번호" />
-												<input type="text" className="xe-form-control" placeholder="이메일 주소" title="이메일 주소" />
-											</div>
-										</div>
-									) ;
-								}
-							})()
-						}
-
 						<div className="write_form_btn nologin">
 							<a href="#" className="bd_btn btn_preview">미리보기</a>
 							<button type="submit" className="bd_btn btn_submit">등록</button>

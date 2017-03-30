@@ -36,7 +36,7 @@ export const fetchViewFailure = (error) => ({
 export const deleteBoardEpic = (action$) =>
 	action$.ofType(DELETE_BOARD)
 		.mergeMap(action =>
-			ajax({ url: Common.get('apis').delete.replace('[id]', action.id), method: 'DELETE', headers: Common.get('ajaxHeaders')})
+			ajax({ url: Common.get('apis').destroy.replace('[id]', action.id), method: 'DELETE', headers: Common.get('ajaxHeaders')})
 				.map(data => deleteBoardSuccess(data))
 				.catch(error => Observable.of(deleteBoardFailure(error)))
 		);

@@ -13,20 +13,27 @@ class Dropdown extends Component {
 		super(props);
 
 		this.state = {
-			selectedText: '전체보기',
+			selectedText: '',
 			selectedValue: ''
 		};
 	}
 
 	componentWillMount() {
-
 		if(this.props.selected && this.props.optionList.length > 0) {
 			const defaultSelected = _.find(this.props.optionList, {value: this.props.selected});
 
 			this.handleSelect({
 				text: defaultSelected.text,
 				value: defaultSelected.value
-			})
+			});
+
+		} else {
+			this.setState((s, p) => {
+				s.selectedValue = this.props.optionList[0].value;
+				s.selectedText = this.props.optionList[0].text;
+			});
+
+			this.props.handleSelect(this.props.optionList[0].value);
 		}
 	}
 
@@ -53,7 +60,7 @@ class Dropdown extends Component {
 						this.props.optionList.map((obj, i) => {
 
 							var on = (i === 0 && !this.state.selectedValue || this.state.selected === obj.value)? "on" : '';
-							
+
 							return (
 								<li key={i} className={on}><a href="#" onClick={this.handleSelect.bind(this, obj)}>{ obj.text }</a></li>
 							)

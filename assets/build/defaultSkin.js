@@ -62044,7 +62044,7 @@
 				};
 	
 				var categories = this.props.categories;
-				var category = this.props.category;
+				var category = this.props.board_category;
 				var categoryName = category ? _lodash2.default.find(categories, function (o) {
 					return o.value == category.itemId;
 				}).text : '없음';
@@ -79597,19 +79597,6 @@
 				return _react2.default.createElement(
 					'div',
 					{ className: 'board_header' },
-					function () {
-						if (Common.get('user').isManager) {
-							return _react2.default.createElement(
-								'div',
-								{ className: 'bd_manage_area' },
-								_react2.default.createElement(
-									'button',
-									{ type: 'button', className: 'xe-btn xe-btn-primary-outline bd_manage', onClick: _this2.handleManagement },
-									'\uAC8C\uC2DC\uAE00 \uAD00\uB9AC'
-								)
-							);
-						}
-					}(),
 					_react2.default.createElement(
 						'div',
 						{ className: 'bd_btn_area' },
@@ -91092,7 +91079,7 @@
 			var _this = _possibleConstructorReturn(this, (Dropdown.__proto__ || Object.getPrototypeOf(Dropdown)).call(this, props));
 	
 			_this.state = {
-				selectedText: '전체보기',
+				selectedText: '',
 				selectedValue: ''
 			};
 			return _this;
@@ -91101,6 +91088,7 @@
 		_createClass(Dropdown, [{
 			key: 'componentWillMount',
 			value: function componentWillMount() {
+				var _this2 = this;
 	
 				if (this.props.selected && this.props.optionList.length > 0) {
 					var defaultSelected = _lodash2.default.find(this.props.optionList, { value: this.props.selected });
@@ -91109,6 +91097,13 @@
 						text: defaultSelected.text,
 						value: defaultSelected.value
 					});
+				} else {
+					this.setState(function (s, p) {
+						s.selectedValue = _this2.props.optionList[0].value;
+						s.selectedText = _this2.props.optionList[0].text;
+					});
+	
+					this.props.handleSelect(this.props.optionList[0].value);
 				}
 			}
 		}, {
@@ -91129,7 +91124,7 @@
 		}, {
 			key: 'render',
 			value: function render() {
-				var _this2 = this;
+				var _this3 = this;
 	
 				return _react2.default.createElement(
 					'div',
@@ -91144,14 +91139,14 @@
 						{ className: 'xe-dropdown-menu' },
 						this.props.optionList.map(function (obj, i) {
 	
-							var on = i === 0 && !_this2.state.selectedValue || _this2.state.selected === obj.value ? "on" : '';
+							var on = i === 0 && !_this3.state.selectedValue || _this3.state.selected === obj.value ? "on" : '';
 	
 							return _react2.default.createElement(
 								'li',
 								{ key: i, className: on },
 								_react2.default.createElement(
 									'a',
-									{ href: '#', onClick: _this2.handleSelect.bind(_this2, obj) },
+									{ href: '#', onClick: _this3.handleSelect.bind(_this3, obj) },
 									obj.text
 								)
 							);
@@ -91898,7 +91893,7 @@
 		}, {
 			key: 'validateAndCreateBoard',
 			value: function validateAndCreateBoard(values, dispatch) {
-				values.slug = 'testSlug';
+				values.slug = 'NULL';
 	
 				if (!values.title || !values.title.replace(/ /gi, '')) {
 					XE.toast('warning', '제목을 입력하세요');
@@ -91950,7 +91945,7 @@
 	
 								if (categories.length > 0) {
 									if (!_lodash2.default.find(categories, { value: '' })) {
-										categories.unshift({ text: '전체보기', value: '' });
+										categories.unshift({ text: '카테고리 선택', value: '' });
 									}
 	
 									return _react2.default.createElement(
@@ -91963,26 +91958,6 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'write_title' },
-	
-								//TODO
-								function () {
-									if (false) {
-										return _react2.default.createElement(
-											'div',
-											{ className: 'temp_save' },
-											_react2.default.createElement(
-												'a',
-												{ href: '#', className: 'temp_save_num' },
-												_react2.default.createElement(
-													'strong',
-													null,
-													'3'
-												),
-												'\uAC1C\uC758 \uC784\uC2DC \uC800\uC7A5 \uAE00'
-											)
-										);
-									}
-								}(),
 								_react2.default.createElement(_reduxForm.Field, {
 									name: 'title',
 									type: 'text',
@@ -91999,21 +91974,6 @@
 						_react2.default.createElement(
 							'div',
 							{ className: 'write_footer' },
-							function () {
-								if (false) {
-									return _react2.default.createElement(
-										'div',
-										{ className: 'write_form_input' },
-										_react2.default.createElement(
-											'div',
-											{ className: 'xe-form-inline' },
-											_react2.default.createElement('input', { type: 'text', className: 'xe-form-control', placeholder: '\uC774\uB984', title: '\uC774\uB984' }),
-											_react2.default.createElement('input', { type: 'text', className: 'xe-form-control', placeholder: '\uBE44\uBC00\uBC88\uD638', title: '\uBE44\uBC00\uBC88\uD638' }),
-											_react2.default.createElement('input', { type: 'text', className: 'xe-form-control', placeholder: '\uC774\uBA54\uC77C \uC8FC\uC18C', title: '\uC774\uBA54\uC77C \uC8FC\uC18C' })
-										)
-									);
-								}
-							}(),
 							_react2.default.createElement(
 								'div',
 								{ className: 'write_form_btn nologin' },
@@ -92281,6 +92241,8 @@
 	
 	var _boardEditAction = __webpack_require__(972);
 	
+	var _boardListAction = __webpack_require__(315);
+	
 	var _EditForm = __webpack_require__(973);
 	
 	var _EditForm2 = _interopRequireDefault(_EditForm);
@@ -92297,7 +92259,7 @@
 	var mapStateToProps = function mapStateToProps(state) {
 		return {
 			item: state.edit.item,
-			categories: state.edit.categories,
+			categories: state.list.categories,
 			loading: state.edit.loading,
 			err: state.edit.error,
 			updated: state.edit.updated
@@ -92320,6 +92282,9 @@
 			},
 			initializeForm: function initializeForm(data) {
 				dispatch((0, _reduxForm.initialize)(form, data));
+			},
+			fetchCategory: function fetchCategory() {
+				dispatch((0, _boardListAction.fetchCategory)());
 			}
 		};
 	};
@@ -92500,6 +92465,7 @@
 				var id = this.context.router.params.id;
 				this.props.editReset();
 				this.props.fetchEditView(id);
+				this.props.fetchCategory();
 			}
 		}, {
 			key: 'componentWillReceiveProps',
@@ -92568,6 +92534,8 @@
 					return _react2.default.createElement(_Spinner2.default, null);
 				}
 	
+				console.log();
+	
 				return _react2.default.createElement(
 					'div',
 					{ className: 'board_write' },
@@ -92582,16 +92550,16 @@
 							function () {
 								var categories = _lodash2.default.assign([], _this2.props.categories);
 	
-								if (categories.length > 0) {
+								if (categories.length > 0 && _this2.props.item) {
 	
 									if (!_lodash2.default.find(categories, { value: '' })) {
-										categories.unshift({ text: '전체보기', value: '' });
+										categories.unshift({ text: '카테고리 선택', value: '' });
 									}
 	
 									return _react2.default.createElement(
 										'div',
 										{ className: 'write_category' },
-										_react2.default.createElement(_Dropdown2.default, { optionList: categories, handleSelect: _this2.handleSelect, selected: parseInt(_this2.props.item.category.itemId, 10) })
+										_react2.default.createElement(_Dropdown2.default, { optionList: categories, handleSelect: _this2.handleSelect, selected: parseInt(_this2.props.item.board_category.itemId, 10) })
 									);
 								}
 							}(),
@@ -92618,21 +92586,6 @@
 						_react2.default.createElement(
 							'div',
 							{ className: 'write_footer' },
-							function () {
-								if (false) {
-									return _react2.default.createElement(
-										'div',
-										{ className: 'write_form_input' },
-										_react2.default.createElement(
-											'div',
-											{ className: 'xe-form-inline' },
-											_react2.default.createElement('input', { type: 'text', className: 'xe-form-control', placeholder: '\uC774\uB984', title: '\uC774\uB984' }),
-											_react2.default.createElement('input', { type: 'text', className: 'xe-form-control', placeholder: '\uBE44\uBC00\uBC88\uD638', title: '\uBE44\uBC00\uBC88\uD638' }),
-											_react2.default.createElement('input', { type: 'text', className: 'xe-form-control', placeholder: '\uC774\uBA54\uC77C \uC8FC\uC18C', title: '\uC774\uBA54\uC77C \uC8FC\uC18C' })
-										)
-									);
-								}
-							}(),
 							_react2.default.createElement(
 								'div',
 								{ className: 'write_form_btn nologin' },
@@ -92824,7 +92777,7 @@
 	
 	var deleteBoardEpic = exports.deleteBoardEpic = function deleteBoardEpic(action$) {
 		return action$.ofType(DELETE_BOARD).mergeMap(function (action) {
-			return (0, _ajax.ajax)({ url: Common.get('apis').delete.replace('[id]', action.id), method: 'DELETE', headers: Common.get('ajaxHeaders') }).map(function (data) {
+			return (0, _ajax.ajax)({ url: Common.get('apis').destroy.replace('[id]', action.id), method: 'DELETE', headers: Common.get('ajaxHeaders') }).map(function (data) {
 				return deleteBoardSuccess(data);
 			}).catch(function (error) {
 				return _rxjs.Observable.of(deleteBoardFailure(error));

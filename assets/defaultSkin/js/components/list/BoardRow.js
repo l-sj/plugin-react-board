@@ -35,7 +35,7 @@ class BoardRow extends React.Component {
 		};
 
 		const categories = this.props.categories;
-		const category = this.props.category;
+		const category = this.props.board_category;
 		const categoryName = category? _.find(categories, o => ( o.value == category.itemId )).text : '없음';
 
 		return (
