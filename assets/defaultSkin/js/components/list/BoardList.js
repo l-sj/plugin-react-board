@@ -45,8 +45,8 @@ export default class BoardList extends React.Component {
 			return <Spinner />
 		}
 
-		const page = this.context.router.location.query.page || 1;
-
+		const page = this.context.router.location.query.page || "1";
+		
 		return (
 			<div>
 				<BoardListHeaderContainer />

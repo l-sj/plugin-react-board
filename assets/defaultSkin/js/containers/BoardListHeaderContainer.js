@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SHOW_MANAGEMENT, HIDE_MANAGEMENT } from './../actions/boardListAction';
+import { SHOW_MANAGEMENT, HIDE_MANAGEMENT, fetchBoardIndex } from './../actions/boardListAction';
 import { SHOW_SEARCH, HIDE_SEARCH } from './../actions/searchAction';
 import BoardListHeader from './../components/list/BoardListHeader';
 
@@ -9,13 +9,14 @@ const mapStateToProps = (state) => {
 		categories: state.list.categories,
 		managementStatus: state.list.managementStatus,
 		searchStatus: state.search.searchStatus,
+		page: state.list.index.paginate.currentPage
 	};
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		changeCategory: () => {
-
+		changeCategory: (query) => {
+			dispatch(fetchBoardIndex(query));
 		},
 		showManagement: () => {
 			dispatch({

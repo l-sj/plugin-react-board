@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 class Pagination extends React.Component {
 
 	static propTypes = {
-		page: React.PropTypes.number
+		page: React.PropTypes.string
 	};
 
 	static contextTypes = {
@@ -14,6 +14,7 @@ class Pagination extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.fetchBoardIndex = ::this.fetchBoardIndex;
 		this.requestPrevBlock = ::this.requestPrevBlock;
 		this.requestNextBlock = ::this.requestNextBlock;
 	}
@@ -55,7 +56,7 @@ class Pagination extends React.Component {
 		let blockStartPage = paginationInfo.blockStartPage;
 		let prevPage = blockStartPage - 1;
 
-		this.props.fetchBoardIndex({pageNum: prevPage});
+		this.fetchBoardIndex({pageNum: prevPage});
 	}
 
 	requestNextBlock() {
@@ -64,7 +65,7 @@ class Pagination extends React.Component {
 		let blockStartPage = paginationInfo.blockStartPage;
 		let nextPage = blockStartPage + perPageBlockCount;
 
-		this.props.fetchBoardIndex({pageNum: nextPage});
+		this.fetchBoardIndex({pageNum: nextPage});
 	}
 
 	renderPrevPage() {
@@ -107,8 +108,12 @@ class Pagination extends React.Component {
 	}
 
 	fetchBoardIndex(pageNum, e) {
-		e.preventDefault();
-		// this.context.router.push('/');
+		if(e) {
+			e.preventDefault();
+		}
+
+		// let location = this.context.router.location;
+		// this.context.router.push({pathname: location.pathname, page: pageNum});
 		this.props.fetchBoardIndex({pageNum});
 	}
 
@@ -139,6 +144,7 @@ class Pagination extends React.Component {
 									pages.push(<strong key={i}>{i}</strong>)
 								} else {
 									pages.push(<a href="#" key={i} onClick={ this.fetchBoardIndex.bind(this, i) }>{i}</a>);
+									// pages.push(<a href={`#/?page=${i}`} key={i} >{i}</a>);
 								}
 
 								if(lastPage === i) {

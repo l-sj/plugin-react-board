@@ -31111,7 +31111,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.fetchBoardIndexFailure = exports.fetchBoardIndexSuccess = exports.fetchBoardIndex = exports.fetchCategoryFailure = exports.fetchCategorySuccess = exports.fetchCategory = exports.fetchCategoryEpic = exports.fetchBoardIndexEpic = exports.FETCH_CATEGORY_FAILURE = exports.FETCH_CATEGORY_SUCCESS = exports.FETCH_CATEGORY = exports.RESET_DELETED_BOARD = exports.DELETE_BOARD_FAILURE = exports.DELETE_BOARD_SUCCESS = exports.DELETE_BOARD = exports.RESET_BOARD_FIELDS = exports.VALIDATE_BOARD_FIELDS_FAILURE = exports.VALIDATE_BOARD_FIELDS_SUCCESS = exports.VALIDATE_BOARD_FIELDS = exports.RESET_NEW_BOARD = exports.CREATE_BOARD_FAILURE = exports.CREATE_BOARD_SUCCESS = exports.CREATE_BOARD = exports.HIDE_MANAGEMENT = exports.SHOW_MANAGEMENT = exports.UNCHECK_ROW = exports.CHECK_ROW = exports.UNCHECK_ALL = exports.CHECK_ALL = exports.FETCH_BOARD_INDEX_FAILURE = exports.FETCH_BOARD_INDEX_SUCCESS = exports.FETCH_BOARD_INDEX = undefined;
+	exports.fetchBoardIndexFailure = exports.fetchBoardIndexSuccess = exports.fetchBoardIndex = exports.fetchCategoryFailure = exports.fetchCategorySuccess = exports.fetchCategory = exports.fetchCategoryEpic = exports.fetchBoardIndexEpic = exports.FETCH_CATEGORY_FAILURE = exports.FETCH_CATEGORY_SUCCESS = exports.FETCH_CATEGORY = exports.RESET_DELETED_BOARD = exports.DELETE_BOARD_FAILURE = exports.DELETE_BOARD_SUCCESS = exports.DELETE_BOARD = exports.HIDE_MANAGEMENT = exports.SHOW_MANAGEMENT = exports.UNCHECK_ROW = exports.CHECK_ROW = exports.UNCHECK_ALL = exports.CHECK_ALL = exports.FETCH_BOARD_INDEX_FAILURE = exports.FETCH_BOARD_INDEX_SUCCESS = exports.FETCH_BOARD_INDEX = undefined;
 	
 	var _rxjs = __webpack_require__(316);
 	
@@ -31130,18 +31130,6 @@
 	
 	var SHOW_MANAGEMENT = exports.SHOW_MANAGEMENT = 'SHOW_MANAGEMENT';
 	var HIDE_MANAGEMENT = exports.HIDE_MANAGEMENT = 'HIDE_MANAGEMENT';
-	
-	//Create new board
-	var CREATE_BOARD = exports.CREATE_BOARD = 'CREATE_BOARD';
-	var CREATE_BOARD_SUCCESS = exports.CREATE_BOARD_SUCCESS = 'CREATE_BOARD_SUCCESS';
-	var CREATE_BOARD_FAILURE = exports.CREATE_BOARD_FAILURE = 'CREATE_BOARD_FAILURE';
-	var RESET_NEW_BOARD = exports.RESET_NEW_BOARD = 'RESET_NEW_BOARD';
-	
-	//Validate board fields like Title, Categries on the server
-	var VALIDATE_BOARD_FIELDS = exports.VALIDATE_BOARD_FIELDS = 'VALIDATE_BOARD_FIELDS';
-	var VALIDATE_BOARD_FIELDS_SUCCESS = exports.VALIDATE_BOARD_FIELDS_SUCCESS = 'VALIDATE_BOARD_FIELDS_SUCCESS';
-	var VALIDATE_BOARD_FIELDS_FAILURE = exports.VALIDATE_BOARD_FIELDS_FAILURE = 'VALIDATE_BOARD_FIELDS_FAILURE';
-	var RESET_BOARD_FIELDS = exports.RESET_BOARD_FIELDS = 'RESET_BOARD_FIELDS';
 	
 	//Delete board
 	var DELETE_BOARD = exports.DELETE_BOARD = 'DELETE_BOARD';
@@ -61823,7 +61811,7 @@
 					return _react2.default.createElement(_Spinner2.default, null);
 				}
 	
-				var page = this.context.router.location.query.page || 1;
+				var page = this.context.router.location.query.page || "1";
 	
 				return _react2.default.createElement(
 					'div',
@@ -79413,13 +79401,16 @@
 		return {
 			categories: state.list.categories,
 			managementStatus: state.list.managementStatus,
-			searchStatus: state.search.searchStatus
+			searchStatus: state.search.searchStatus,
+			page: state.list.index.paginate.currentPage
 		};
 	};
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		return {
-			changeCategory: function changeCategory() {},
+			changeCategory: function changeCategory(query) {
+				dispatch((0, _boardListAction.fetchBoardIndex)(query));
+			},
 			showManagement: function showManagement() {
 				dispatch({
 					type: _boardListAction.SHOW_MANAGEMENT,
@@ -79545,6 +79536,7 @@
 			// this.handleManagement = ::this.handleManagement;
 			var _this = _possibleConstructorReturn(this, (BoardListHeader.__proto__ || Object.getPrototypeOf(BoardListHeader)).call(this, props));
 	
+			_this.handleCategory = _this.handleCategory.bind(_this);
 			_this.handleSearch = _this.handleSearch.bind(_this);
 			return _this;
 		}
@@ -79553,18 +79545,10 @@
 			key: 'handleCategory',
 			value: function handleCategory(value) {
 				if (value) {
+					this.props.changeCategory({ categoryItemId: value });
 					console.log('value', value);
 				} else {
-					//전체보기
-				}
-			}
-		}, {
-			key: 'handleOrdering',
-			value: function handleOrdering(value) {
-				if (value) {
-					console.log('value', value);
-				} else {
-					//전체보기
+					// this.props.changeCategory();
 				}
 			}
 		}, {
@@ -79576,23 +79560,10 @@
 					this.props.showSearch();
 				}
 			}
-	
-			// handleManagement(e) {
-			// 	let managementStatus = this.props.managementStatus;
-			//
-			// 	if(managementStatus === 'block') {
-			// 		this.props.hideManagement();
-			// 	} else {
-			// 		this.props.showManagement();
-			// 	}
-			// }
-	
 		}, {
 			key: 'render',
 			value: function render() {
 				var _this2 = this;
-	
-				var orderingItems = [{ text: '전체보기', value: '' }, { text: '최신순', value: 1 }, { text: '조회순', value: 2 }, { text: '북마크', value: 3 }];
 	
 				return _react2.default.createElement(
 					'div',
@@ -79603,48 +79574,42 @@
 						_react2.default.createElement(
 							'ul',
 							null,
-							_react2.default.createElement(
-								'li',
-								null,
-								_react2.default.createElement(
-									'a',
-									{ href: '#', className: 'bd_search', onClick: this.handleSearch },
-									_react2.default.createElement(
-										'span',
-										{ className: 'xe-sr-only' },
-										'\uAC80\uC0C9'
-									),
-									_react2.default.createElement('i', { className: 'xi-magnifier' })
-								)
-							),
-							_react2.default.createElement(
-								'li',
-								null,
-								_react2.default.createElement(
-									'a',
-									{ href: '#/write' },
-									_react2.default.createElement(
-										'span',
-										{ className: 'xe-sr-only' },
-										'\uAC8C\uC2DC\uD310 \uAE00\uC4F0\uAE30'
-									),
-									_react2.default.createElement('i', { className: 'xi-pen-o' })
-								)
-							),
-							_react2.default.createElement(
-								'li',
-								null,
-								_react2.default.createElement(
-									'a',
-									{ href: Common.get('links').settings },
-									_react2.default.createElement(
-										'span',
-										{ className: 'xe-sr-only' },
-										'\uAC8C\uC2DC\uD310 \uC124\uC815'
-									),
-									_react2.default.createElement('i', { className: 'xi-cog' })
-								)
-							)
+							function () {
+								if (Common.get('user').id) {
+									return _react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: '#/write' },
+											_react2.default.createElement(
+												'span',
+												{ className: 'xe-sr-only' },
+												'\uAC8C\uC2DC\uD310 \uAE00\uC4F0\uAE30'
+											),
+											_react2.default.createElement('i', { className: 'xi-pen-o' })
+										)
+									);
+								}
+							}(),
+							function () {
+								if (Common.get('user').isManager) {
+									return _react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'a',
+											{ href: Common.get('links').settings },
+											_react2.default.createElement(
+												'span',
+												{ className: 'xe-sr-only' },
+												'\uAC8C\uC2DC\uD310 \uC124\uC815'
+											),
+											_react2.default.createElement('i', { className: 'xi-cog' })
+										)
+									);
+								}
+							}()
 						)
 					),
 					_react2.default.createElement(
@@ -79661,208 +79626,8 @@
 	
 								return _react2.default.createElement(_Dropdown2.default, { optionList: categories, handleSelect: _this2.handleCategory.bind(_this2) });
 							}
-						}(),
-						_react2.default.createElement(_Dropdown2.default, { optionList: orderingItems, handleSelect: this.handleOrdering.bind(this) })
-					),
-					function () {
-						if (false) {
-							return _react2.default.createElement(
-								'div',
-								{ className: 'bd_manage_detail', style: { display: _this2.props.managementStatus } },
-								_react2.default.createElement(
-									'div',
-									{ className: 'xe-row' },
-									_react2.default.createElement(
-										'div',
-										{ className: 'xe-col-sm-6' },
-										_react2.default.createElement(
-											'div',
-											{ className: 'xe-row' },
-											_react2.default.createElement(
-												'div',
-												{ className: 'xe-col-sm-3' },
-												_react2.default.createElement(
-													'label',
-													{ className: 'xe-control-label' },
-													'\uC120\uD0DD\uAE00 \uBCF5\uC0AC'
-												)
-											),
-											_react2.default.createElement(
-												'div',
-												{ className: 'xe-col-sm-9' },
-												_react2.default.createElement(
-													'div',
-													{ className: 'xe-form-inline' },
-													_react2.default.createElement(
-														'div',
-														{ className: 'xe-dropdown' },
-														_react2.default.createElement(
-															'button',
-															{ className: 'xe-btn', type: 'button', 'data-toggle': 'xe-dropdown', 'aria-expanded': 'false' },
-															'\uAC8C\uC2DC\uD3101'
-														),
-														_react2.default.createElement(
-															'ul',
-															{ className: 'xe-dropdown-menu' },
-															_react2.default.createElement(
-																'li',
-																{ className: 'on' },
-																_react2.default.createElement(
-																	'a',
-																	{ href: '#' },
-																	'\uAC8C\uC2DC\uD3101'
-																)
-															),
-															_react2.default.createElement(
-																'li',
-																null,
-																_react2.default.createElement(
-																	'a',
-																	{ href: '#' },
-																	'\uAC8C\uC2DC\uD3102'
-																)
-															)
-														)
-													),
-													_react2.default.createElement(
-														'button',
-														{ type: 'button', className: 'xe-btn xe-btn-primary-outline' },
-														'\uBCF5\uC0AC'
-													)
-												)
-											)
-										)
-									)
-								),
-								_react2.default.createElement(
-									'div',
-									{ className: 'xe-row' },
-									_react2.default.createElement(
-										'div',
-										{ className: 'xe-col-sm-6' },
-										_react2.default.createElement(
-											'div',
-											{ className: 'xe-row' },
-											_react2.default.createElement(
-												'div',
-												{ className: 'xe-col-sm-3' },
-												_react2.default.createElement(
-													'label',
-													{ className: 'xe-control-label' },
-													'\uC120\uD0DD\uAE00 \uC774\uB3D9'
-												)
-											),
-											_react2.default.createElement(
-												'div',
-												{ className: 'xe-col-sm-9' },
-												_react2.default.createElement(
-													'div',
-													{ className: 'xe-form-inline' },
-													_react2.default.createElement(
-														'div',
-														{ className: 'xe-dropdown' },
-														_react2.default.createElement(
-															'button',
-															{ className: 'xe-btn', type: 'button', 'data-toggle': 'xe-dropdown', 'aria-expanded': 'false' },
-															'\uAC8C\uC2DC\uD3101'
-														),
-														_react2.default.createElement(
-															'ul',
-															{ className: 'xe-dropdown-menu' },
-															_react2.default.createElement(
-																'li',
-																{ className: 'on' },
-																_react2.default.createElement(
-																	'a',
-																	{ href: '#' },
-																	'\uAC8C\uC2DC\uD3101'
-																)
-															),
-															_react2.default.createElement(
-																'li',
-																null,
-																_react2.default.createElement(
-																	'a',
-																	{ href: '#' },
-																	'\uAC8C\uC2DC\uD3102'
-																)
-															)
-														)
-													),
-													_react2.default.createElement(
-														'button',
-														{ type: 'button', className: 'xe-btn xe-btn-primary-outline' },
-														'\uC774\uB3D9'
-													)
-												)
-											)
-										)
-									)
-								),
-								_react2.default.createElement(
-									'div',
-									{ className: 'xe-row' },
-									_react2.default.createElement(
-										'div',
-										{ className: 'xe-col-sm-6' },
-										_react2.default.createElement(
-											'div',
-											{ className: 'xe-row' },
-											_react2.default.createElement(
-												'div',
-												{ className: 'xe-col-sm-3' },
-												_react2.default.createElement(
-													'label',
-													{ className: 'xe-control-label' },
-													'\uD734\uC9C0\uD1B5'
-												)
-											),
-											_react2.default.createElement(
-												'div',
-												{ className: 'xe-col-sm-9' },
-												_react2.default.createElement(
-													'a',
-													{ href: '#', className: 'xe-btn-link' },
-													'\uAC8C\uC2DC\uAE00\uC744 \uD734\uC9C0\uD1B5\uC73C\uB85C \uC774\uB3D9\uD569\uB2C8\uB2E4.'
-												)
-											)
-										)
-									)
-								),
-								_react2.default.createElement(
-									'div',
-									{ className: 'xe-row' },
-									_react2.default.createElement(
-										'div',
-										{ className: 'xe-col-sm-6' },
-										_react2.default.createElement(
-											'div',
-											{ className: 'xe-row' },
-											_react2.default.createElement(
-												'div',
-												{ className: 'xe-col-sm-3' },
-												_react2.default.createElement(
-													'label',
-													{ className: 'xe-control-label' },
-													'\uC0AD\uC81C'
-												)
-											),
-											_react2.default.createElement(
-												'div',
-												{ className: 'xe-col-sm-9' },
-												_react2.default.createElement(
-													'a',
-													{ href: '#', className: 'xe-btn-link' },
-													'\uAC8C\uC2DC\uAE00\uC744 \uC0AD\uC81C\uD569\uB2C8\uB2E4.'
-												)
-											)
-										)
-									)
-								)
-							);
-						}
-					},
-					_react2.default.createElement(_SearchContainer2.default, null)
+						}()
+					)
 				);
 			}
 		}]);
@@ -91293,6 +91058,7 @@
 	
 			var _this = _possibleConstructorReturn(this, (Pagination.__proto__ || Object.getPrototypeOf(Pagination)).call(this, props));
 	
+			_this.fetchBoardIndex = _this.fetchBoardIndex.bind(_this);
 			_this.requestPrevBlock = _this.requestPrevBlock.bind(_this);
 			_this.requestNextBlock = _this.requestNextBlock.bind(_this);
 			return _this;
@@ -91338,7 +91104,7 @@
 				var blockStartPage = paginationInfo.blockStartPage;
 				var prevPage = blockStartPage - 1;
 	
-				this.props.fetchBoardIndex({ pageNum: prevPage });
+				this.fetchBoardIndex({ pageNum: prevPage });
 			}
 		}, {
 			key: 'requestNextBlock',
@@ -91348,7 +91114,7 @@
 				var blockStartPage = paginationInfo.blockStartPage;
 				var nextPage = blockStartPage + perPageBlockCount;
 	
-				this.props.fetchBoardIndex({ pageNum: nextPage });
+				this.fetchBoardIndex({ pageNum: nextPage });
 			}
 		}, {
 			key: 'renderPrevPage',
@@ -91426,8 +91192,12 @@
 		}, {
 			key: 'fetchBoardIndex',
 			value: function fetchBoardIndex(pageNum, e) {
-				e.preventDefault();
-				// this.context.router.push('/');
+				if (e) {
+					e.preventDefault();
+				}
+	
+				// let location = this.context.router.location;
+				// this.context.router.push({pathname: location.pathname, page: pageNum});
 				this.props.fetchBoardIndex({ pageNum: pageNum });
 			}
 		}, {
@@ -91469,6 +91239,7 @@
 										{ href: '#', key: i, onClick: _this2.fetchBoardIndex.bind(_this2, i) },
 										i
 									));
+									// pages.push(<a href={`#/?page=${i}`} key={i} >{i}</a>);
 								}
 	
 								if (lastPage === i) {
@@ -91533,7 +91304,7 @@
 	}(_react2.default.Component);
 	
 	Pagination.propTypes = {
-		page: _react2.default.PropTypes.number
+		page: _react2.default.PropTypes.string
 	};
 	Pagination.contextTypes = {
 		router: _react2.default.PropTypes.object
@@ -91977,11 +91748,6 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'write_form_btn nologin' },
-								_react2.default.createElement(
-									'a',
-									{ href: '#', className: 'bd_btn btn_preview' },
-									'\uBBF8\uB9AC\uBCF4\uAE30'
-								),
 								_react2.default.createElement(
 									'button',
 									{
@@ -92589,11 +92355,6 @@
 							_react2.default.createElement(
 								'div',
 								{ className: 'write_form_btn nologin' },
-								_react2.default.createElement(
-									'a',
-									{ href: '#', className: 'bd_btn btn_preview' },
-									'\uBBF8\uB9AC\uBCF4\uAE30'
-								),
 								_react2.default.createElement(
 									'button',
 									{ type: 'submit', className: 'bd_btn btn_submit' },
@@ -93271,7 +93032,7 @@
 	var INITIAL_STATE = {
 		index: {
 			paginate: {
-				currentPage: 0,
+				currentPage: 1,
 				from: 0,
 				lastPage: 0,
 				nextPageUrl: '',

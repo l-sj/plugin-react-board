@@ -26,12 +26,12 @@ export const fetchView = (id) => ({
 export const fetchViewSuccess = (data) => ({
 	type: FETCH_VIEW_SUCCESS,
 	payload: data.response
-})
+});
 
 export const fetchViewFailure = (error) => ({
 	type: FETCH_VIEW_FAILURE,
 	payload: error.xhr.response
-})
+});
 
 export const deleteBoardEpic = (action$) =>
 	action$.ofType(DELETE_BOARD)
@@ -44,14 +44,14 @@ export const deleteBoardEpic = (action$) =>
 export const deleteBoard = (id) => ({
 	type: DELETE_BOARD,
 	id
-})
+});
 
 export const deleteBoardSuccess = (data) => ({
 	type: DELETE_BOARD_SUCCESS,
 	payload: data.response
-})
+});
 
 export const deleteBoardFailure = (error) => ({
 	type: DELETE_BOARD_FAILURE,
 	payload: error.xhr.response
-})
+});

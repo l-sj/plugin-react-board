@@ -10,7 +10,7 @@ import {
 const INITIAL_STATE = {
 	index: {
 		paginate: {
-			currentPage: 0,
+			currentPage: 1,
 			from: 0,
 			lastPage: 0,
 			nextPageUrl: '',

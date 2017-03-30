@@ -1335,6 +1335,10 @@
   background-color: #696e7a;
   color: #fff;
 }
+/* custom */
+.write_footer .write_form_btn button.btn_submit {
+  border: none;
+}
 .write_footer .write_form_btn .btn_submit:hover,
 .write_footer .write_form_btn .btn_submit:focus {
   border-color: #399cf7;

@@ -110,7 +110,6 @@ class WriteForm extends Component {
 
 					<div className="write_footer">
 						<div className="write_form_btn nologin">
-							<a href="#" className="bd_btn btn_preview">미리보기</a>
 							<button
 								type="submit"
 								className="bd_btn btn_submit"

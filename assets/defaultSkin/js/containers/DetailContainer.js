@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		deleteBoard: (id) => {
 			dispatch(deleteBoard(id));
-		}
+		},
 	}
 }
 
