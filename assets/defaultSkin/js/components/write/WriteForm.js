@@ -6,6 +6,7 @@ import renderTextArea from './renderTextArea';
 import CKEditor from './../CKEditor';
 import { createBoardContents } from './../../actions/boardWriteAction';
 import _ from 'lodash';
+import { parseErrorMessage } from 'utils';
 
 import Dropdown from './../Dropdown';
 
@@ -65,7 +66,9 @@ class WriteForm extends Component {
 		const { handleSubmit, submitting, onSubmit } = this.props;
 
 		if(this.props.err) {
-			XE.toast('', this.props.err.message);
+			for(let message of parseErrorMessage(this.props.err)) {
+				XE.toast('', message);
+			}
 		}
 		
 		if(this.props.loading) {

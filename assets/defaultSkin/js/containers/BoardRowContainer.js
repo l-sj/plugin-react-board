@@ -10,20 +10,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-	return {
-		handleCheck: (id) => {
-			dispatch({
-				id,
-				type: CHECK_ROW,
-			});
-		},
-		handleUnCheck: (id) => {
-			dispatch({
-				id,
-				type: UNCHECK_ROW,
-			});
-		}
-	}
+	return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardRow);

@@ -20,10 +20,10 @@ export default function(state = INITIAL_STATE, action) {
 			return { ...state, loading: true, error: null, deleted: false };
 
 		case FETCH_VIEW_SUCCESS:
-			return { ...state, item: action.payload.item , loading: false, error: null}//Object.assign({}, state, action.payload);
+			return { ...state, item: action.payload.item , loading: false, error: null}
 
 		case FETCH_VIEW_FAILURE:
-			return { ...state, loading: false, error: action.payload}//Object.assign({}, state, action.payload);
+			return { ...state, loading: false, error: action.payload}
 
 		case DELETE_BOARD:
 			return { ...state }

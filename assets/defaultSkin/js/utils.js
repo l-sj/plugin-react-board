@@ -28,3 +28,23 @@ export const objectToQuerystring = (obj) => {
 		return [str, delimiter, key, '=', val].join('');
 	}, '');
 }
+
+export const parseErrorMessage = (error) => {
+	switch(error.status) {
+		case 422:
+			const messages = [];
+			const response = error.xhr.response;
+
+			for(let prop in response) {
+				for(let message of response[prop]) {
+					messages.push(message);
+				}
+			}
+
+			return messages;
+			break;
+
+		default :
+			return error.message;
+	}
+}

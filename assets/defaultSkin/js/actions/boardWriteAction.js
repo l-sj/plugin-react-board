@@ -25,20 +25,10 @@ export const createBoardContentsSuccess = (data) => ({
 	payload: data.response
 });
 
-export const createBoardContentsFailure = (error) => {
-
-	console.log('error', error, 1);
-
-	return {
-		type: ADD_CONTENTS_FAILURE,
-		payload: error.xhr.response
-	}
-};
-
-// export const createBoardContentsFailure = (error) => ({
-// 	type: ADD_CONTENTS_FAILURE,
-// 	payload: error.xhr.response
-// });
+export const createBoardContentsFailure = (error) => ({
+	type: ADD_CONTENTS_FAILURE,
+	payload: error
+});
 
 export const resetWriteForm = () => ({
 	type: DETAIL_RESET

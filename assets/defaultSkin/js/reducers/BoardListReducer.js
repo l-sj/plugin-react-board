@@ -2,9 +2,6 @@ import _ from 'lodash';
 import {
 	FETCH_CATEGORY, FETCH_CATEGORY_SUCCESS, FETCH_CATEGORY_FAILURE,
 	FETCH_BOARD_INDEX, FETCH_BOARD_INDEX_SUCCESS, FETCH_BOARD_INDEX_FAILURE,
-	CHECK_ALL, UNCHECK_ALL, CHECK_ROW, UNCHECK_ROW,
-	SHOW_MANAGEMENT, HIDE_MANAGEMENT,
-	SHOW_SEARCH, HIDE_SEARCH
 } from '../actions/boardListAction';
 
 const INITIAL_STATE = {
@@ -78,66 +75,6 @@ export default function(state = INITIAL_STATE, action) {
 			});
 
 			return { ...state, boardList, paginate, checkedMap, checkedAll: false, error:null, loading: false, };
-
-		case CHECK_ALL:
-			var checkedMap = {};
-			var boardList = state.boardList;
-
-			boardList.map((obj, i) => {
-				checkedMap[obj.id] = true;
-			});
-
-			return { ...state, checkedMap, checkedAll: true};
-
-		case UNCHECK_ALL:
-			var checkedMap = {};
-			var boardList = state.boardList;
-
-			boardList.map((obj, i) => {
-				checkedMap[obj.id] = false;
-			});
-
-			return { ...state, checkedMap, checkedAll: false};
-
-		case CHECK_ROW:
-			var checkedMap = {};
-			var stateCheckedMap = state.checkedMap;
-			var listLen = state.boardList.length;
-			var checkedAll = false;
-
-			stateCheckedMap[action.id] = true;
-
-			checkedMap = Object.assign({}, checkedMap, stateCheckedMap);
-
-			console.log(listLen, _.filter(stateCheckedMap, (v, k) => { return v === true }).length);
-
-			if(listLen !== 0 && listLen === _.filter(stateCheckedMap, (v, k) => { return v === true }).length) {
-				checkedAll = true
-			}
-
-			return { ...state, checkedMap, checkedAll};
-
-		case UNCHECK_ROW:
-			var checkedMap = {};
-			var stateCheckedMap = state.checkedMap;
-
-			stateCheckedMap[action.id] = false;
-
-			checkedMap = Object.assign({}, checkedMap, stateCheckedMap);
-
-			return { ...state, checkedMap, checkedAll: false};
-
-		case SHOW_MANAGEMENT:
-			return { ...state, managementStatus: action.display }
-
-		case HIDE_MANAGEMENT:
-			return { ...state, managementStatus: action.display }
-
-		case SHOW_SEARCH:
-			return { ...state, search: { searchStatus: action.display }}
-
-		case HIDE_SEARCH:
-			return { ...state, searchStatus: action.display }
 
 		default:
 			return state;

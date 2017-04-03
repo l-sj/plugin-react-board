@@ -22,16 +22,6 @@ const mapDispatchToProps = (dispatch) => {
 		fetchBoardIndex: (queryJSON) => {
 			dispatch(fetchBoardIndex(queryJSON));
 		},
-		handleCheckAll: () => {
-			dispatch({
-				type: CHECK_ALL,
-			});
-		},
-		handleUnCheckAll: () => {
-			dispatch({
-				type: UNCHECK_ALL,
-			});
-		}
 	}
 }
 

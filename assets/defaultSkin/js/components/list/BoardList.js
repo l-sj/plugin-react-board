@@ -18,25 +18,11 @@ export default class BoardList extends React.Component {
 
 	constructor(props) {
 		super(props);
-
-		this.onChangeCheckAll = this.onChangeCheckAll.bind(this);
 	}
 
 	componentWillMount() {
-		let currentPage = this.props.paginate.currentPage;
-
 		this.props.fetchCategory();
 		this.props.fetchBoardIndex(this.props.query);
-	}
-
-	onChangeCheckAll(e) {
-		let target = e.target.checked;
-
-		if(target) {
-			this.props.handleCheckAll();
-		} else {
-			this.props.handleUnCheckAll();
-		}
 	}
 
 	render() {

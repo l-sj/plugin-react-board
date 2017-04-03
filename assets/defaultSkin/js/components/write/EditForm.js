@@ -6,6 +6,7 @@ import renderField from './renderField';
 import renderTextArea from './renderTextArea';
 import CKEditor from './../CKEditor';
 import _ from 'lodash';
+import { parseErrorMessage } from 'utils';
 
 import Dropdown from './../Dropdown';
 
@@ -86,7 +87,9 @@ class EditForm extends Component {
 		const id = this.context.router.params.id;
 
 		if(this.props.err) {
-			XE.toast('', this.props.err.message);
+			for(let message of parseErrorMessage(this.props.err)) {
+				XE.toast('', message);
+			}
 		}
 
 		if(this.props.loading) {

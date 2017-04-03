@@ -11,37 +11,19 @@ class BoardRow extends React.Component {
 
 	constructor(props) {
 		super(props);
-
-		this.handleCheckRow = ::this.handleCheckRow;
-	}
-
-	handleCheckRow(e) {
-		let target = e.target;
-		let checked = target.checked;
-
-		if(checked) {
-			this.props.handleCheck(this.props.id);
-		} else {
-			this.props.handleUnCheck(this.props.id);
-		}
 	}
 
 	render() {
-		const favoriteConfig = {
-			id: this.props.id,
-			favorite: this.props.favorite,
-		};
-
 		const categories = this.props.categories;
 		const category = this.props.board_category;
 
-		const categoryName = this.props.hasOwnProperty('board_category')? this.props.board_category.category_item.trans_word : '';
+		const categoryName = category? category.category_item.trans_word : '';
 
 		return (
 			<tr>
 				{
 					(() => {
-						if(this.props.categories.length > 0) {
+						if(categories.length > 0) {
 							return (
 								<td className="category xe-hidden-xs">{ categoryName }</td>
 							)
@@ -51,7 +33,7 @@ class BoardRow extends React.Component {
 				<td className="title">
 					{
 						(() => {
-							if(this.props.categories.length > 0) {
+							if(categories.length > 0) {
 								return (
 									<span className="xe-badge xe-primary-outline xe-visible-xs-inline-block">{ categoryName }</span>
 								)
