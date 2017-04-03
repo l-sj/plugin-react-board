@@ -62030,6 +62030,9 @@
 	
 				var categories = this.props.categories;
 				var category = this.props.board_category;
+	
+				var categoryName = this.props.hasOwnProperty('board_category') ? this.props.board_category.category_item.trans_word : '';
+	
 				return _react2.default.createElement(
 					'tr',
 					null,
@@ -62054,45 +62057,11 @@
 								);
 							}
 						}(),
-						function () {
-							//TODO secret 노출 조건 확인
-							if (_this2.props.secret) {
-								return _react2.default.createElement(
-									'span',
-									{ className: 'bd_ico_lock' },
-									_react2.default.createElement('i', { className: 'xi-lock' }),
-									_react2.default.createElement(
-										'span',
-										{ className: 'xe-sr-only' },
-										'secret'
-									)
-								);
-							}
-						}(),
 						_react2.default.createElement(
 							_reactRouter.Link,
 							{ to: '/detail/' + this.props.id, className: 'title_text' },
 							this.props.title
 						),
-						_react2.default.createElement(
-							'a',
-							{ href: '#', className: 'reply_num xe-hidden-xs', title: 'Replies' },
-							this.props.commentCount > 0 ? this.props.commentCount : ''
-						),
-						function () {
-							if (_this2.props.fileCount > 0) {
-								return _react2.default.createElement(
-									'span',
-									{ className: 'bd_ico_file' },
-									_react2.default.createElement('i', { className: 'xi-clip' }),
-									_react2.default.createElement(
-										'span',
-										{ className: 'xe-sr-only' },
-										'file'
-									)
-								);
-							}
-						}(),
 						function () {
 							if ((0, _utils.isNew)(_this2.props.createdAt)) {
 								return _react2.default.createElement(
@@ -62151,10 +62120,6 @@
 						(0, _utils.timeAgo)(this.props.createdAt)
 					)
 				);
-	
-				var categoryName = category ? _lodash2.default.find(categories, function (o) {
-					return o.value == category.itemId;
-				}).text : '없음';
 			}
 		}]);
 	
@@ -90899,6 +90864,8 @@
 			_this.fetchBoardIndex = _this.fetchBoardIndex.bind(_this);
 			_this.requestPrevBlock = _this.requestPrevBlock.bind(_this);
 			_this.requestNextBlock = _this.requestNextBlock.bind(_this);
+			_this.renderMobilePrevPage = _this.renderMobilePrevPage.bind(_this);
+			_this.renderMobileNextPage = _this.renderMobileNextPage.bind(_this);
 			return _this;
 		}
 	
@@ -91028,6 +90995,79 @@
 				}
 			}
 		}, {
+			key: 'renderMobilePrevPage',
+			value: function renderMobilePrevPage() {
+				var paginationInfo = this.getPaginationInfo();
+				var currentPage = paginationInfo.currentPage;
+	
+				if (currentPage > 1) {
+					return _react2.default.createElement(
+						'a',
+						{ href: '#', className: 'btn_pg btn_prev', onClick: this.fetchBoardIndex.bind(this, currentPage - 1) },
+						_react2.default.createElement(
+							'i',
+							{ className: 'xi-angle-left' },
+							_react2.default.createElement(
+								'span',
+								{ className: 'xe-sr-only' },
+								'\uC774\uC804'
+							)
+						)
+					);
+				} else {
+					return _react2.default.createElement(
+						'span',
+						{ className: 'btn_pg btn_prev' },
+						_react2.default.createElement(
+							'i',
+							{ className: 'xi-angle-left' },
+							_react2.default.createElement(
+								'span',
+								{ className: 'xe-sr-only' },
+								'\uC774\uC804'
+							)
+						)
+					);
+				}
+			}
+		}, {
+			key: 'renderMobileNextPage',
+			value: function renderMobileNextPage() {
+				var paginationInfo = this.getPaginationInfo();
+				var currentPage = paginationInfo.currentPage;
+				var lastPage = paginationInfo.lastPage;
+	
+				if (lastPage > currentPage) {
+					return _react2.default.createElement(
+						'a',
+						{ href: '#', className: 'btn_pg btn_next', onClick: this.fetchBoardIndex.bind(this, currentPage + 1) },
+						_react2.default.createElement(
+							'i',
+							{ className: 'xi-angle-right' },
+							_react2.default.createElement(
+								'span',
+								{ className: 'xe-sr-only' },
+								'\uB2E4\uC74C'
+							)
+						)
+					);
+				} else {
+					return _react2.default.createElement(
+						'span',
+						{ href: '#', className: 'btn_pg btn_next' },
+						_react2.default.createElement(
+							'i',
+							{ className: 'xi-angle-right' },
+							_react2.default.createElement(
+								'span',
+								{ className: 'xe-sr-only' },
+								'\uB2E4\uC74C'
+							)
+						)
+					);
+				}
+			}
+		}, {
 			key: 'fetchBoardIndex',
 			value: function fetchBoardIndex(pageNum, e) {
 				if (e) {
@@ -91075,7 +91115,6 @@
 										{ href: '#', key: i, onClick: _this2.fetchBoardIndex.bind(_this2, i) },
 										i
 									));
-									// pages.push(<a href={`#/?page=${i}`} key={i} >{i}</a>);
 								}
 	
 								if (lastPage === i) {
@@ -91090,47 +91129,23 @@
 					_react2.default.createElement(
 						'div',
 						{ className: 'bd_paginate v2 xe-visible-xs' },
-						_react2.default.createElement(
-							'span',
-							{ className: 'btn_pg btn_prev' },
-							_react2.default.createElement(
-								'i',
-								{ className: 'xi-angle-left' },
-								_react2.default.createElement(
-									'span',
-									{ className: 'xe-sr-only' },
-									'\uC774\uC804'
-								)
-							)
-						),
+						this.renderMobilePrevPage(),
 						_react2.default.createElement(
 							'span',
 							{ className: 'pg_box' },
 							_react2.default.createElement(
 								'strong',
 								null,
-								'1'
+								currentPage
 							),
 							' / ',
 							_react2.default.createElement(
 								'span',
 								null,
-								'100'
+								lastPage
 							)
 						),
-						_react2.default.createElement(
-							'a',
-							{ href: '#', className: 'btn_pg btn_next' },
-							_react2.default.createElement(
-								'i',
-								{ className: 'xi-angle-right' },
-								_react2.default.createElement(
-									'span',
-									{ className: 'xe-sr-only' },
-									'\uB2E4\uC74C'
-								)
-							)
-						)
+						this.renderMobileNextPage()
 					)
 				);
 			}

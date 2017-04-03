@@ -17,6 +17,8 @@ class Pagination extends React.Component {
 		this.fetchBoardIndex = ::this.fetchBoardIndex;
 		this.requestPrevBlock = ::this.requestPrevBlock;
 		this.requestNextBlock = ::this.requestNextBlock;
+		this.renderMobilePrevPage = ::this.renderMobilePrevPage;
+		this.renderMobileNextPage = ::this.renderMobileNextPage;
 	}
 
 	getPaginationInfo() {
@@ -107,6 +109,45 @@ class Pagination extends React.Component {
 		}
 	}
 
+	renderMobilePrevPage() {
+		let paginationInfo = this.getPaginationInfo();
+		let currentPage = paginationInfo.currentPage;
+
+		if(currentPage > 1) {
+			return (
+				<a href="#" className="btn_pg btn_prev" onClick={this.fetchBoardIndex.bind(this, currentPage - 1)}>
+					<i className="xi-angle-left"><span className="xe-sr-only">이전</span></i>
+				</a>
+			)
+		} else {
+			return (
+				<span className="btn_pg btn_prev">
+						<i className="xi-angle-left"><span className="xe-sr-only">이전</span></i>
+				</span>
+			)
+		}
+	}
+
+	renderMobileNextPage() {
+		let paginationInfo = this.getPaginationInfo();
+		let currentPage = paginationInfo.currentPage;
+		let lastPage = paginationInfo.lastPage;
+
+		if(lastPage > currentPage) {
+			return (
+				<a href="#" className="btn_pg btn_next" onClick={this.fetchBoardIndex.bind(this, currentPage + 1)} >
+					<i className="xi-angle-right"><span className="xe-sr-only">다음</span></i>
+				</a>
+			)
+		} else {
+			return (
+				<span href="#" className="btn_pg btn_next">
+					<i className="xi-angle-right"><span className="xe-sr-only">다음</span></i>
+				</span>
+			)
+		}
+	}
+
 	fetchBoardIndex(pageNum, e) {
 		if(e) {
 			e.preventDefault();
@@ -129,6 +170,7 @@ class Pagination extends React.Component {
 
 		return (
 			<div className="board_footer">
+				{/* desktop */}
 				<div className="bd_paginate xe-hidden-xs">
 					{ this.renderPrevPage() }
 					{
@@ -142,7 +184,6 @@ class Pagination extends React.Component {
 									pages.push(<strong key={i}>{i}</strong>)
 								} else {
 									pages.push(<a href="#" key={i} onClick={ this.fetchBoardIndex.bind(this, i) }>{i}</a>);
-									// pages.push(<a href={`#/?page=${i}`} key={i} >{i}</a>);
 								}
 
 								if(lastPage === i) {
@@ -156,16 +197,17 @@ class Pagination extends React.Component {
 					{ this.renderNextPage() }
 				</div>
 
+				{/* mobile */}
 				<div className="bd_paginate v2 xe-visible-xs">
-					<span className="btn_pg btn_prev">
-							<i className="xi-angle-left"><span className="xe-sr-only">이전</span></i>
-					</span>
+					{
+						this.renderMobilePrevPage()
+					}
 					<span className="pg_box">
-							<strong>1</strong> / <span>100</span>
+							<strong>{ currentPage }</strong> / <span>{ lastPage }</span>
 					</span>
-					<a href="#" className="btn_pg btn_next">
-						<i className="xi-angle-right"><span className="xe-sr-only">다음</span></i>
-					</a>
+					{
+						this.renderMobileNextPage()
+					}
 				</div>
 
 			</div>

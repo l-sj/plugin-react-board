@@ -34,6 +34,9 @@ class BoardRow extends React.Component {
 
 		const categories = this.props.categories;
 		const category = this.props.board_category;
+
+		const categoryName = this.props.hasOwnProperty('board_category')? this.props.board_category.category_item.trans_word : '';
+
 		return (
 			<tr>
 				{
@@ -55,25 +58,7 @@ class BoardRow extends React.Component {
 							}
 						})()
 					}
-					{
-						(() => {
-							//TODO secret 노출 조건 확인
-							if(this.props.secret) {
-								return (<span className="bd_ico_lock"><i className="xi-lock"></i><span className="xe-sr-only">secret</span></span>);
-							}
-						})()
-					}
 					<Link to={`/detail/${this.props.id}`} className="title_text">{ this.props.title }</Link>
-					<a href="#" className="reply_num xe-hidden-xs" title="Replies">{ this.props.commentCount > 0 ? this.props.commentCount : '' }</a>
-					{
-						(() => {
-							if(this.props.fileCount > 0) {
-								return (
-									<span className="bd_ico_file"><i className="xi-clip"></i><span className="xe-sr-only">file</span></span>
-								)
-							}
-						})()
-					}
 					{
 						(() => {
 							if(isNew(this.props.createdAt)) {
@@ -95,7 +80,7 @@ class BoardRow extends React.Component {
 			</tr>
 		);
 
-		const categoryName = category? _.find(categories, o => ( o.value == category.itemId )).text : '없음';
+
 	}
 };
 
