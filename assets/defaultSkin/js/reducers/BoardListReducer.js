@@ -8,19 +8,17 @@ import {
 } from '../actions/boardListAction';
 
 const INITIAL_STATE = {
-	index: {
-		paginate: {
-			currentPage: 1,
-			from: 0,
-			lastPage: 0,
-			nextPageUrl: '',
-			perPage: 0,
-			to: 0,
-			total: 0,
-			perPageBlockCount: 0
-		},
-		boardList: [],
+	paginate: {
+		currentPage: 1,
+		from: 0,
+		lastPage: 0,
+		nextPageUrl: '',
+		perPage: 0,
+		to: 0,
+		total: 0,
+		perPageBlockCount: 0
 	},
+	boardList: [],
 	categories: [],
 	search: {
 		searchStatue: 'none',
@@ -31,6 +29,7 @@ const INITIAL_STATE = {
 		startCreatedAt: '',
 		endCreateAt: ''
 	},
+	query: {},
 	error: null,
 	loading: false,
 	checkedAll: false,
@@ -54,7 +53,9 @@ export default function(state = INITIAL_STATE, action) {
 			return { ...state, loading: false }
 
 		case FETCH_BOARD_INDEX:
-			return { ...state, loading: true, error: null }
+			let query = action.query || {};
+
+			return { ...state, loading: true, error: null, query: { ...state.query, ...query, }, }
 
 		case FETCH_BOARD_INDEX_SUCCESS:// return list of posts and make loading = false
 
@@ -76,11 +77,11 @@ export default function(state = INITIAL_STATE, action) {
 				checkedMap[obj.id] = false;
 			});
 
-			return { ...state, index: {boardList, paginate}, checkedMap, checkedAll: false, error:null, loading: false, };
+			return { ...state, boardList, paginate, checkedMap, checkedAll: false, error:null, loading: false, };
 
 		case CHECK_ALL:
 			var checkedMap = {};
-			var boardList = state.index.boardList;
+			var boardList = state.boardList;
 
 			boardList.map((obj, i) => {
 				checkedMap[obj.id] = true;
@@ -90,7 +91,7 @@ export default function(state = INITIAL_STATE, action) {
 
 		case UNCHECK_ALL:
 			var checkedMap = {};
-			var boardList = state.index.boardList;
+			var boardList = state.boardList;
 
 			boardList.map((obj, i) => {
 				checkedMap[obj.id] = false;
@@ -101,7 +102,7 @@ export default function(state = INITIAL_STATE, action) {
 		case CHECK_ROW:
 			var checkedMap = {};
 			var stateCheckedMap = state.checkedMap;
-			var listLen = state.index.boardList.length;
+			var listLen = state.boardList.length;
 			var checkedAll = false;
 
 			stateCheckedMap[action.id] = true;

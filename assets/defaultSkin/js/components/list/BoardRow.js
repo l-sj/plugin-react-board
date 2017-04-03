@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import _ from 'lodash';
-
-import Favorite from './../../containers/FavoriteContainer';
 import { timeAgo, isNew } from 'utils';
 
 class BoardRow extends React.Component {

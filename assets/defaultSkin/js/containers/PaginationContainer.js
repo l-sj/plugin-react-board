@@ -5,17 +5,15 @@ import Pagination from './../components/list/Pagination';
 
 const mapStateToProps = (state) => {
 	return {
-		paginate: state.list.index.paginate
+		paginate: state.list.paginate,
+		query: state.list.query
 	};
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		fetchBoardIndex: (queryJson) => {
-			let json = {}
-			json.page = queryJson.pageNum;
-
-			dispatch(fetchBoardIndex(json));
+		fetchBoardIndex: (query) => {
+			dispatch(fetchBoardIndex(query));
 		}
 	}
 }

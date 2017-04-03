@@ -9,25 +9,15 @@ class BoardListHeader extends React.Component {
 	constructor(props) {
 		super(props);
 
-		// this.handleManagement = ::this.handleManagement;
 		this.handleCategory = ::this.handleCategory;
-		this.handleSearch = ::this.handleSearch;
 	}
 
 	handleCategory(value) {
 		if(value) {
-			this.props.changeCategory({categoryItemId: value});
-			console.log('value', value);
-		} else {
-			// this.props.changeCategory();
-		}
-	}
+			this.props.changeCategory({...this.props.query, categoryItemId: value, page: ''});
 
-	handleSearch(e) {
-		if(this.props.searchStatus === 'block') {
-			this.props.hideSearch();
 		} else {
-			this.props.showSearch();
+			this.props.changeCategory({...this.props.query, categoryItemId: '', page: ''});
 		}
 	}
 
@@ -60,12 +50,17 @@ class BoardListHeader extends React.Component {
 							if(this.props.categories.length) {
 
 								let categories = _.assign([], this.props.categories);
+								let selected = '';
 
 								if(!_.find(categories, {value: ''})) {
 									categories.unshift({text: '전체보기', value: ''});
 								}
 
-								return <Dropdown optionList={ categories } handleSelect={this.handleCategory.bind(this)} />
+								if(this.props.query.categoryItemId) {
+									selected = this.props.query.categoryItemId;
+								}
+
+								return <Dropdown optionList={ categories } handleSelect={this.handleCategory.bind(this)} selected={selected} />
 							}
 						})()
 					}

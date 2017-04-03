@@ -31070,8 +31070,8 @@
 	
 	var mapStateToProps = function mapStateToProps(state) {
 		return {
-			boardList: state.list.index.boardList,
-			paginate: state.list.index.paginate,
+			boardList: state.list.boardList,
+			paginate: state.list.paginate,
 			categories: state.list.categories,
 			loading: state.list.loading,
 			error: state.list.error,
@@ -31143,7 +31143,7 @@
 	
 	var fetchBoardIndexEpic = exports.fetchBoardIndexEpic = function fetchBoardIndexEpic(action$) {
 		return action$.ofType(FETCH_BOARD_INDEX).mergeMap(function (action) {
-			return (0, _ajax.ajax)({ url: Common.get('apis').list + action.query, method: 'GET', headers: Common.get('ajaxHeaders') }).map(function (data) {
+			return (0, _ajax.ajax)({ url: Common.get('apis').list + (0, _utils.objectToQuerystring)(action.query), method: 'GET', headers: Common.get('ajaxHeaders') }).map(function (data) {
 				return fetchBoardIndexSuccess(data);
 			}).catch(function (error) {
 				return _rxjs.Observable.of(fetchBoardIndexFailure(error));
@@ -31184,7 +31184,7 @@
 	var fetchBoardIndex = exports.fetchBoardIndex = function fetchBoardIndex(queryJSON) {
 		return {
 			type: FETCH_BOARD_INDEX,
-			query: queryJSON ? (0, _utils.objectToQuerystring)(queryJSON) : ''
+			query: queryJSON || {}
 		};
 	};
 	
@@ -61983,10 +61983,6 @@
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
 	
-	var _FavoriteContainer = __webpack_require__(733);
-	
-	var _FavoriteContainer2 = _interopRequireDefault(_FavoriteContainer);
-	
 	var _utils = __webpack_require__(618);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -79251,127 +79247,8 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(247)(module)))
 
 /***/ },
-/* 733 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _reactRedux = __webpack_require__(254);
-	
-	var _boardListAction = __webpack_require__(315);
-	
-	var _Favorite = __webpack_require__(734);
-	
-	var _Favorite2 = _interopRequireDefault(_Favorite);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(state) {
-		return {};
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-		return {
-			setFavorite: function setFavorite(info) {
-				var id = info.id,
-				    isFavorite = info.isFavorite;
-	
-	
-				console.log('info :: ', info);
-			}
-		};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Favorite2.default);
-
-/***/ },
-/* 734 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactDom = __webpack_require__(32);
-	
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Favorite = function (_Component) {
-		_inherits(Favorite, _Component);
-	
-		function Favorite() {
-			_classCallCheck(this, Favorite);
-	
-			var _this = _possibleConstructorReturn(this, (Favorite.__proto__ || Object.getPrototypeOf(Favorite)).call(this));
-	
-			_this.handleFavorite = _this.handleFavorite.bind(_this);
-			return _this;
-		}
-	
-		_createClass(Favorite, [{
-			key: 'handleFavorite',
-			value: function handleFavorite(e) {
-				e.preventDefault();
-	
-				var target = e.target;
-	
-				this.props.setFavorite({
-					id: this.props.id,
-					isFavorite: !$(target).hasClass('on')
-				});
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				var on = this.props.favorite === null || this.props.favorite === '' ? '' : 'on';
-	
-				return _react2.default.createElement(
-					'td',
-					{ className: 'favorite xe-hidden-xs' },
-					_react2.default.createElement(
-						'a',
-						{ href: '#', title: '\uC990\uACA8\uCC3E\uAE30 \uCCB4\uD06C', onClick: this.handleFavorite },
-						_react2.default.createElement('i', { className: 'xi-star-o ' + on }),
-						_react2.default.createElement(
-							'span',
-							{ className: 'xe-sr-only' },
-							'\uC990\uACA8\uCC3E\uAE30 \uCCB4\uD06C'
-						)
-					)
-				);
-			}
-		}]);
-	
-		return Favorite;
-	}(_react.Component);
-	
-	Favorite.propTypes = {
-		id: _react2.default.PropTypes.string.isRequired,
-		favorite: _react2.default.PropTypes.string
-	};
-	exports.default = Favorite;
-
-/***/ },
+/* 733 */,
+/* 734 */,
 /* 735 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -79402,7 +79279,8 @@
 			categories: state.list.categories,
 			managementStatus: state.list.managementStatus,
 			searchStatus: state.search.searchStatus,
-			page: state.list.index.paginate.currentPage
+			page: state.list.paginate.currentPage,
+			query: state.list.query
 		};
 	};
 	
@@ -79497,6 +79375,8 @@
 		value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
@@ -79533,11 +79413,9 @@
 		function BoardListHeader(props) {
 			_classCallCheck(this, BoardListHeader);
 	
-			// this.handleManagement = ::this.handleManagement;
 			var _this = _possibleConstructorReturn(this, (BoardListHeader.__proto__ || Object.getPrototypeOf(BoardListHeader)).call(this, props));
 	
 			_this.handleCategory = _this.handleCategory.bind(_this);
-			_this.handleSearch = _this.handleSearch.bind(_this);
 			return _this;
 		}
 	
@@ -79545,19 +79423,9 @@
 			key: 'handleCategory',
 			value: function handleCategory(value) {
 				if (value) {
-					this.props.changeCategory({ categoryItemId: value });
-					console.log('value', value);
+					this.props.changeCategory(_extends({}, this.props.query, { categoryItemId: value, page: '' }));
 				} else {
-					// this.props.changeCategory();
-				}
-			}
-		}, {
-			key: 'handleSearch',
-			value: function handleSearch(e) {
-				if (this.props.searchStatus === 'block') {
-					this.props.hideSearch();
-				} else {
-					this.props.showSearch();
+					this.props.changeCategory(_extends({}, this.props.query, { categoryItemId: '', page: '' }));
 				}
 			}
 		}, {
@@ -79619,12 +79487,17 @@
 							if (_this2.props.categories.length) {
 	
 								var categories = _lodash2.default.assign([], _this2.props.categories);
+								var selected = '';
 	
 								if (!_lodash2.default.find(categories, { value: '' })) {
 									categories.unshift({ text: '전체보기', value: '' });
 								}
 	
-								return _react2.default.createElement(_Dropdown2.default, { optionList: categories, handleSelect: _this2.handleCategory.bind(_this2) });
+								if (_this2.props.query.categoryItemId) {
+									selected = _this2.props.query.categoryItemId;
+								}
+	
+								return _react2.default.createElement(_Dropdown2.default, { optionList: categories, handleSelect: _this2.handleCategory.bind(_this2), selected: selected });
 							}
 						}()
 					)
@@ -90841,37 +90714,10 @@
 		function Dropdown(props) {
 			_classCallCheck(this, Dropdown);
 	
-			var _this = _possibleConstructorReturn(this, (Dropdown.__proto__ || Object.getPrototypeOf(Dropdown)).call(this, props));
-	
-			_this.state = {
-				selectedText: '',
-				selectedValue: ''
-			};
-			return _this;
+			return _possibleConstructorReturn(this, (Dropdown.__proto__ || Object.getPrototypeOf(Dropdown)).call(this, props));
 		}
 	
 		_createClass(Dropdown, [{
-			key: 'componentWillMount',
-			value: function componentWillMount() {
-				var _this2 = this;
-	
-				if (this.props.selected && this.props.optionList.length > 0) {
-					var defaultSelected = _lodash2.default.find(this.props.optionList, { value: this.props.selected });
-	
-					this.handleSelect({
-						text: defaultSelected.text,
-						value: defaultSelected.value
-					});
-				} else {
-					this.setState(function (s, p) {
-						s.selectedValue = _this2.props.optionList[0].value;
-						s.selectedText = _this2.props.optionList[0].text;
-					});
-	
-					this.props.handleSelect(this.props.optionList[0].value);
-				}
-			}
-		}, {
 			key: 'handleSelect',
 			value: function handleSelect(obj, e) {
 	
@@ -90879,17 +90725,12 @@
 					e.preventDefault();
 				}
 	
-				this.setState(function (s, p) {
-					s.selectedValue = obj.value;
-					s.selectedText = obj.text;
-				});
-	
 				this.props.handleSelect(obj.value);
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var _this3 = this;
+				var _this2 = this;
 	
 				return _react2.default.createElement(
 					'div',
@@ -90897,21 +90738,25 @@
 					_react2.default.createElement(
 						'button',
 						{ className: 'xe-btn', type: 'button', 'data-toggle': 'xe-dropdown', 'aria-expanded': 'false' },
-						this.state.selectedText
+						this.props.optionList.map(function (obj, i) {
+							if (i === 0 && !_this2.props.selected || _this2.props.selected === obj.value) {
+								return obj.text;
+							}
+						})
 					),
 					_react2.default.createElement(
 						'ul',
 						{ className: 'xe-dropdown-menu' },
 						this.props.optionList.map(function (obj, i) {
 	
-							var on = i === 0 && !_this3.state.selectedValue || _this3.state.selected === obj.value ? "on" : '';
+							var on = i === 0 && !_this2.props.selected || _this2.props.selected === obj.value ? "on" : '';
 	
 							return _react2.default.createElement(
 								'li',
 								{ key: i, className: on },
 								_react2.default.createElement(
 									'a',
-									{ href: '#', onClick: _this3.handleSelect.bind(_this3, obj) },
+									{ href: '#', onClick: _this2.handleSelect.bind(_this2, obj) },
 									obj.text
 								)
 							);
@@ -90926,8 +90771,7 @@
 	
 	Dropdown.propTypes = {
 		optionList: _react.PropTypes.array.isRequired,
-		handleSelect: _react.PropTypes.func,
-		selected: _react.PropTypes.number
+		handleSelect: _react.PropTypes.func
 	};
 	exports.default = Dropdown;
 
@@ -91005,17 +90849,15 @@
 	
 	var mapStateToProps = function mapStateToProps(state) {
 		return {
-			paginate: state.list.index.paginate
+			paginate: state.list.paginate,
+			query: state.list.query
 		};
 	};
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 		return {
-			fetchBoardIndex: function fetchBoardIndex(queryJson) {
-				var json = {};
-				json.page = queryJson.pageNum;
-	
-				dispatch((0, _boardListAction.fetchBoardIndex)(json));
+			fetchBoardIndex: function fetchBoardIndex(query) {
+				dispatch((0, _boardListAction.fetchBoardIndex)(query));
 			}
 		};
 	};
@@ -91031,6 +90873,8 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -91196,9 +91040,7 @@
 					e.preventDefault();
 				}
 	
-				// let location = this.context.router.location;
-				// this.context.router.push({pathname: location.pathname, page: pageNum});
-				this.props.fetchBoardIndex({ pageNum: pageNum });
+				this.props.fetchBoardIndex(_extends({}, this.props.query, { page: pageNum }));
 			}
 		}, {
 			key: 'render',
@@ -92927,7 +92769,9 @@
 				return _extends({}, state, { loading: false });
 	
 			case _boardListAction.FETCH_BOARD_INDEX:
-				return _extends({}, state, { loading: true, error: null });
+				var query = action.query || {};
+	
+				return _extends({}, state, { loading: true, error: null, query: _extends({}, state.query, query) });
 	
 			case _boardListAction.FETCH_BOARD_INDEX_SUCCESS:
 				// return list of posts and make loading = false
@@ -92950,11 +92794,11 @@
 					checkedMap[obj.id] = false;
 				});
 	
-				return _extends({}, state, { index: { boardList: boardList, paginate: paginate }, checkedMap: checkedMap, checkedAll: false, error: null, loading: false });
+				return _extends({}, state, { boardList: boardList, paginate: paginate, checkedMap: checkedMap, checkedAll: false, error: null, loading: false });
 	
 			case _boardListAction.CHECK_ALL:
 				var checkedMap = {};
-				var boardList = state.index.boardList;
+				var boardList = state.boardList;
 	
 				boardList.map(function (obj, i) {
 					checkedMap[obj.id] = true;
@@ -92964,7 +92808,7 @@
 	
 			case _boardListAction.UNCHECK_ALL:
 				var checkedMap = {};
-				var boardList = state.index.boardList;
+				var boardList = state.boardList;
 	
 				boardList.map(function (obj, i) {
 					checkedMap[obj.id] = false;
@@ -92975,7 +92819,7 @@
 			case _boardListAction.CHECK_ROW:
 				var checkedMap = {};
 				var stateCheckedMap = state.checkedMap;
-				var listLen = state.index.boardList.length;
+				var listLen = state.boardList.length;
 				var checkedAll = false;
 	
 				stateCheckedMap[action.id] = true;
@@ -93030,19 +92874,17 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var INITIAL_STATE = {
-		index: {
-			paginate: {
-				currentPage: 1,
-				from: 0,
-				lastPage: 0,
-				nextPageUrl: '',
-				perPage: 0,
-				to: 0,
-				total: 0,
-				perPageBlockCount: 0
-			},
-			boardList: []
+		paginate: {
+			currentPage: 1,
+			from: 0,
+			lastPage: 0,
+			nextPageUrl: '',
+			perPage: 0,
+			to: 0,
+			total: 0,
+			perPageBlockCount: 0
 		},
+		boardList: [],
 		categories: [],
 		search: {
 			searchStatue: 'none',
@@ -93053,6 +92895,7 @@
 			startCreatedAt: '',
 			endCreateAt: ''
 		},
+		query: {},
 		error: null,
 		loading: false,
 		checkedAll: false,

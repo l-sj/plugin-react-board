@@ -27,7 +27,7 @@ export const FETCH_CATEGORY_FAILURE = 'FETCH_CATEGORY_FAILURE';
 export const fetchBoardIndexEpic = action$ =>
 	action$.ofType(FETCH_BOARD_INDEX)
 		.mergeMap(action =>
-			ajax({ url: Common.get('apis').list + action.query, method: 'GET', headers: Common.get('ajaxHeaders')})
+			ajax({ url: Common.get('apis').list + objectToQuerystring(action.query), method: 'GET', headers: Common.get('ajaxHeaders')})
 				.map(data => fetchBoardIndexSuccess(data))
 				.catch(error => Observable.of(fetchBoardIndexFailure(error)))
 		);
@@ -56,7 +56,7 @@ export const fetchCategoryFailure = (error) => ({
 
 export const fetchBoardIndex = (queryJSON) => ({
 	type: FETCH_BOARD_INDEX,
-	query: queryJSON? objectToQuerystring(queryJSON) : ''
+	query: queryJSON || {}
 });
 
 export const fetchBoardIndexSuccess = (data) => ({

@@ -4,8 +4,8 @@ import BoardList from './../components/list/BoardList';
 
 const mapStateToProps = (state) => {
 	return {
-		boardList: state.list.index.boardList,
-		paginate: state.list.index.paginate,
+		boardList: state.list.boardList,
+		paginate: state.list.paginate,
 		categories: state.list.categories,
 		loading: state.list.loading,
 		error: state.list.error,

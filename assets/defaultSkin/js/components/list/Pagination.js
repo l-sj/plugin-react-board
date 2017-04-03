@@ -112,9 +112,7 @@ class Pagination extends React.Component {
 			e.preventDefault();
 		}
 
-		// let location = this.context.router.location;
-		// this.context.router.push({pathname: location.pathname, page: pageNum});
-		this.props.fetchBoardIndex({pageNum});
+		this.props.fetchBoardIndex({...this.props.query, page: pageNum});
 	}
 
 	render() {

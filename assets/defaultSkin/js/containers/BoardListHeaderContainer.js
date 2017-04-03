@@ -9,7 +9,8 @@ const mapStateToProps = (state) => {
 		categories: state.list.categories,
 		managementStatus: state.list.managementStatus,
 		searchStatus: state.search.searchStatus,
-		page: state.list.index.paginate.currentPage
+		page: state.list.paginate.currentPage,
+		query: state.list.query,
 	};
 }
 
