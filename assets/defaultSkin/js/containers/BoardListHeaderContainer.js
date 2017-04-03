@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { SHOW_MANAGEMENT, HIDE_MANAGEMENT, fetchBoardIndex } from './../actions/boardListAction';
-import { SHOW_SEARCH, HIDE_SEARCH } from './../actions/searchAction';
 import BoardListHeader from './../components/list/BoardListHeader';
 
 const mapStateToProps = (state) => {

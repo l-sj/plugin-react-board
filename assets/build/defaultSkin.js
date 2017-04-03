@@ -79225,8 +79225,6 @@
 	
 	var _boardListAction = __webpack_require__(315);
 	
-	var _searchAction = __webpack_require__(736);
-	
 	var _BoardListHeader = __webpack_require__(737);
 	
 	var _BoardListHeader2 = _interopRequireDefault(_BoardListHeader);
@@ -79262,12 +79260,12 @@
 			},
 			showSearch: function showSearch() {
 				dispatch({
-					type: _searchAction.SHOW_SEARCH
+					type: SHOW_SEARCH
 				});
 			},
 			hideSearch: function hideSearch() {
 				dispatch({
-					type: _searchAction.HIDE_SEARCH
+					type: HIDE_SEARCH
 				});
 			}
 		};
@@ -79276,55 +79274,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_BoardListHeader2.default);
 
 /***/ },
-/* 736 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.searchBoardContentsFailure = exports.searchBoardContentsSuccess = exports.searchBoardContentEpic = exports.SEARCH_FAILURE = exports.SEARCH_SUCCESS = exports.SEARCH = exports.CHANGE_SEARCH_VALUE = exports.HIDE_SEARCH_DETAIL = exports.SHOW_SEARCH_DETAIL = exports.HIDE_SEARCH = exports.SHOW_SEARCH = undefined;
-	
-	var _rxjs = __webpack_require__(316);
-	
-	var _ajax = __webpack_require__(391);
-	
-	var SHOW_SEARCH = exports.SHOW_SEARCH = 'SHOW_SEARCH';
-	var HIDE_SEARCH = exports.HIDE_SEARCH = 'HIDE_SEARCH';
-	var SHOW_SEARCH_DETAIL = exports.SHOW_SEARCH_DETAIL = 'SHOW_SEARCH_DEATIL';
-	var HIDE_SEARCH_DETAIL = exports.HIDE_SEARCH_DETAIL = 'HIDE_SEARCH_DEATIL';
-	var CHANGE_SEARCH_VALUE = exports.CHANGE_SEARCH_VALUE = 'CHANGE_SEARCH_VALUE';
-	
-	var SEARCH = exports.SEARCH = 'SEARCH';
-	var SEARCH_SUCCESS = exports.SEARCH_SUCCESS = 'SEARCH_SUCCESS';
-	var SEARCH_FAILURE = exports.SEARCH_FAILURE = 'SEARCH_FAILURE';
-	
-	var searchBoardContentEpic = exports.searchBoardContentEpic = function searchBoardContentEpic(action$) {
-		return action$.ofType(SEARCH).mergeMap(function (action) {
-			return (0, _ajax.ajax)({ url: Common.get('apis').search, method: 'GET', body: action.payload, headers: Common.get('ajaxHeaders') }).map(function (data) {
-				return searchBoardContentsSuccess(data);
-			}).catch(function (error) {
-				return _rxjs.Observable.of(searchBoardContentsFailure(error));
-			});
-		});
-	};
-	
-	var searchBoardContentsSuccess = exports.searchBoardContentsSuccess = function searchBoardContentsSuccess(data) {
-		return {
-			type: SEARCH_SUCCESS,
-			payload: data.response
-		};
-	};
-	
-	var searchBoardContentsFailure = exports.searchBoardContentsFailure = function searchBoardContentsFailure(err) {
-		return {
-			type: SEARCH_FAILURE,
-			payload: err.xhr.response
-		};
-	};
-
-/***/ },
+/* 736 */,
 /* 737 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -79345,10 +79295,6 @@
 	var _reactDom = __webpack_require__(32);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
-	
-	var _SearchContainer = __webpack_require__(738);
-	
-	var _SearchContainer2 = _interopRequireDefault(_SearchContainer);
 	
 	var _Dropdown = __webpack_require__(956);
 	
@@ -79470,101 +79416,7 @@
 	exports.default = BoardListHeader;
 
 /***/ },
-/* 738 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRedux = __webpack_require__(254);
-	
-	var _reduxForm = __webpack_require__(739);
-	
-	var _searchAction = __webpack_require__(736);
-	
-	var _Search = __webpack_require__(955);
-	
-	var _Search2 = _interopRequireDefault(_Search);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var form = 'searchForm';
-	var fields = ['writer', 'searchKeyword', 'startCreatedAt', 'endCreatedAt'];
-	var formConfig = {
-		form: form,
-		fields: fields
-	};
-	
-	var mapStateToProps = function mapStateToProps(state) {
-		return {
-			searchStatus: state.search.searchStatus,
-			btnStatus: state.search.btnStatus,
-			searchDetailStatus: state.search.searchDetailStatus,
-			searchInput: state.search.searchInput,
-			searchInputDetail: state.search.searchInputDeatil,
-			searchAuthor: state.search.searchAuthor,
-			startCreatedAt: state.search.startCreatedAt,
-			endCreatedAt: state.search.endCreatedAt,
-			categories: state.list.categories
-		};
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-		return {
-			changeCategory: function changeCategory() {},
-			showSearch: function showSearch() {
-				dispatch({
-					type: _searchAction.SHOW_SEARCH
-				});
-			},
-			hideSearch: function hideSearch() {
-				dispatch({
-					type: _searchAction.HIDE_SEARCH
-				});
-			},
-			showSearchDetail: function showSearchDetail() {
-				dispatch({
-					type: _searchAction.SHOW_SEARCH_DETAIL
-				});
-			},
-			hideSearchDetail: function hideSearchDetail() {
-				dispatch({
-					type: _searchAction.HIDE_SEARCH_DETAIL
-				});
-			},
-			handleSearchValue: function handleSearchValue(value) {
-				dispatch({
-					type: _searchAction.CHANGE_SEARCH_VALUE,
-					value: value
-				});
-			},
-			changeFormField: function changeFormField(_ref) {
-				var field = _ref.field,
-				    value = _ref.value;
-	
-				dispatch((0, _reduxForm.change)(form, field, value));
-			},
-			validateAndSearch: function validateAndSearch(values, dispatch) {
-				console.log('submit', values);
-	
-				return dispatch({
-					type: _searchAction.SEARCH,
-					payload: values
-				});
-			}
-		};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)((0, _reduxForm.reduxForm)(formConfig)(_Search2.default));
-
-/***/ },
+/* 738 */,
 /* 739 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -90355,291 +90207,7 @@
 	exports.default = propTypes;
 
 /***/ },
-/* 955 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reduxForm = __webpack_require__(739);
-	
-	var _Dropdown = __webpack_require__(956);
-	
-	var _Dropdown2 = _interopRequireDefault(_Dropdown);
-	
-	var _renderSearchField = __webpack_require__(957);
-	
-	var _renderSearchField2 = _interopRequireDefault(_renderSearchField);
-	
-	var _lodash = __webpack_require__(732);
-	
-	var _lodash2 = _interopRequireDefault(_lodash);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var _React$DOM = _react2.default.DOM,
-	    input = _React$DOM.input,
-	    select = _React$DOM.select,
-	    textarea = _React$DOM.textarea;
-	
-	var Search = function (_Component) {
-		_inherits(Search, _Component);
-	
-		function Search() {
-			_classCallCheck(this, Search);
-	
-			var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this));
-	
-			_this.handleSearchInput = _this.handleSearchInput.bind(_this);
-			_this.handleSearchDetail = _this.handleSearchDetail.bind(_this);
-			_this.handleCategory = _this.handleCategory.bind(_this);
-			_this.handlePeriod = _this.handlePeriod.bind(_this);
-			return _this;
-		}
-	
-		_createClass(Search, [{
-			key: 'handleSearchInput',
-			value: function handleSearchInput(e) {
-				var name = e.target.name;
-				var value = e.target.value;
-	
-				this.props.handleSearchValue(e.target.value);
-				this.props.changeFormField({ field: name, value: value });
-			}
-		}, {
-			key: 'handleCategory',
-			value: function handleCategory(value) {
-				console.log('selected ' + value);
-	
-				this.props.changeFormField({ field: 'categoryItemId', value: value });
-			}
-		}, {
-			key: 'handlePeriod',
-			value: function handlePeriod(value) {
-				console.log('selected ' + value);
-	
-				this.props.changeFormField({ field: 'period', value: value });
-			}
-		}, {
-			key: 'handleSearchDetail',
-			value: function handleSearchDetail() {
-				if (this.props.searchDetailStatus === 'block') {
-					this.props.hideSearchDetail();
-				} else {
-					this.props.showSearchDetail();
-				}
-			}
-	
-			// validateAndSearch(values, dispatch) {
-			// 	console.log('submit', values);
-			//
-			// 	return dispatch(this.props.searchBoardContent(values));
-			// }
-	
-		}, {
-			key: 'render',
-			value: function render() {
-				var _this2 = this;
-	
-				var _props = this.props,
-				    handleSubmit = _props.handleSubmit,
-				    submitting = _props.submitting,
-				    onSubmit = _props.onSubmit;
-	
-				var periodOptions = [{ text: '1주', value: '1week' }, { text: '2주', value: '1week' }, { text: '1개월', value: '1month' }, { text: '3개월', value: '3month' }, { text: '6개월', value: '6month' }, { text: '1년', value: '1year' }];
-	
-				//<Field component="input" type="text" className="bd_search_input" title="게시판 검색" placeholder="검색어를 입력하세요" name="searchKeyword" value={this.props.searchInput} onChange={ this.handleSearchInput } />
-	
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(
-						'form',
-						{ onSubmit: handleSubmit(this.props.validateAndSearch) },
-						_react2.default.createElement(
-							'div',
-							{ className: 'bd_search_area', style: { display: this.props.searchStatus } },
-							_react2.default.createElement(
-								'div',
-								{ className: 'bd_search_box' },
-								_react2.default.createElement('input', { type: 'text', className: 'bd_search_input', title: '\uAC8C\uC2DC\uD310 \uAC80\uC0C9', placeholder: '\uAC80\uC0C9\uC5B4\uB97C \uC785\uB825\uD558\uC138\uC694', name: 'searchKeyword', value: this.props.searchInput, onChange: this.handleSearchInput }),
-								_react2.default.createElement(
-									'a',
-									{ href: '#', className: 'bd_btn_detail ' + this.props.btnStatus, title: '\uAC8C\uC2DC\uD310 \uC0C1\uC138\uAC80\uC0C9', onClick: this.handleSearchDetail },
-									'\uC0C1\uC138\uAC80\uC0C9'
-								)
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'bd_search_detail', style: { display: this.props.searchDetailStatus } },
-								_react2.default.createElement(
-									'div',
-									{ className: 'bd_search_detail_option' },
-									_react2.default.createElement(
-										'div',
-										{ className: 'xe-row' },
-										function () {
-											if (_this2.props.categories.length) {
-	
-												var categories = _lodash2.default.assign([], _this2.props.categories);
-	
-												if (!_lodash2.default.find(categories, { value: '' })) {
-													categories.unshift({ text: '전체보기', value: '' });
-												}
-	
-												return _react2.default.createElement(
-													'div',
-													{ className: 'xe-col-sm-6' },
-													_react2.default.createElement(
-														'div',
-														{ className: 'xe-row' },
-														_react2.default.createElement(
-															'div',
-															{ className: 'xe-col-sm-3' },
-															_react2.default.createElement(
-																'label',
-																{ className: 'xe-control-label' },
-																'\uCE74\uD14C\uACE0\uB9AC'
-															)
-														),
-														_react2.default.createElement(
-															'div',
-															{ className: 'xe-col-sm-9' },
-															_react2.default.createElement(_Dropdown2.default, { optionList: categories, handleSelect: _this2.handleCategory })
-														)
-													)
-												);
-											}
-										}(),
-										_react2.default.createElement(
-											'div',
-											{ className: 'xe-col-sm-6' },
-											_react2.default.createElement(
-												'div',
-												{ className: 'xe-row' },
-												_react2.default.createElement(
-													'div',
-													{ className: 'xe-col-sm-3' },
-													_react2.default.createElement(
-														'label',
-														{ className: 'xe-control-label' },
-														'\uC81C\uBAA9 + \uB0B4\uC6A9'
-													)
-												),
-												_react2.default.createElement(
-													'div',
-													{ className: 'xe-col-sm-9' },
-													_react2.default.createElement('input', { type: 'text', name: 'searchKeywordDetail', className: 'xe-form-control', title: '\uC81C\uBAA9+\uB0B4\uC6A9', value: this.props.searchInput, onChange: this.handleSearchInput })
-												)
-											)
-										)
-									),
-									_react2.default.createElement(
-										'div',
-										{ className: 'xe-row' },
-										_react2.default.createElement(
-											'div',
-											{ className: 'xe-col-sm-6' },
-											_react2.default.createElement(
-												'div',
-												{ className: 'xe-row' },
-												_react2.default.createElement(
-													'div',
-													{ className: 'xe-col-sm-3' },
-													_react2.default.createElement(
-														'label',
-														{ className: 'xe-control-label' },
-														'\uAE00\uC4F4\uC774'
-													)
-												),
-												_react2.default.createElement(
-													'div',
-													{ className: 'xe-col-sm-9' },
-													_react2.default.createElement('input', { type: 'text', className: 'xe-form-control', name: 'writer', title: '\uAE00\uC4F4\uC774' })
-												)
-											)
-										),
-										_react2.default.createElement(
-											'div',
-											{ className: 'xe-col-sm-6' },
-											_react2.default.createElement(
-												'div',
-												{ className: 'xe-row' },
-												_react2.default.createElement(
-													'div',
-													{ className: 'xe-col-sm-3' },
-													_react2.default.createElement(
-														'label',
-														{ className: 'xe-control-label' },
-														'\uAE30\uAC04'
-													)
-												),
-												_react2.default.createElement(
-													'div',
-													{ className: 'xe-col-sm-9' },
-													_react2.default.createElement(
-														'div',
-														{ className: 'xe-form-group' },
-														_react2.default.createElement(_Dropdown2.default, { optionList: periodOptions, handleSelect: this.handlePeriod })
-													),
-													_react2.default.createElement(
-														'div',
-														{ className: 'xe-form-inline' },
-														_react2.default.createElement('input', { type: 'text', className: 'xe-form-control', name: 'startCreatedAt', title: '\uC2DC\uC791 \uB0A0\uC9DC \uC785\uB825' }),
-														' - ',
-														_react2.default.createElement('input', { type: 'text', className: 'xe-form-control', name: 'endCreatedAt', title: '\uB05D \uB0A0\uC9DC \uC785\uB825' })
-													)
-												)
-											)
-										)
-									)
-								),
-								_react2.default.createElement(
-									'div',
-									{ className: 'bd_search_footer' },
-									_react2.default.createElement(
-										'div',
-										{ className: 'xe-pull-right' },
-										_react2.default.createElement(
-											'button',
-											{ type: 'submit', className: 'xe-btn xe-btn-primary-outline', disabled: submitting },
-											'\uAC80\uC0C9'
-										),
-										_react2.default.createElement(
-											'button',
-											{ type: 'button', className: 'xe-btn xe-btn-secondary' },
-											'\uCDE8\uC18C'
-										)
-									)
-								)
-							)
-						)
-					)
-				);
-			}
-		}]);
-	
-		return Search;
-	}(_react.Component);
-	
-	exports.default = Search;
-
-/***/ },
+/* 955 */,
 /* 956 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -90735,54 +90303,7 @@
 	exports.default = Dropdown;
 
 /***/ },
-/* 957 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var renderSearchField = function renderSearchField(_ref) {
-		var input = _ref.input,
-		    placeholder = _ref.placeholder,
-		    type = _ref.type,
-		    className = _ref.className,
-		    title = _ref.title,
-		    _ref$meta = _ref.meta,
-		    touched = _ref$meta.touched,
-		    error = _ref$meta.error,
-		    warning = _ref$meta.warning;
-	
-	
-		return _react2.default.createElement(
-			'div',
-			null,
-			_react2.default.createElement('input', _extends({}, input, { className: className, title: title, placeholder: placeholder, type: type })),
-			touched && (error && _react2.default.createElement(
-				'span',
-				null,
-				error
-			) || warning && _react2.default.createElement(
-				'span',
-				null,
-				warning
-			))
-		);
-	};
-	
-	exports.default = renderSearchField;
-
-/***/ },
+/* 957 */,
 /* 958 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -91421,11 +90942,19 @@
 	};
 	
 	var createBoardContentsFailure = exports.createBoardContentsFailure = function createBoardContentsFailure(error) {
+	
+		console.log('error', error, 1);
+	
 		return {
 			type: ADD_CONTENTS_FAILURE,
 			payload: error.xhr.response
 		};
 	};
+	
+	// export const createBoardContentsFailure = (error) => ({
+	// 	type: ADD_CONTENTS_FAILURE,
+	// 	payload: error.xhr.response
+	// });
 	
 	var resetWriteForm = exports.resetWriteForm = function resetWriteForm() {
 		return {
@@ -92743,10 +92272,6 @@
 	
 	var _BoardWriteReducer2 = _interopRequireDefault(_BoardWriteReducer);
 	
-	var _SearchReducer = __webpack_require__(984);
-	
-	var _SearchReducer2 = _interopRequireDefault(_SearchReducer);
-	
 	var _reduxForm = __webpack_require__(739);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -92757,8 +92282,7 @@
 		edit: _BoardEditReducer2.default,
 		write: _BoardWriteReducer2.default,
 		routing: _reactRouterRedux.routerReducer,
-		form: _reduxForm.reducer,
-		search: _SearchReducer2.default
+		form: _reduxForm.reducer
 	});
 	
 	exports.default = rootReducer;
@@ -93090,58 +92614,7 @@
 	};
 
 /***/ },
-/* 984 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
-		var action = arguments[1];
-	
-		var error = void 0;
-	
-		switch (action.type) {
-			case _searchAction.SHOW_SEARCH:
-				return _extends({}, state, { searchStatus: 'block' });
-	
-			case _searchAction.HIDE_SEARCH:
-				return _extends({}, state, { searchStatus: 'none', searchDetailStatus: 'none', btnStatus: '', searchInput: '', searchInputDetail: '', searchAuthor: '', startCreatedAt: '', endCreatedAt: '' });
-	
-			case _searchAction.SHOW_SEARCH_DETAIL:
-				return _extends({}, state, { searchDetailStatus: 'block', btnStatus: 'on' });
-	
-			case _searchAction.HIDE_SEARCH_DETAIL:
-				return _extends({}, state, { searchDetailStatus: 'none', btnStatus: '' });
-	
-			case _searchAction.CHANGE_SEARCH_VALUE:
-				return _extends({}, state, { searchInput: action.value });
-	
-			default:
-				return state;
-		}
-	};
-	
-	var _searchAction = __webpack_require__(736);
-	
-	var INITIAL_STATE = {
-		searchStatus: 'none',
-		btnStatus: '',
-		searchDetailStatus: 'none',
-		searchInput: '',
-		searchInputDetail: '',
-		searchAuthor: '',
-		startCreatedAt: '',
-		endCreatedAt: ''
-	};
-
-/***/ },
+/* 984 */,
 /* 985 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -93161,9 +92634,7 @@
 	
 	var _boardEditAction = __webpack_require__(972);
 	
-	var _searchAction = __webpack_require__(736);
-	
-	var rootEpics = (0, _reduxObservable.combineEpics)(_boardListAction.fetchBoardIndexEpic, _boardListAction.fetchCategoryEpic, _boardViewAction.fetchViewEpic, _boardViewAction.deleteBoardEpic, _boardWriteAction.createBoardContentsEpic, _boardEditAction.fetchEditViewEpic, _boardEditAction.updateBoardEpic, _searchAction.searchBoardContentEpic);
+	var rootEpics = (0, _reduxObservable.combineEpics)(_boardListAction.fetchBoardIndexEpic, _boardListAction.fetchCategoryEpic, _boardViewAction.fetchViewEpic, _boardViewAction.deleteBoardEpic, _boardWriteAction.createBoardContentsEpic, _boardEditAction.fetchEditViewEpic, _boardEditAction.updateBoardEpic);
 	
 	exports.default = rootEpics;
 

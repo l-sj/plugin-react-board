@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SearchContainer from './../../containers/SearchContainer';
 import Dropdown from './../Dropdown';
 import _ from 'lodash';
 
