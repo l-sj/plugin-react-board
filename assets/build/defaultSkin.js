@@ -31073,6 +31073,7 @@
 			boardList: state.list.boardList,
 			paginate: state.list.paginate,
 			categories: state.list.categories,
+			query: state.list.query,
 			loading: state.list.loading,
 			error: state.list.error,
 			checkedAll: state.list.checkedAll
@@ -61789,7 +61790,7 @@
 				var currentPage = this.props.paginate.currentPage;
 	
 				this.props.fetchCategory();
-				this.props.fetchBoardIndex({ page: currentPage });
+				this.props.fetchBoardIndex(this.props.query);
 			}
 		}, {
 			key: 'onChangeCheckAll',
@@ -62029,10 +62030,6 @@
 	
 				var categories = this.props.categories;
 				var category = this.props.board_category;
-				var categoryName = category ? _lodash2.default.find(categories, function (o) {
-					return o.value == category.itemId;
-				}).text : '없음';
-	
 				return _react2.default.createElement(
 					'tr',
 					null,
@@ -62131,13 +62128,6 @@
 								_react2.default.createElement('i', { className: 'xi-eye' }),
 								' ',
 								this.props.readCount
-							),
-							_react2.default.createElement(
-								'a',
-								{ href: '#', className: 'mb_reply_num' },
-								_react2.default.createElement('i', { className: 'xi-comment' }),
-								' ',
-								this.props.commentCount > 0 ? this.props.commentCount : ''
 							)
 						)
 					),
@@ -62161,6 +62151,10 @@
 						(0, _utils.timeAgo)(this.props.createdAt)
 					)
 				);
+	
+				var categoryName = category ? _lodash2.default.find(categories, function (o) {
+					return o.value == category.itemId;
+				}).text : '없음';
 			}
 		}]);
 	
@@ -91354,6 +91348,12 @@
 				    value = _ref.value;
 	
 				dispatch((0, _reduxForm.change)(form, field, value));
+			},
+			changeCategory: function changeCategory(categoryItemId) {
+				dispatch({
+					type: _boardWriteAction.CHANGE_CATEOGRY,
+					categoryItemId: categoryItemId
+				});
 			}
 		};
 	};
@@ -91369,7 +91369,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.resetWriteForm = exports.createBoardContentsFailure = exports.createBoardContentsSuccess = exports.createBoardContents = exports.createBoardContentsEpic = exports.DETAIL_RESET = exports.ADD_CONTENTS_FAILURE = exports.ADD_CONTENTS_SUCCESS = exports.ADD_CONTENTS = undefined;
+	exports.resetWriteForm = exports.createBoardContentsFailure = exports.createBoardContentsSuccess = exports.createBoardContents = exports.createBoardContentsEpic = exports.CHANGE_CATEOGRY = exports.DETAIL_RESET = exports.ADD_CONTENTS_FAILURE = exports.ADD_CONTENTS_SUCCESS = exports.ADD_CONTENTS = undefined;
 	
 	var _rxjs = __webpack_require__(316);
 	
@@ -91379,6 +91379,7 @@
 	var ADD_CONTENTS_SUCCESS = exports.ADD_CONTENTS_SUCCESS = 'ADD_CONTENTS_SUCCESS';
 	var ADD_CONTENTS_FAILURE = exports.ADD_CONTENTS_FAILURE = 'ADD_CONTENTS_FAILURE';
 	var DETAIL_RESET = exports.DETAIL_RESET = 'DETAIL_RESET';
+	var CHANGE_CATEOGRY = exports.CHANGE_CATEOGRY = 'CHANGE_CATEOGRY';
 	
 	var createBoardContentsEpic = exports.createBoardContentsEpic = function createBoardContentsEpic(action$) {
 		return action$.ofType(ADD_CONTENTS).mergeMap(function (action) {
@@ -91501,6 +91502,7 @@
 		}, {
 			key: 'handleSelect',
 			value: function handleSelect(categoryItemId) {
+				this.props.changeCategory(categoryItemId);
 				this.props.changeFormField({ field: 'categoryItemId', value: categoryItemId });
 			}
 		}, {
@@ -91564,7 +91566,7 @@
 									return _react2.default.createElement(
 										'div',
 										{ className: 'write_category' },
-										_react2.default.createElement(_Dropdown2.default, { optionList: categories, handleSelect: _this2.handleSelect })
+										_react2.default.createElement(_Dropdown2.default, { optionList: categories, handleSelect: _this2.handleSelect, selected: parseInt(_this2.props.categoryItemId, 10) })
 									);
 								}
 							}(),
@@ -91868,6 +91870,7 @@
 		return {
 			item: state.edit.item,
 			categories: state.list.categories,
+			categoryItemId: state.edit.categoryItemId,
 			loading: state.edit.loading,
 			err: state.edit.error,
 			updated: state.edit.updated
@@ -91893,6 +91896,12 @@
 			},
 			fetchCategory: function fetchCategory() {
 				dispatch((0, _boardListAction.fetchCategory)());
+			},
+			changeCategory: function changeCategory(categoryItemId) {
+				dispatch({
+					type: _boardEditAction.CHANGE_CATEOGRY,
+					categoryItemId: categoryItemId
+				});
 			}
 		};
 	};
@@ -91908,7 +91917,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.editReset = exports.updateBoard = exports.updateBoardEpic = exports.fetchEditViewFailure = exports.fetchEditViewSuccess = exports.fetchEditView = exports.fetchEditViewEpic = exports.EDIT_RESET = exports.UPDATE_BOARD_FAILURE = exports.UPDATE_BOARD_SUCCESS = exports.UPDATE_BOARD = exports.FETCH_EDIT_VIEW_FAILURE = exports.FETCH_EDIT_VIEW_SUCCESS = exports.FETCH_EDIT_VIEW = undefined;
+	exports.editReset = exports.updateBoard = exports.updateBoardEpic = exports.fetchEditViewFailure = exports.fetchEditViewSuccess = exports.fetchEditView = exports.fetchEditViewEpic = exports.EDIT_RESET = exports.CHANGE_CATEOGRY = exports.UPDATE_BOARD_FAILURE = exports.UPDATE_BOARD_SUCCESS = exports.UPDATE_BOARD = exports.FETCH_EDIT_VIEW_FAILURE = exports.FETCH_EDIT_VIEW_SUCCESS = exports.FETCH_EDIT_VIEW = undefined;
 	
 	var _rxjs = __webpack_require__(316);
 	
@@ -91925,6 +91934,8 @@
 	var UPDATE_BOARD = exports.UPDATE_BOARD = "UPDATE_BOARD";
 	var UPDATE_BOARD_SUCCESS = exports.UPDATE_BOARD_SUCCESS = "UPDATE_BOARD_SUCCESS";
 	var UPDATE_BOARD_FAILURE = exports.UPDATE_BOARD_FAILURE = "UPDATE_BOARD_FAILURE";
+	
+	var CHANGE_CATEOGRY = exports.CHANGE_CATEOGRY = "CHANGE_CATEGORY";
 	
 	var EDIT_RESET = exports.EDIT_RESET = "EDIT_RESET";
 	
@@ -92078,9 +92089,10 @@
 		}, {
 			key: 'componentWillReceiveProps',
 			value: function componentWillReceiveProps(nextProps) {
-				console.log('!this.props.item && nextProps.item', !this.props.item, nextProps.item);
 				if (!this.props.item && nextProps.item) {
-					this.props.initializeForm({ content: nextProps.item.content, title: nextProps.item.title, slug: nextProps.item.slug.slug, id: nextProps.item.id });
+					console.log('nextProps', nextProps);
+	
+					this.props.initializeForm({ content: nextProps.item.content, title: nextProps.item.title, slug: nextProps.item.slug.slug, id: nextProps.item.id, categoryItemId: nextProps.categoryItemId });
 				} else if (nextProps.updated) {
 					var id = this.context.router.params.id;
 	
@@ -92098,6 +92110,7 @@
 		}, {
 			key: 'handleSelect',
 			value: function handleSelect(categoryItemId) {
+				this.props.changeCategory(categoryItemId);
 				this.props.changeFormField({ field: 'categoryItemId', value: categoryItemId });
 			}
 		}, {
@@ -92142,8 +92155,6 @@
 					return _react2.default.createElement(_Spinner2.default, null);
 				}
 	
-				console.log();
-	
 				return _react2.default.createElement(
 					'div',
 					{ className: 'board_write' },
@@ -92167,7 +92178,7 @@
 									return _react2.default.createElement(
 										'div',
 										{ className: 'write_category' },
-										_react2.default.createElement(_Dropdown2.default, { optionList: categories, handleSelect: _this2.handleSelect, selected: parseInt(_this2.props.item.board_category.itemId, 10) })
+										_react2.default.createElement(_Dropdown2.default, { optionList: categories, handleSelect: _this2.handleSelect, selected: parseInt(_this2.props.categoryItemId, 10) })
 									);
 								}
 							}(),
@@ -92513,23 +92524,21 @@
 				var item = this.props.view.item;
 				var id = this.context.router.params.id;
 	
-				var categories = this.props.view.categories;
-				var category = item.category;
-				var categoryName = category ? _.find(categories, function (o) {
-					return o.value == category.itemId;
-				}).text : '없음';
-	
 				return _react2.default.createElement(
 					'div',
 					{ className: 'board_read' },
 					_react2.default.createElement(
 						'div',
 						{ className: 'read_header' },
-						_react2.default.createElement(
-							'span',
-							{ className: 'category' },
-							categoryName
-						),
+						function () {
+							if (_this2.props.view.item.hasOwnProperty('board_category')) {
+								return _react2.default.createElement(
+									'span',
+									{ className: 'category' },
+									_this2.props.view.item.board_category.category_item.trans_word
+								);
+							}
+						}(),
 						_react2.default.createElement(
 							'h1',
 							null,
@@ -92927,7 +92936,7 @@
 				return _extends({}, state, { loading: true, error: null, deleted: false });
 	
 			case _boardViewAction.FETCH_VIEW_SUCCESS:
-				return _extends({}, state, { categories: action.payload.categories, item: action.payload.item, loading: false, error: null }); //Object.assign({}, state, action.payload);
+				return _extends({}, state, { item: action.payload.item, loading: false, error: null }); //Object.assign({}, state, action.payload);
 	
 			case _boardViewAction.FETCH_VIEW_FAILURE:
 				return _extends({}, state, { loading: false, error: action.payload }); //Object.assign({}, state, action.payload);
@@ -92980,7 +92989,9 @@
 				return _extends({}, state, { loading: true, error: null, updated: false });
 	
 			case _boardEditAction.FETCH_EDIT_VIEW_SUCCESS:
-				return _extends({}, state, { categories: action.payload.categories, item: action.payload.item, loading: false, error: null });
+				var categoryItemId = action.payload.item.hasOwnProperty('board_category') ? action.payload.item.board_category.itemId : '';
+	
+				return _extends({}, state, { categoryItemId: categoryItemId, categories: action.payload.categories, item: action.payload.item, loading: false, error: null });
 	
 			case _boardEditAction.FETCH_EDIT_VIEW_FAILURE:
 				return _extends({}, state, { loading: false, error: action.payload });
@@ -92997,6 +93008,9 @@
 			case _boardEditAction.EDIT_RESET:
 				return _extends({}, state, { item: null, categories: [], error: null, loading: true, updated: false });
 	
+			case _boardEditAction.CHANGE_CATEOGRY:
+				return _extends({}, state, { categoryItemId: action.categoryItemId });
+	
 			default:
 				return state;
 		}
@@ -93007,6 +93021,7 @@
 	var INITIAL_STATE = {
 		item: null,
 		categories: [],
+		categoryItemId: null,
 		error: null,
 		loading: true,
 		updated: false
@@ -93042,6 +93057,9 @@
 	
 			case _boardWriteAction.DETAIL_RESET:
 				return _extends({}, state, { loading: false, item: null, error: null });
+	
+			case _boardWriteAction.CHANGE_CATEOGRY:
+				return _extends({}, state, { categoryItemId: action.categoryItemId });
 	
 			default:
 				return state;

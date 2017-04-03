@@ -5,6 +5,7 @@ export const ADD_CONTENTS = 'ADD_CONTENTS';
 export const ADD_CONTENTS_SUCCESS = 'ADD_CONTENTS_SUCCESS';
 export const ADD_CONTENTS_FAILURE = 'ADD_CONTENTS_FAILURE';
 export const DETAIL_RESET = 'DETAIL_RESET';
+export const CHANGE_CATEOGRY = 'CHANGE_CATEOGRY';
 
 export const createBoardContentsEpic = action$ =>
 	action$.ofType(ADD_CONTENTS)

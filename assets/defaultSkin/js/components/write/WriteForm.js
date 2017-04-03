@@ -37,6 +37,7 @@ class WriteForm extends Component {
 	}
 
 	handleSelect(categoryItemId) {
+		this.props.changeCategory(categoryItemId);
 		this.props.changeFormField({field: 'categoryItemId', value: categoryItemId});
 	}
 
@@ -88,7 +89,7 @@ class WriteForm extends Component {
 
 								return (
 									<div className="write_category">
-										<Dropdown optionList={categories} handleSelect={this.handleSelect} />
+										<Dropdown optionList={categories} handleSelect={this.handleSelect} selected={parseInt(this.props.categoryItemId, 10)}/>
 									</div>
 								)
 							}

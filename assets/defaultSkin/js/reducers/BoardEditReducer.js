@@ -1,12 +1,14 @@
 import {
 	FETCH_EDIT_VIEW, FETCH_EDIT_VIEW_SUCCESS, FETCH_EDIT_VIEW_FAILURE, 
 	UPDATE_BOARD, UPDATE_BOARD_SUCCESS, UPDATE_BOARD_FAILURE,
-	EDIT_RESET
+	EDIT_RESET,
+	CHANGE_CATEOGRY
 } from '../actions/boardEditAction';
 
 const INITIAL_STATE = {
 	item: null,
 	categories: [],
+	categoryItemId: null,
 	error: null,
 	loading: true,
 	updated: false
@@ -20,7 +22,9 @@ export default function(state = INITIAL_STATE, action) {
 			return { ...state, loading: true, error: null, updated: false };
 
 		case FETCH_EDIT_VIEW_SUCCESS:
-			return { ...state, categories: action.payload.categories, item: action.payload.item , loading: false, error: null}
+			let categoryItemId = action.payload.item.hasOwnProperty('board_category')? action.payload.item.board_category.itemId : '';
+
+			return { ...state, categoryItemId, categories: action.payload.categories, item: action.payload.item , loading: false, error: null}
 
 		case FETCH_EDIT_VIEW_FAILURE:
 			return { ...state, loading: false, error: action.payload}
@@ -36,6 +40,9 @@ export default function(state = INITIAL_STATE, action) {
 
 		case EDIT_RESET:
 			return { ...state, item: null, categories: [], error: null, loading: true, updated: false }
+
+		case CHANGE_CATEOGRY:
+			return { ...state, categoryItemId: action.categoryItemId }
 
 		default:
 			return state;

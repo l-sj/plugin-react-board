@@ -36,9 +36,10 @@ class EditForm extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log('!this.props.item && nextProps.item', !this.props.item, nextProps.item);
 		if(!this.props.item && nextProps.item) {
-			this.props.initializeForm({ content: nextProps.item.content, title: nextProps.item.title, slug: nextProps.item.slug.slug, id: nextProps.item.id });
+			console.log('nextProps', nextProps);
+
+			this.props.initializeForm({ content: nextProps.item.content, title: nextProps.item.title, slug: nextProps.item.slug.slug, id: nextProps.item.id, categoryItemId: nextProps.categoryItemId });
 
 		}else if(nextProps.updated) {
 			const id = this.context.router.params.id;
@@ -55,6 +56,7 @@ class EditForm extends Component {
 	}
 
 	handleSelect(categoryItemId) {
+		this.props.changeCategory(categoryItemId);
 		this.props.changeFormField({field: 'categoryItemId', value: categoryItemId});
 
 	}
@@ -93,8 +95,6 @@ class EditForm extends Component {
 			)
 		}
 
-		console.log();
-		
 		return (
 			<div className="board_write">
 				<form onSubmit={handleSubmit((values, dispatch) => { this.validateAndUpdateBoard(values, dispatch, id) })}>
@@ -111,7 +111,7 @@ class EditForm extends Component {
 
 									return (
 										<div className="write_category">
-											<Dropdown optionList={categories} handleSelect={this.handleSelect} selected={parseInt(this.props.item.board_category.itemId, 10)} />
+											<Dropdown optionList={categories} handleSelect={this.handleSelect} selected={parseInt(this.props.categoryItemId, 10)} />
 										</div>
 									)
 								}

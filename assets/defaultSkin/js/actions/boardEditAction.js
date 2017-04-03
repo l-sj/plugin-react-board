@@ -11,6 +11,8 @@ export const UPDATE_BOARD = "UPDATE_BOARD";
 export const UPDATE_BOARD_SUCCESS = "UPDATE_BOARD_SUCCESS";
 export const UPDATE_BOARD_FAILURE = "UPDATE_BOARD_FAILURE";
 
+export const CHANGE_CATEOGRY = "CHANGE_CATEGORY";
+
 export const EDIT_RESET = "EDIT_RESET";
 
 export const fetchEditViewEpic = (action$) =>
@@ -29,12 +31,12 @@ export const fetchEditView = (id) => ({
 export const fetchEditViewSuccess = (data) => ({
 	type: FETCH_EDIT_VIEW_SUCCESS,
 	payload: data.response
-})
+});
 
 export const fetchEditViewFailure = (error) => ({
 	type: FETCH_EDIT_VIEW_FAILURE,
 	payload: error.xhr.response
-})
+});
 
 export const updateBoardEpic = action$ =>
 	action$.ofType(UPDATE_BOARD)

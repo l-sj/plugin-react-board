@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { reduxForm, change } from 'redux-form';
 import { fetchBoardIndex, fetchCategory } from './../actions/boardListAction';
-import { resetWriteForm } from './../actions/boardWriteAction';
+import { resetWriteForm, CHANGE_CATEOGRY } from './../actions/boardWriteAction';
 import WriteForm from './../components/write/WriteForm';
 
 const form = 'writeForm';
@@ -37,6 +37,12 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		changeFormField: ({ field, value }) => {
 			dispatch(change(form, field, value));
+		},
+		changeCategory: (categoryItemId) => {
+			dispatch({
+				type: CHANGE_CATEOGRY,
+				categoryItemId
+			});
 		}
 	}
 }

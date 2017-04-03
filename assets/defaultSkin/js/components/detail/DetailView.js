@@ -75,14 +75,18 @@ class DetailView extends Component {
 		const item = this.props.view.item;
 		const id = this.context.router.params.id;
 
-		const categories = this.props.view.categories;
-		const category = item.category;
-		const categoryName = category? _.find(categories, o => ( o.value == category.itemId )).text : '없음';
-
 		return (
 			<div className="board_read">
 				<div className="read_header">
-					<span className="category">{categoryName}</span>
+					{
+						(() => {
+							if(this.props.view.item.hasOwnProperty('board_category')) {
+								return (
+									<span className="category">{this.props.view.item.board_category.category_item.trans_word}</span>
+								);
+							}
+						})()
+					}
 					<h1><a href="#">{item.title}</a></h1>
 					<div className="more_info">
 						<a href="#" className="mb_autohr">{item.writer}</a>

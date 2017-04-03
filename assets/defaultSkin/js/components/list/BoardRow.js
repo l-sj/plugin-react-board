@@ -34,8 +34,6 @@ class BoardRow extends React.Component {
 
 		const categories = this.props.categories;
 		const category = this.props.board_category;
-		const categoryName = category? _.find(categories, o => ( o.value == category.itemId )).text : '없음';
-
 		return (
 			<tr>
 				{
@@ -89,7 +87,6 @@ class BoardRow extends React.Component {
 						<a href="" className="mb_autohr">{ this.props.user.displayName }</a>
 						<span className="mb_time"><i className="xi-time"></i> { timeAgo(this.props.createdAt) }</span>
 						<span className="mb_read_num"><i className="xi-eye"></i> { this.props.readCount }</span>
-						<a href="#" className="mb_reply_num"><i className="xi-comment"></i> { this.props.commentCount > 0 ? this.props.commentCount : '' }</a>
 					</div>
 				</td>
 				<td className="author xe-hidden-xs"><a href="#">{ this.props.user.displayName }</a></td>
@@ -97,6 +94,8 @@ class BoardRow extends React.Component {
 				<td className="time xe-hidden-xs">{ timeAgo(this.props.createdAt) }</td>
 			</tr>
 		);
+
+		const categoryName = category? _.find(categories, o => ( o.value == category.itemId )).text : '없음';
 	}
 };
 

@@ -7,6 +7,7 @@ const mapStateToProps = (state) => {
 		boardList: state.list.boardList,
 		paginate: state.list.paginate,
 		categories: state.list.categories,
+		query: state.list.query,
 		loading: state.list.loading,
 		error: state.list.error,
 		checkedAll: state.list.checkedAll,

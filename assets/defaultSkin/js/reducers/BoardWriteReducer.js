@@ -1,5 +1,6 @@
 import {
-	ADD_CONTENTS, ADD_CONTENTS_SUCCESS, ADD_CONTENTS_FAILURE, DETAIL_RESET
+	ADD_CONTENTS, ADD_CONTENTS_SUCCESS, ADD_CONTENTS_FAILURE, DETAIL_RESET,
+	CHANGE_CATEOGRY
 } from '../actions/boardWriteAction';
 
 const INITIAL_STATE = {
@@ -23,6 +24,9 @@ export default function(state = INITIAL_STATE, action) {
 
 		case DETAIL_RESET:
 			return { ...state, loading: false, item: null, error: null }
+
+		case CHANGE_CATEOGRY:
+			return { ...state, categoryItemId: action.categoryItemId }
 
 		default:
 			return state;

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { reduxForm, change, initialize } from 'redux-form';
-import { fetchEditView, editReset } from './../actions/boardEditAction';
+import { fetchEditView, editReset, CHANGE_CATEOGRY } from './../actions/boardEditAction';
 import { fetchCategory } from './../actions/boardListAction';
 import EditForm from './../components/write/EditForm';
 
@@ -15,6 +15,7 @@ const mapStateToProps = (state) => {
 	return {
 		item: state.edit.item,
 		categories: state.list.categories,
+		categoryItemId: state.edit.categoryItemId,
 		loading: state.edit.loading,
 		err: state.edit.error,
 		updated: state.edit.updated,
@@ -37,6 +38,12 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		fetchCategory: () => {
 			dispatch(fetchCategory());
+		},
+		changeCategory: (categoryItemId) => {
+			dispatch({
+				type: CHANGE_CATEOGRY,
+				categoryItemId
+			});
 		}
 	}
 }

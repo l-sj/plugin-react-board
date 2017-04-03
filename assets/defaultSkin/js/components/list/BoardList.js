@@ -26,7 +26,7 @@ export default class BoardList extends React.Component {
 		let currentPage = this.props.paginate.currentPage;
 
 		this.props.fetchCategory();
-		this.props.fetchBoardIndex({page: currentPage});
+		this.props.fetchBoardIndex(this.props.query);
 	}
 
 	onChangeCheckAll(e) {
