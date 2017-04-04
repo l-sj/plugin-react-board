@@ -22,7 +22,7 @@ export default function(state = INITIAL_STATE, action) {
 			return { ...state, loading: true, error: null, updated: false };
 
 		case FETCH_EDIT_VIEW_SUCCESS:
-			let categoryItemId = action.payload.item.hasOwnProperty('board_category')? action.payload.item.board_category.itemId : '';
+			let categoryItemId = action.payload.item.board_category? action.payload.item.board_category.itemId : '';
 
 			return { ...state, categoryItemId, categories: action.payload.categories, item: action.payload.item , loading: false, error: null}
 

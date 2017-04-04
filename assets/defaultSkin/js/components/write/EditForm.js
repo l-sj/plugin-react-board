@@ -38,8 +38,6 @@ class EditForm extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		if(!this.props.item && nextProps.item) {
-			console.log('nextProps', nextProps);
-
 			this.props.initializeForm({ content: nextProps.item.content, title: nextProps.item.title, slug: nextProps.item.slug.slug, id: nextProps.item.id, categoryItemId: nextProps.categoryItemId });
 
 		}else if(nextProps.updated) {

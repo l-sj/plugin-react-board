@@ -80,7 +80,7 @@ class DetailView extends Component {
 				<div className="read_header">
 					{
 						(() => {
-							if(this.props.view.item.hasOwnProperty('board_category')) {
+							if(this.props.view.item.board_category) {
 								return (
 									<span className="category">{this.props.view.item.board_category.category_item.trans_word}</span>
 								);
