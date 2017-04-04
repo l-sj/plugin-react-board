@@ -2,8 +2,7 @@ var webpack = require('webpack');
 
 module.exports = {
   plugins: [
-   new webpack.NoErrorsPlugin(),
-   new webpack.optimize.DedupePlugin(), //중복 모듈 제거
+   new webpack.NoEmitOnErrorsPlugin(),
    new webpack.optimize.UglifyJsPlugin({ minimize: true, compress: { warnings: false, drop_console: true }}),   //uglify, minify
    new webpack.DefinePlugin({
      'process.env': {
