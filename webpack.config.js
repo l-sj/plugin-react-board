@@ -11,7 +11,7 @@ var target = (process.env.npm_lifecycle_event === 'build')? true : false;
 
 var common = {
 	entry: {
-		'assets/build/defaultSkin': './assets/defaultSkin/js/index.js',
+		'assets/build/bundle': './assets/src/js/index.js',
 	},
 	output: {
 		path: path.resolve(__dirname, './'),
@@ -24,7 +24,7 @@ var common = {
 			dry: false,
 			exclude: []
 		}),
-		new ExtractTextPlugin('assets/build/defaultSkin.css'),
+		new ExtractTextPlugin('assets/build/bundle.css'),
 	],
 	module: {
 		rules: [
@@ -54,7 +54,7 @@ var common = {
 	resolve: {
 		extensions: ['.js', '.jsx'],
 		alias: {
-			utils: path.resolve(__dirname, 'assets/defaultSkin/js/utils.js'),
+			utils: path.resolve(__dirname, 'assets/src/js/utils.js'),
 		},
 	}
 };
