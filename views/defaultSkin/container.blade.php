@@ -1,5 +1,4 @@
 {{ XeFrontend::css('plugins/react_board/assets/build/bundle.css')->load() }}
-{{ XeFrontend::css('plugins/react_board/assets/vendor/ckeditor/contents.css')->load() }}
 {{ XeFrontend::js('plugins/react_board/assets/vendor/ckeditor/ckeditor.js')->appendTo('body')->load() }}
 {{ XeFrontend::js('plugins/react_board/assets/build/bundle.js')->appendTo('body')->load() }}
 
