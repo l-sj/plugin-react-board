@@ -21,7 +21,7 @@
   ],
   "extra": {
     "xpressengine": {
-      "title": "React SPA Board.",
+      "title": "SPA Board.",
       "component": {
         "module/react_board@board": {
           "class": "Xpressengine\\Plugins\\ReactBoard\\ReactBoardModule",
