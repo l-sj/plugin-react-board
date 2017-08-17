@@ -11,7 +11,7 @@
  * @link        https://xpressengine.io
  */
 
-namespace Blueng\ReactBoard;
+namespace Xpressengine\Plugins\ReactBoard;
 
 use Route;
 use XeSkin;
@@ -79,7 +79,7 @@ class ReactBoardModule extends AbstractModule
             Route::post('storeCategory/', [
                 'as' => 'settings.react_board.storeCategory', 'uses' => 'ReactBoardSettingsController@storeCategory'
             ]);
-        }, ['namespace' => 'Blueng\ReactBoard\Controllers']);
+        }, ['namespace' => 'Xpressengine\Plugins\ReactBoard\Controllers']);
     }
 
 
@@ -113,7 +113,7 @@ class ReactBoardModule extends AbstractModule
 
             Route::get('/category', ['as' => 'api.category', 'uses' => 'ReactBoardModuleController@category']);
 
-        }, ['namespace' => 'Blueng\ReactBoard\Controllers']);
+        }, ['namespace' => 'Xpressengine\Plugins\ReactBoard\Controllers']);
     }
 
 /*    protected static function registerApiRoute()

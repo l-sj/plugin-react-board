@@ -1,5 +1,5 @@
 <?php
-namespace Blueng\ReactBoard\Controllers;
+namespace Xpressengine\Plugins\ReactBoard\Controllers;
 
 use XeDocument;
 use XePresenter;

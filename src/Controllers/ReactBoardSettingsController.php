@@ -11,13 +11,13 @@
  * @license     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html LGPL-2.1
  * @link        https://xpressengine.io
  */
-namespace Blueng\ReactBoard\Controllers;
+namespace Xpressengine\Plugins\ReactBoard\Controllers;
 
 use App\Http\Sections\EditorSection;
-use Blueng\ReactBoard\ReactBoardConfigHandler;
-use Blueng\ReactBoard\ReactBoardInstanceManager;
-use Blueng\ReactBoard\ReactBoardModule;
-use Blueng\ReactBoard\ReactBoardPermissionHandler;
+use Xpressengine\Plugins\ReactBoard\ReactBoardConfigHandler;
+use Xpressengine\Plugins\ReactBoard\ReactBoardInstanceManager;
+use Xpressengine\Plugins\ReactBoard\ReactBoardModule;
+use Xpressengine\Plugins\ReactBoard\ReactBoardPermissionHandler;
 use XeDB;
 use Redirect;
 use XePresenter;

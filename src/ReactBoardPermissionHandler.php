@@ -1,5 +1,5 @@
 <?php
-namespace Blueng\ReactBoard;
+namespace Xpressengine\Plugins\ReactBoard;
 
 use Xpressengine\Plugins\Board\BoardPermissionHandler;
 

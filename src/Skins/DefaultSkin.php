@@ -11,7 +11,7 @@
  * @link        https://xpressengine.io
  */
 
-namespace Blueng\ReactBoard\Skins;
+namespace Xpressengine\Plugins\ReactBoard\Skins;
 
 use XePresenter;
 use Xpressengine\Config\ConfigEntity;

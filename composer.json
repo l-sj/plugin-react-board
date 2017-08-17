@@ -1,6 +1,6 @@
 {
   "name": "xpressengine-plugin/react_board",
-  "description": "This Package is Xpressengine Plugin - React SPA Board.",
+  "description": "This Package is Xpressengine Plugin - SPA Board.",
   "keywords": [
     "xpressengine",
     "plugin"
@@ -24,22 +24,22 @@
       "title": "React SPA Board.",
       "component": {
         "module/react_board@board": {
-          "class": "Blueng\\ReactBoard\\ReactBoardModule",
-          "name": "React SPA Board",
-          "description": "React SPA Board. 리액트와 리덕스, 라우트를 사용하였고 기존 게시판 기능을 최소화하여 SPA로 구현한 게시판입니다.",
+          "class": "Xpressengine\\Plugins\\ReactBoard\\ReactBoardModule",
+          "name": "SPA Board",
+          "description": "기존 게시판 기능을 최소화하여 SPA로 구현한 게시판입니다.",
           "screenshot" : [
             "/plugins/react_board/assets/img/screenshots/menuType1.png"
           ]
         },
         "module/react_board@board/skin/react_board@default": {
-          "class": "Blueng\\ReactBoard\\Skins\\DefaultSkin",
-          "name": "React SPA Board 기본 스킨",
-          "description": "React SPA Board 기본 스킨."
+          "class": "Xpressengine\\Plugins\\ReactBoard\\Skins\\DefaultSkin",
+          "name": "SPA Board 기본 스킨",
+          "description": "SPA Board 기본 스킨."
         },
          "module/react_board@board/settingsSkin/react_board@default": {
-           "class": "Blueng\\ReactBoard\\Skins\\SettingsSkin",
-           "name": "React SPA Board 기본 스킨",
-           "description": "React SPA Board 기본 스킨."
+           "class": "Xpressengine\\Plugins\\ReactBoard\\Skins\\SettingsSkin",
+           "name": "SPA Board 기본 스킨",
+           "description": "SPA Board 기본 스킨."
         }
       }
     }
@@ -48,7 +48,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Blueng\\ReactBoard\\": "src/"
+      "Xpressengine\\Plugins\\ReactBoard\\": "src/"
     }
   }
 }

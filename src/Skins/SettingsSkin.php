@@ -11,7 +11,7 @@
  * @link        https://xpressengine.io
  */
 
-namespace Blueng\ReactBoard\Skins;
+namespace Xpressengine\Plugins\ReactBoard\Skins;
 
 use Xpressengine\Skin\AbstractSkin;
 use View;

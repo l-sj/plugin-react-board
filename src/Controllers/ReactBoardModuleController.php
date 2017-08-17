@@ -1,5 +1,5 @@
 <?php
-namespace Blueng\ReactBoard\Controllers;
+namespace Xpressengine\Plugins\ReactBoard\Controllers;
 
 use Auth;
 use Gate;
@@ -12,9 +12,9 @@ use Xpressengine\Plugins\Board\Exceptions\HaveNoWritePermissionHttpException;
 use Xpressengine\Plugins\Board\Exceptions\NotFoundDocumentException;
 use Xpressengine\Plugins\Board\Exceptions\NotFoundFavoriteHttpException;
 use Xpressengine\Plugins\Board\Handler;
-use Blueng\ReactBoard\ReactBoardModule;
-use Blueng\ReactBoard\ReactBoardConfigHandler;
-use Blueng\ReactBoard\ReactBoardPermissionHandler;
+use Xpressengine\Plugins\ReactBoard\ReactBoardModule;
+use Xpressengine\Plugins\ReactBoard\ReactBoardConfigHandler;
+use Xpressengine\Plugins\ReactBoard\ReactBoardPermissionHandler;
 use Xpressengine\Plugins\Board\IdentifyManager;
 use Xpressengine\Plugins\Board\Models\Board;
 use Xpressengine\Plugins\Board\Models\BoardFavorite;

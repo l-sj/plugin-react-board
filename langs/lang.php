@@ -2,11 +2,11 @@
 
 return [
     'reactBoardBasicSetting' => [
-        'ko' => 'React-Board 기본 설정',
-        'en' => 'React-Board basic setting',
+        'ko' => 'SPA-Board 기본 설정',
+        'en' => 'SPA-Board basic setting',
     ],
     'reactBoardDetailConfigures' => [
-        'ko' => 'React-Board 상세 설정',
-        'en' => 'React-Board detail configures',
+        'ko' => 'SPA-Board 상세 설정',
+        'en' => 'SPA-Board detail configures',
     ],
 ];
