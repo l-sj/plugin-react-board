@@ -16,12 +16,12 @@ namespace Xpressengine\Plugins\ReactBoard\Skins;
 use XePresenter;
 use Xpressengine\Config\ConfigEntity;
 use Xpressengine\Menu\Models\MenuItem;
-use Xpressengine\Plugins\Board\Skins\DynamicField\DesignSelectSkin;
-use Xpressengine\Plugins\Board\Skins\PaginationMobilePresenter;
-use Xpressengine\Plugins\Board\Skins\PaginationPresenter;
+use Xpressengine\Permission\Instance;
+use Xpressengine\Plugins\ReactBoard\ReactBoardPermissionHandler;
 use Xpressengine\Presenter\Presenter;
 use Xpressengine\Routing\InstanceConfig;
 use Xpressengine\Skin\AbstractSkin;
+use Gate;
 use View;
 use XeFrontend;
 
@@ -76,6 +76,7 @@ class DefaultSkin extends AbstractSkin
         }
 
         $this->data['skinAlias'] = static::$skinAlias;
+        $this->data['isManager'] = $this->isManager();
 
         return View::make(sprintf('%s.container', static::$skinAlias), $this->data);
     }
@@ -184,5 +185,19 @@ class DefaultSkin extends AbstractSkin
         }
 
         return $sortFormColumns;
+    }
+
+    /**
+     * is manager
+     *
+     * @return bool
+     */
+    protected function isManager()
+    {
+        $boardPermission = app('xe.react_board.permission');
+        return isset($this->data['instanceId']) && (Gate::allows(
+            ReactBoardPermissionHandler::ACTION_MANAGE,
+            new Instance($boardPermission->name($this->instanceId))
+        )) ? true : false;
     }
 }

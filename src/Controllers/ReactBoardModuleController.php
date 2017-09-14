@@ -25,6 +25,10 @@ use Xpressengine\Support\Exceptions\AccessDeniedHttpException;
 
 class ReactBoardModuleController extends Controller
 {
+    /**
+     * @var bool
+     * @deprecated
+     */
     protected $isManager = false;
 
     protected $instanceId;
@@ -37,34 +41,31 @@ class ReactBoardModuleController extends Controller
 
     public function __construct(
         Handler $handler,
-        ReactBoardConfigHandler $configHandler,
-        ReactBoardPermissionHandler $boardPermission
+        ReactBoardConfigHandler $configHandler
     ) {
         $instanceConfig = InstanceConfig::instance();
         $this->instanceId = $instanceConfig->getInstanceId();
 
         $this->handler = $handler;
         $this->configHandler = $configHandler;
-
         $this->config = $configHandler->get($this->instanceId);
-        if ($this->config !== null) {
-            $this->isManager = false;
-            if (Gate::allows(
-                ReactBoardPermissionHandler::ACTION_MANAGE,
-                new Instance($boardPermission->name($this->instanceId))
-            )) {
-                $this->isManager = true;
-            };
-        }
 
         // set Skin
         XePresenter::setSkinTargetId(ReactBoardModule::getId());
         XePresenter::share('handler', $handler);
         XePresenter::share('configHandler', $configHandler);
-        XePresenter::share('isManager', $this->isManager);
         XePresenter::share('instanceId', $this->instanceId);
         XePresenter::share('config', $this->config);
         XePresenter::share('instanceConfig', $instanceConfig);
+    }
+
+    protected function isManager()
+    {
+        $boardPermission = app('xe.react_board.permission');
+        return (Gate::allows(
+            ReactBoardPermissionHandler::ACTION_MANAGE,
+            new Instance($boardPermission->name($this->instanceId))
+        )) ?  true : false;
     }
 
     public function container()
@@ -105,7 +106,7 @@ class ReactBoardModuleController extends Controller
             throw new AccessDeniedHttpException;
         }
 
-        $item = $service->getItem($id, Auth::user(), $this->config, $this->isManager);
+        $item = $service->getItem($id, Auth::user(), $this->config, $this->isManager());
 
         // 글 조회수 증가
         if ($item->display == Board::DISPLAY_VISIBLE) {
@@ -135,7 +136,7 @@ class ReactBoardModuleController extends Controller
         $this->validate($request, $validator->getCreateRule(Auth::user(), $this->config));
 
         // 공지 등록 권한 확인
-        if ($request->get('status') == Board::STATUS_NOTICE && $this->isManager === false) {
+        if ($request->get('status') == Board::STATUS_NOTICE && $this->isManager() === false) {
             throw new HaveNoWritePermissionHttpException(['name' => xe_trans('xe::notice')]);
         }
 
@@ -157,7 +158,7 @@ class ReactBoardModuleController extends Controller
         $item = Board::division($this->instanceId)->find($request->get('id'));
 
         // 비회원이 작성 한 글 인증
-        if ($this->isManager !== true &&
+        if ($this->isManager() !== true &&
             $item->isGuest() === true &&
             $identifyManager->identified($item) === false &&
             Auth::user()->getRating() != 'super') {
@@ -168,12 +169,12 @@ class ReactBoardModuleController extends Controller
 
         $this->validate($request, $validator->getEditRule(Auth::user(), $this->config));
 
-        if ($service->hasItemPerm($item, Auth::user(), $identifyManager, $this->isManager) == false) {
+        if ($service->hasItemPerm($item, Auth::user(), $identifyManager, $this->isManager()) == false) {
             throw new AccessDeniedHttpException;
         }
 
         // 공지 등록 권한 확인
-        if ($request->get('status') == Board::STATUS_NOTICE && $this->isManager === false) {
+        if ($request->get('status') == Board::STATUS_NOTICE && $this->isManager() === false) {
             throw new HaveNoWritePermissionHttpException(['name' => xe_trans('xe::notice')]);
         }
 
@@ -210,7 +211,7 @@ class ReactBoardModuleController extends Controller
 //            return $this->guestId($validator, $menuUrl, $item->id, $this->urlHandler->get('show', ['id' => $item->id]));
         }
 
-        if ($service->hasItemPerm($item, Auth::user(), $identifyManager, $this->isManager) == false) {
+        if ($service->hasItemPerm($item, Auth::user(), $identifyManager, $this->isManager()) == false) {
             throw new AccessDeniedHttpException;
         }
 
