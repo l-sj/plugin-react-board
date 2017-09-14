@@ -78,7 +78,7 @@ class Plugin extends AbstractPlugin
         /** @var \Illuminate\Foundation\Application $app */
         $app = app();
 
-        $app->singleton(['xe.react_board.config' => ReactBoardConfigHandler::class], function ($app) {
+        $app->singleton(ReactBoardConfigHandler::class, function ($app) {
 
             return new ReactBoardConfigHandler(
                 app('xe.config'),
@@ -86,8 +86,9 @@ class Plugin extends AbstractPlugin
                 XeDocument::getConfigHandler()
             );
         });
+        $app->alias(ReactBoardConfigHandler::class, 'xe.react_board.config');
 
-        $app->singleton(['xe.react_board.instance' => ReactBoardInstanceManager::class], function ($app) {
+        $app->singleton(ReactBoardInstanceManager::class, function ($app) {
             return new ReactBoardInstanceManager(
                 XeDB::connection('document'),
                 app('xe.document'),
@@ -97,12 +98,14 @@ class Plugin extends AbstractPlugin
                 app('xe.plugin.comment')->getHandler()
             );
         });
+        $app->alias(ReactBoardInstanceManager::class, 'xe.react_board.instance');
 
-        $app->singleton(['xe.react_board.permission' => ReactBoardPermissionHandler::class], function ($app) {
+        $app->singleton(ReactBoardPermissionHandler::class, function ($app) {
             $boardPermission = new ReactBoardPermissionHandler(app('xe.permission'), app(ReactBoardConfigHandler::class));
             $boardPermission->setPrefix(ReactBoardModule::getId());
             return $boardPermission;
         });
+        $app->alias(ReactBoardPermissionHandler::class, 'xe.react_board.permission');
     }
 
     protected function createDefaultConfig()
